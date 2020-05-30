@@ -1,15 +1,22 @@
 <template>
   <div id="app">
-    <Semester />
+    <div style="width: 500px; float:left; height:100px; margin:10px">
+      <Sem1 />
+    </div>
+    <div style="width: 500px; float:left; height:100px; margin:10px">
+      <Sem2 />
+    </div>
   </div>
 </template>
 
 <script>
+import Sem1 from './components/Y1S1'
+import Sem2 from './components/Y1S2'
 
 export default {
   name: 'app',
   components: {
-
+    Sem1, Sem2
   },
   data () {
     return {
@@ -25,6 +32,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 </style>
