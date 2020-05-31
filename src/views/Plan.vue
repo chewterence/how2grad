@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="plan">
     <div style="width: 500px; float:left; height:100px; margin:10px">
       <Sem1 />
     </div>
