@@ -1,29 +1,24 @@
 <template>
   <div id="app">
-    <div style="width: 500px; float:left; height:100px; margin:10px">
-      <Sem1 />
+    <Header />
+    <div id="nav">
+      <router-link to="/plan">Plan</router-link> |
+      <router-link to="/moduleinfo">Module Information</router-link>
     </div>
-    <div style="width: 500px; float:left; height:100px; margin:10px">
-      <Sem2 />
-    </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import Sem1 from './components/Y1S1'
-import Sem2 from './components/Y1S2'
+import Header from './components/layout/Header'
 
 export default {
   name: 'app',
   components: {
-    Sem1, Sem2
-  },
-  data () {
-    return {
-    }
+    Header
   }
 }
-</script>
+</script>>
 
 <style>
 #app {
@@ -32,6 +27,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 20px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
