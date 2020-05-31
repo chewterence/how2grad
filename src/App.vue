@@ -1,16 +1,26 @@
 <template>
   <div id="app">
     <Header />
-    <div id="nav" style="text-align: left; font-size:24px; font-family: Avenir">
-      <router-link to="/plan">Plan</router-link> |
-      <router-link to="/moduleinfo">Module Information</router-link>
-    </div>
+    <div id="nav" style="text-align: left; font-size:25px; font-family: Avenir;">
+      <router-link to="/plan">
+        <img alt="Logo" src="./assets/planLogo.png" style="width:40px;height:40px;">
+        Plan
+      </router-link> |
+      <router-link to="/moduleinfo">
+        <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
+        Module Information
+      </router-link> |
+      <router-link to="/calculator">
+        <img alt="Logo" src="./assets/capcalculatorLogo.png" style="width:40px;height:40px;">
+        CAP Calculator
+      </router-link>
+    </div> <hr>
     <router-view/>
   </div>
 </template>
 
 <script>
-import Header from './components/layout/Header'
+import Header from './components/layout/Header.vue'
 
 export default {
   name: 'app',
@@ -22,23 +32,27 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Avenir;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  text-decoration: none;
 }
 
 #nav {
   padding: 10px;
+  text-decoration: none;
 }
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #FF6F02;
+  text-decoration: none;
 }
 </style>
