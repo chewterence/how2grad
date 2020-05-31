@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <div id="nav">
+    <div id="nav" style="text-align: left; font-size:24px; font-family: Avenir">
       <router-link to="/plan">Plan</router-link> |
       <router-link to="/moduleinfo">Module Information</router-link>
     </div>
@@ -30,7 +30,7 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 10px;
 }
 
 #nav a {
