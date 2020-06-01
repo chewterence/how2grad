@@ -1,6 +1,12 @@
 <template>
   <div class="module-item">
-    <p>{{module.moduleCode}}</p>
+    <p style="text-align: left; font-size:25px; font-family: Avenir;">
+      {{module.moduleCode }}
+      {{module.title}}
+    </p>
+    <p style="text-align: left;">
+    {{module.description}}
+    </p>
   </div>
 </template>
 
@@ -14,7 +20,7 @@ export default {
 <style scoped>
   .module-item {
     background: #f4f4f4;
-    padding: 10px;
+    padding: 5px;
     border-bottom: 1px #ccc solid;
   }
 </style>

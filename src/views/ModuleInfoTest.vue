@@ -1,17 +1,13 @@
 <template>
   <div class="moduleinfo">
+    <h1>This page is to search for module information (Search bar goes here)</h1>
       <div id="app-instasearch">
         <div class="input-container">
-          <input type="text" placeholder="Search for Modules by Module Code or by Module Name..." v-model="NameSearchString" />
+          <input type="text" placeholder="Type a module name" v-model="authorNameSearchString" />
         </div>
         <ul>
           <li class="photo" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
-            <p style="text-align: left; font-size:25px; font-family: Avenir;">
-              {{mod.moduleCode + " " + mod.title}}
-            </p>
-            <p style="text-align: left;">
-              {{mod.description}}
-            </p>
+            <span class="author">{{ mod.title }}</span>
           </li>
         </ul>
       </div>
@@ -22,7 +18,7 @@
 </template>
 
 <script>
-// Live search bar credits from https://medium.com/better-programming/instant-search-with-vue-js-and-axios-5b78a3a59f01
+// Search bar credits https://medium.com/better-programming/instant-search-with-vue-js-and-axios-5b78a3a59f01
 import axios from 'axios'
 import Modules from '../components/Modules.vue'
 
@@ -30,24 +26,24 @@ export default {
   name: 'app',
   el: '#app-instasearch',
   components: {
-    // Modules //not nessescary with the search filter implementation
+    // Modules
   },
   data () {
     return {
-      NameSearchString: '',
+      authorNameSearchString: '',
       modules: null
     }
   },
   computed: {
     filteredmodules: function () {
       let mod = this.modules
-      const NameSearchString = this.NameSearchString
-      if (!NameSearchString) {
+      const authorNameSearchString = this.authorNameSearchString
+      if (!authorNameSearchString) {
         return mod
       }
-      const SearchString = NameSearchString.trim().toLowerCase()
+      const SearchString = authorNameSearchString.trim().toLowerCase()
       mod = mod.filter(function (item) {
-        if ((item.title.toLowerCase().indexOf(NameSearchString) !== -1) || (item.moduleCode.toLowerCase().indexOf(NameSearchString) !== -1)) {
+        if (item.title.toLowerCase().indexOf(authorNameSearchString) !== -1) {
           return item
         }
       })
@@ -71,25 +67,21 @@ export default {
 
 <style>
   .input-container {
-    border-radius: 25px;
-    background: #c1c1c1;
+    border-radius: 5px;
+    background: #677482;
     padding: 10px;
-    text-align: left;
   }
 
   .input-container input {
     border: none;
     background: transparent;
-    color: rgb(58, 58, 58);
-    padding: 6px 10px;
-    font-size: 22px;
-    text-align: left;
-    width: 90%;
+    color: white;
+    padding: 6px 50px;
+    font-size: 18px;
   }
 
-  ::placeholder {
-    color: #545454;
-    opacity: 1;
-    text-align: left
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #a6b0ba;
+    opacity: 1; /* Firefox */
   }
 </style>
