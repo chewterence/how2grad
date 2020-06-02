@@ -2,31 +2,29 @@
   <div class="moduleinfo">
       <div id="app-instasearch">
         <div class="input-container">
-          <input type="text" placeholder="Search for Modules by Module Code or Name..." v-model="NameSearchString" />
+          <input type="text" placeholder="Search for Module" v-model="NameSearchString" />
         </div>
-        <ul style="list-style: none;">
-          <li class="photo" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
+        <ul>
+          <!-- <li class="photo" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
             <p style="text-align: left; font-size:25px; font-family: Avenir;">
               {{mod.moduleCode + " " + mod.title}}
             </p>
             <p style="text-align: left;">
               {{mod.description}}
             </p>
-          </li>
+            </li> -->
         </ul>
       </div>
   </div>
 </template>
 
 <script>
-// Live search bar credits from https://medium.com/better-programming/instant-search-with-vue-js-and-axios-5b78a3a59f01
 import axios from 'axios'
 
 export default {
-  name: 'app',
+  name: 'ModuleSearchBox',
   el: '#app-instasearch',
   components: {
-    // Modules //not nessescary with the search filter implementation
   },
   data () {
     return {
@@ -68,7 +66,7 @@ export default {
 <style>
   .input-container {
     border-radius: 25px;
-    background: #c1c1c1;
+    background: #ffffff;
     padding: 10px;
     text-align: left;
   }

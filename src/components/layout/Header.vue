@@ -20,9 +20,4 @@ export default {
         text-align: left;
         padding: 5px;
     }
-
-    /* .header a {
-        color: #fff;
-        padding: 0px;
-    } */
 </style>

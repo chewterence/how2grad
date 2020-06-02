@@ -6,6 +6,10 @@
         <img alt="Logo" src="./assets/planLogo.png" style="width:40px;height:40px;">
         Plan
       </router-link> |
+      <router-link to="/moduleTree">
+        <img alt="Logo" src="./assets/treeLogo.png" style="width:40px;height:40px;">
+        Module Tree
+      </router-link> |
       <router-link to="/moduleinfo">
         <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
         Module Information

@@ -1,17 +1,69 @@
 <template>
-    <div style="width:380px; height:600px; background-color: #93B874 ; border:2px solid #000;">
-        <h2>Year 1 Semester 1</h2 >
-        <button type="button" name="addModule" formtarget="_self">
-          <p style="font-size:18px; font-family: Avenir; margin: 15px 80px">+ Add Module</p>
-        </button>
+    <div class="semester-box">
+        <div class="semester-title">
+          Year 1 Semester 1
+        </div>
+        <div class="module-search">
+          <ModuleSearchBox />
+        </div>
+        <div class="module-style">
+          <Module />
+        </div>
+        <!-- <button type="button" name="addModule" formtarget="_self" class="add-module-button">
+          <div>
+              <p>+ Add Module</p>
+          </div>
+        </button> -->
     </div>
 </template>
 
 <script>
+import Module from '../components/Module.vue'
+import ModuleSearchBox from '../components/ModuleSearchBox.vue'
+
 export default {
-  name: 'Semester'
+  name: 'Semester',
+  components: {
+    Module,
+    ModuleSearchBox
+  },
+  data () {
+    return {
+      modules: []
+    }
+  }
 }
 </script>
 
 <style scoped>
+  .semester-title {
+    font-size:28px;
+    font-weight: bold;
+  }
+  .semester-box {
+    border-radius: 25px;
+    width:100%;
+    height:100%;
+    background-color: rgb(102, 150, 255);
+    border:1px solid #000;
+    padding: 5px;
+    color: rgb(0, 0, 0);
+  }
+  .module-style {
+    padding: 5px;
+  }
+  .module-search {
+    padding: 5px;
+  }
+  .add-module-button {
+    border-radius: 20px;
+    font-size:18px;
+    font-family: Avenir;
+    color: rgb(0, 0, 0);
+    width: 99%;
+    position: relative;
+    top: 82%;
+    /* padding: 0%; */
+    /* height: 50px; */
+  }
 </style>
