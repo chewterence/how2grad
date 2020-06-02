@@ -5,7 +5,7 @@
           <input type="text" placeholder="Search for Modules by Module Code or Name..." v-model="NameSearchString" />
         </div>
         <ul style="list-style: none;">
-          <li class="photo" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
+          <li v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
             <p style="text-align: left; font-size:25px; font-family: Avenir;">
               {{mod.moduleCode + " " + mod.title}}
             </p>
@@ -26,7 +26,6 @@ export default {
   name: 'app',
   el: '#app-instasearch',
   components: {
-    // Modules //not nessescary with the search filter implementation
   },
   data () {
     return {
