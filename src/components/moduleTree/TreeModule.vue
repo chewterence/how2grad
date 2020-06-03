@@ -7,7 +7,7 @@
             {{module.title}}
         </div>
         <div class='prerequisite'>
-            {{prerequisite}}
+            <!-- {{prerequisite}} -->
         </div>
   </div>
 </template>
@@ -19,12 +19,13 @@ export default {
   },
   data () {
     return {
-      prerequisite: ''
+      prerequisite: null
     }
   },
   props: ['module'],
-  created () {
-    // this.prerequisite = this.module.prerequisite
+  created (module) {
+    // this is to filter out the other words leaving only the module
+    this.prerequisite = this.module.prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
   }
 }
 </script>
@@ -40,11 +41,11 @@ export default {
   }
   .moduleCode-text {
       font-weight: bold;
-      font-size: 22px;
+      font-size: 18px;
       color: rgb(0, 0, 0);
   }
   .title-text {
-      font-size: 18px;
+      font-size: 16px;
       color: rgb(0, 0, 0);
   }
 </style>
