@@ -3,7 +3,7 @@
         <div class='moduleCode-text'>
             {{module.moduleCode}}
         </div>
-        <div class='title-text'>
+        <div class='title-text' ref='pos-moduleCode'>
             {{module.title}}
         </div>
         <div class='prerequisite'>
@@ -30,8 +30,8 @@ export default {
   props: ['module'],
   methods: {
     calcPosition () {
-      this.xthis = this.$refs['pos-box'].getBoundingClientRect().x
-      this.ythis = this.$refs['pos-box'].getBoundingClientRect().y
+      this.xthis = this.$refs['pos-moduleCode'].getBoundingClientRect().x + 100
+      this.ythis = this.$refs['pos-moduleCode'].getBoundingClientRect().y
     }
   },
   created (module) {
@@ -53,7 +53,7 @@ export default {
     width: 200px;
     background: #94bbff;
     border:1px solid #000;
-    padding: 3px;
+    padding: 5px;
   }
   .moduleCode-text {
       font-weight: bold;

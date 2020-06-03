@@ -1,7 +1,7 @@
 <template>
   <div class="tree-structure">
     <svg id="svg">
-        <line x1=1248 y1=120 x2=158 y2=368.875></line>
+        <line x1=506 y1=381 x2=1047 y2=671></line>
     </svg>
     <div id="outer-struct">
         <div id="inner-struct">
@@ -58,28 +58,34 @@ export default {
 
 <style scoped>
     .tree-structure {
-        position: relative;
     }
     #inner-struct ul{
         display: inline-flex;
-        position: relative;
     }
     #outer-struct ul{
-        /* display: inline-flex; */
     }
     .leaf-style {
         padding: 5px;
+        position: relative;
     }
-    #svg {
-        background: rgb(169, 169, 169);
-        /* display:block; */
+    #svg{
+        /* background: rgb(169, 169, 169); */
+        /* display: inline; */
         width:100%;
         height:100%;
-        position:relative;
+        position: absolute;;
     }
     #svg line {
         stroke:#000;
         stroke-width:5px;
+        position: absolute;
+    }
+    .img-overlay-wrap {
         position: relative;
+    }
+    .img-overlay-wrap svg {
+        position: relative;
+        top: 0;
+        left: 0;
     }
 </style>
