@@ -1,7 +1,7 @@
 <template>
   <div class="img-overlay-wrap">
     <h1>Bachelor of Computing (Honours) in Computer Science</h1>
-        <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k'/>
+        <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k' :modules='modules'/>
   </div>
 </template>
 
@@ -57,4 +57,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

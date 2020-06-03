@@ -1,65 +1,73 @@
 <template>
-  <div class="img-overlay-wrap">
+  <div class="tree-structure">
     <svg id="svg">
-        <line x1=0 y1=0 x2=100 y2=100></line>
+        <line x1=506 y1=381 x2=1047 y2=671></line>
     </svg>
-    <h1>Bachelor of Computing (Honours) in Computer Science</h1>
-        <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k'/>
+    <div id="outer-struct">
+        <div id="inner-struct">
+            <ul style="list-style: none">
+                <li v-for="mod in noprereq" v-bind:key="mod.moduleCode">
+                    <div class="leaf-style">
+                        <TreeModule v-bind:module='mod'/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="inner-struct">
+            <ul style="list-style: none">
+                <li v-for="mod in level1k" v-bind:key="mod.moduleCode">
+                    <div class="leaf-style">
+                        <TreeModule v-bind:module='mod'/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="inner-struct">
+            <ul style="list-style: none">
+                <li v-for="mod in level2k" v-bind:key="mod.moduleCode">
+                    <div class="leaf-style">
+                        <TreeModule v-bind:module='mod'/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="inner-struct">
+            <ul style="list-style: none">
+                <li v-for="mod in level3k" v-bind:key="mod.moduleCode">
+                    <div class="leaf-style">
+                        <TreeModule v-bind:module='mod'/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Structure from './Structure.vue'
-import axios from 'axios'
+import TreeModule from './TreeModule.vue'
 
 export default {
-  name: 'Tree',
+  name: 'Structure',
   components: {
-    Structure
+    TreeModule
   },
-  data () {
-    return {
-      requiredModules: [
-        'CS1010', 'CS1231', 'MA1521', 'MA1101R', 'ES1103', 'IS1103',
-        'CS2100', 'CS2030', 'CS2040', 'ES2660', 'MA1301', 'ST2334',
-        'CS2106', 'CS3230', 'CS2103', 'CS2101', 'CS2105'
-      ],
-      modules: []
-    }
-  },
-  computed: {
-    noprereq: function () {
-      const mod = this.modules.filter(m => m.prerequisite == null)
-      return mod
-    },
-    level1k: function () {
-      const mod = this.modules.filter(m => (m.moduleCode.match(/[0-9]/g)[0] === '1'))
-      return mod
-    },
-    level2k: function () {
-      const mod = this.modules.filter(m => m.moduleCode.match(/[0-9]/g)[0] === '2')
-      return mod
-    },
-    level3k: function () {
-      const mod = this.modules.filter(m => m.moduleCode.match(/[0-9]/g)[0] === '3')
-      return mod
-    },
-    level4k: function () {
-      const mod = this.modules.filter(m => m.moduleCode.match(/[0-9]/g)[0] === '3')
-      return mod
-    }
-  },
-  created (modules) {
-    axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json')
-      .then(response => (
-        this.modules = response.data.filter(mod => this.requiredModules.includes(mod.moduleCode)))
-      )
-      .catch(err => console.log(err))
-  }
+  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k']
 }
 </script>
 
 <style scoped>
+    .tree-structure {
+    }
+    #inner-struct ul{
+        display: inline-flex;
+    }
+    #outer-struct ul{
+    }
+    .leaf-style {
+        padding: 5px;
+        position: relative;
+    }
     #svg{
         /* background: rgb(169, 169, 169); */
         /* display: inline; */
