@@ -1,5 +1,5 @@
 <template>
-  <div class='module-box'>
+  <div class='module-box' ref='pos-box'>
         <div class='moduleCode-text'>
             {{module.moduleCode}}
         </div>
@@ -8,6 +8,9 @@
         </div>
         <div class='prerequisite'>
             <!-- {{prerequisite}} -->
+        </div>
+        <div class='coordinates'>
+          {{'('+xthis + ', ' + ythis+')'}}
         </div>
   </div>
 </template>
@@ -19,13 +22,26 @@ export default {
   },
   data () {
     return {
-      prerequisite: null
+      prerequisite: null,
+      xthis: 0,
+      ythis: 0
     }
   },
   props: ['module'],
+  methods: {
+    calcPosition () {
+      this.xthis = this.$refs['pos-box'].getBoundingClientRect().x
+      this.ythis = this.$refs['pos-box'].getBoundingClientRect().y
+    }
+  },
   created (module) {
     // this is to filter out the other words leaving only the module
     this.prerequisite = this.module.prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
+    // this.prerequisite = this.module.prerequisite
+    // .filter(str => str.includes('CS' | 'ES' | 'MA'))
+  },
+  mounted () {
+    this.calcPosition()
   }
 }
 </script>

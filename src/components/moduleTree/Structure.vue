@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <!-- <div id="outer-struct"> -->
+  <div class="tree-structure">
+    <svg id="svg">
+        <line x1=1248 y1=120 x2=158 y2=368.875></line>
+    </svg>
+    <div id="outer-struct">
         <div id="inner-struct">
             <ul style="list-style: none">
                 <li v-for="mod in noprereq" v-bind:key="mod.moduleCode">
@@ -37,7 +40,7 @@
                 </li>
             </ul>
         </div>
-    <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -54,12 +57,29 @@ export default {
 </script>
 
 <style scoped>
-    #inner-struct {
-        display: inline-flex;
+    .tree-structure {
+        position: relative;
     }
-    /* #outer-struct {
-    } */
+    #inner-struct ul{
+        display: inline-flex;
+        position: relative;
+    }
+    #outer-struct ul{
+        /* display: inline-flex; */
+    }
     .leaf-style {
         padding: 5px;
+    }
+    #svg {
+        background: rgb(169, 169, 169);
+        /* display:block; */
+        width:100%;
+        height:100%;
+        position:relative;
+    }
+    #svg line {
+        stroke:#000;
+        stroke-width:5px;
+        position: relative;
     }
 </style>

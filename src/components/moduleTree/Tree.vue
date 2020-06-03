@@ -19,7 +19,7 @@ export default {
       requiredModules: [
         'CS1010', 'CS1231', 'MA1521', 'MA1101R', 'ES1103', 'IS1103',
         'CS2100', 'CS2030', 'CS2040', 'ES2660', 'MA1301', 'ST2334',
-        'CS2106', 'CS3230', 'CS2103', 'CS2101'
+        'CS2106', 'CS3230', 'CS2103', 'CS2101', 'CS2105'
       ],
       modules: []
     }
@@ -57,8 +57,4 @@ export default {
 </script>
 
 <style scoped>
-
-    .leaf-style {
-        padding: 15px;
-    }
 </style>

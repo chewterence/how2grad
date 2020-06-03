@@ -12,6 +12,9 @@
             <p style="text-align: left;">
               {{mod.description}}
             </p>
+            <p style="text-align: left;">
+              {{'Prerequisite: ' + mod.prerequisite}}
+            </p>
           </li>
         </ul>
       </div>
@@ -23,7 +26,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'app',
+  name: 'ModuleInfo',
   el: '#app-instasearch',
   components: {
   },
