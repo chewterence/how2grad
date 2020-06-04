@@ -1,14 +1,12 @@
 <template>
   <div class="tree-structure">
-    <svg id="svg">
-        <line x1=506 y1=381 x2=1047 y2=671></line>
-    </svg>
+    <Edges v-bind:modules='modules'/>
     <div id="outer-struct">
         <div id="inner-struct">
             <ul style="list-style: none">
                 <li v-for="mod in noprereq" v-bind:key="mod.moduleCode">
                     <div class="leaf-style">
-                        <TreeModule v-bind:module='mod'/>
+                        <TreeModule v-bind:module='mod' />
                     </div>
                 </li>
             </ul>
@@ -17,7 +15,7 @@
             <ul style="list-style: none">
                 <li v-for="mod in level1k" v-bind:key="mod.moduleCode">
                     <div class="leaf-style">
-                        <TreeModule v-bind:module='mod'/>
+                        <TreeModule v-bind:module='mod' />
                     </div>
                 </li>
             </ul>
@@ -26,7 +24,7 @@
             <ul style="list-style: none">
                 <li v-for="mod in level2k" v-bind:key="mod.moduleCode">
                     <div class="leaf-style">
-                        <TreeModule v-bind:module='mod'/>
+                        <TreeModule v-bind:module='mod' />
                     </div>
                 </li>
             </ul>
@@ -40,19 +38,48 @@
                 </li>
             </ul>
         </div>
+        {{prereqData}}
+        <br>
+        {{requiredModules}}
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import axios from 'axios'
 import TreeModule from './TreeModule.vue'
+import Edges from './Edges.vue'
+
+Vue.prototype.$xcoordinates = []
+Vue.prototype.$ycoordinates = []
+Vue.prototype.$modcoordinates = []
 
 export default {
   name: 'Structure',
   components: {
-    TreeModule
+    TreeModule,
+    Edges
   },
-  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k']
+  data () {
+    return {
+      prereqData: []
+    }
+  },
+  methods: {
+    loadPrereqData () {
+      let i = 0
+      for (i = 0; i < this.requiredModules.length; i++) {
+        axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
+          .then(response => (this.prereqData.push(response.data.prereqTree)))
+          .catch(err => console.log(err))
+      }
+    }
+  },
+  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules'],
+  mounted () {
+    this.loadPrereqData()
+  }
 }
 </script>
 
@@ -67,25 +94,5 @@ export default {
     .leaf-style {
         padding: 5px;
         position: relative;
-    }
-    #svg{
-        /* background: rgb(169, 169, 169); */
-        /* display: inline; */
-        width:100%;
-        height:100%;
-        position: absolute;;
-    }
-    #svg line {
-        stroke:#000;
-        stroke-width:5px;
-        position: absolute;
-    }
-    .img-overlay-wrap {
-        position: relative;
-    }
-    .img-overlay-wrap svg {
-        position: relative;
-        top: 0;
-        left: 0;
     }
 </style>

@@ -1,55 +1,13 @@
 <template>
-  <div class="tree-structure">
-    <Edges v-bind:modules='modules'/>
-    <div id="outer-struct">
-        <div id="inner-struct">
-            <ul style="list-style: none">
-                <li v-for="mod in noprereq" v-bind:key="mod.moduleCode">
-                    <div class="leaf-style">
-                        <TreeModule v-bind:module='mod' />
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div id="inner-struct">
-            <ul style="list-style: none">
-                <li v-for="mod in level1k" v-bind:key="mod.moduleCode">
-                    <div class="leaf-style">
-                        <TreeModule v-bind:module='mod' />
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div id="inner-struct">
-            <ul style="list-style: none">
-                <li v-for="mod in level2k" v-bind:key="mod.moduleCode">
-                    <div class="leaf-style">
-                        <TreeModule v-bind:module='mod' />
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div id="inner-struct">
-            <ul style="list-style: none">
-                <li v-for="mod in level3k" v-bind:key="mod.moduleCode">
-                    <div class="leaf-style">
-                        <TreeModule v-bind:module='mod'/>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        {{prereqData}}
-        <br>
-        {{requiredModules}}
+    <div class="tree-structure">
+        <SubTree v-bind:modules='modules' :prereqData='prereqData' :requiredModules='requiredModules'/>
     </div>
-  </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import axios from 'axios'
-import TreeModule from './TreeModule.vue'
-import Edges from './Edges.vue'
+import SubTree from './SubTree.vue'
 
 Vue.prototype.$xcoordinates = []
 Vue.prototype.$ycoordinates = []
@@ -58,8 +16,7 @@ Vue.prototype.$modcoordinates = []
 export default {
   name: 'Structure',
   components: {
-    TreeModule,
-    Edges
+    SubTree
   },
   data () {
     return {
@@ -67,16 +24,45 @@ export default {
     }
   },
   methods: {
-    loadPrereqData () {
+    async loadPrereqData () {
       let i = 0
       for (i = 0; i < this.requiredModules.length; i++) {
-        axios.get('https://api.nusmods.com/v2/2018-2019/modules/' + this.requiredModules[i] + '.json')
-          .then(response => (this.prereqData.push(response.data.prereqTree)))
-          .catch(err => console.log(err))
+        try {
+          let data = null
+          const res = await fetch('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
+          if (!res.ok) {
+            throw new Error(res.status)
+          }
+          data = await res.json()
+          this.prereqData.push(data.prereqTree)
+          console.log(data)
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
+    //   try {
+    //     const res = await fetch('https://api.nusmods.com/v2/2019-2020/modules/' + 'CS2103' + '.json')
+    //     if (!res.ok) {
+    //       throw new Error(res.status)
+    //     }
+    //     const data = await res.json()
+    //     this.prereqData = data.prereqTree
+    //     console.log(data)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // ==============================
+    // loadPrereqData () {
+    //   let i = 0
+    //   for (i = 0; i < this.requiredModules.length; i++) {
+    //     axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
+    //       .then(response => (this.prereqData.push(response.data.prereqTree)))
+    //       .catch(err => console.log(err))
+    //   }
+    // }
   },
-  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules'],
+  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules', 'modules'],
   mounted () {
     this.loadPrereqData()
   }

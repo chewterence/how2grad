@@ -1,7 +1,7 @@
 <template>
   <div class="img-overlay-wrap">
     <h1>Bachelor of Computing (Honours) in Computer Science</h1>
-        <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k' :requiredModules='requiredModules'/>
+        <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k' :requiredModules='requiredModules' :modules='modules'/>
     <!-- {{noprereq}} -->
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
     }
   },
   created (modules) {
-    axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json')
+    axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
       .then(response => (
         this.modules = response.data.filter(mod => this.requiredModules.includes(mod.moduleCode)))
       )
