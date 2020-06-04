@@ -40,7 +40,7 @@ export default {
   },
   props: ['modules'],
   mounted () {
-    this.constructEdge('ES1103', 'CS2103')
+    // this.constructEdge('CS1010', 'CS2040')
   }
 }
 </script>

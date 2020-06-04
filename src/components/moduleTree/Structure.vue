@@ -38,21 +38,16 @@
                 </li>
             </ul>
         </div>
-      <!-- <div>
-      {{$xcoordinates}}
-      </div>
-      <div>
-      {{$ycoordinates}}
-      </div>
-      <div>
-      {{$modcoordinates}}
-      </div> -->
+        {{prereqData}}
+        <br>
+        {{requiredModules}}
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import axios from 'axios'
 import TreeModule from './TreeModule.vue'
 import Edges from './Edges.vue'
 
@@ -68,11 +63,23 @@ export default {
   },
   data () {
     return {
+      prereqData: []
     }
   },
   methods: {
+    loadPrereqData () {
+      let i = 0
+      for (i = 0; i < this.requiredModules.length; i++) {
+        axios.get('https://api.nusmods.com/v2/2018-2019/modules/' + this.requiredModules[i] + '.json')
+          .then(response => (this.prereqData.push(response.data.prereqTree)))
+          .catch(err => console.log(err))
+      }
+    }
   },
-  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'modules']
+  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules'],
+  mounted () {
+    this.loadPrereqData()
+  }
 }
 </script>
 

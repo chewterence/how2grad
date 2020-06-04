@@ -7,7 +7,10 @@
             {{module.title}}
         </div>
         <div class='prerequisite'>
-            <!-- {{prerequisite}} -->
+            <!-- {{'https://api.nusmods.com/v2/2018-2019/modules/' + module.moduleCode + '.json'}} -->
+            <!-- {{or}} -->
+            <br>
+            <!-- {{and}} -->
         </div>
         <div class='coordinates'>
           <!-- {{'('+xthis + ', ' + ythis+')'}} -->
@@ -17,6 +20,7 @@
 
 <script>
 import Vue from 'vue'
+import axios from 'axios'
 
 export default {
   name: 'TreeModule',
@@ -25,8 +29,11 @@ export default {
   data () {
     return {
       prerequisite: null,
+      or: [],
+      and: [],
       xthis: 0,
-      ythis: 0
+      ythis: 0,
+      prereqTree: -1
     }
   },
   props: ['module'],
@@ -42,9 +49,7 @@ export default {
   },
   created (module) {
     // this is to filter out the other words leaving only the module
-    this.prerequisite = this.module.prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
-    // this.prerequisite = this.module.prerequisite
-    // .filter(str => str.includes('CS' | 'ES' | 'MA'))
+    // this.prerequisite = this.module.prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
   },
   mounted () {
     this.calcPosition()
