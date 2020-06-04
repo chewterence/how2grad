@@ -24,7 +24,7 @@
             <ul style="list-style: none">
                 <li v-for="mod in level2k" v-bind:key="mod.moduleCode">
                     <div class="leaf-style">
-                        <TreeModule v-bind:module='mod' v-on:returningCoordinates="receiveCoordinates"/>
+                        <TreeModule v-bind:module='mod' />
                     </div>
                 </li>
             </ul>
@@ -68,17 +68,9 @@ export default {
   },
   data () {
     return {
-      xcoordinates: [],
-      ycoordinates: [],
-      modcoordinates: []
     }
   },
   methods: {
-    receiveCoordinates (x, y, mod) {
-      this.xcoordinates = x
-      this.ycoordinates = y
-      this.modcoordinates = mod
-    }
   },
   props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'modules']
 }

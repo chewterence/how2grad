@@ -1,12 +1,8 @@
 <template>
     <div>
-        <!-- <ul style="list-style: none"> -->
-                <!-- <li v-for="mod in edges" v-bind:key="mod.moduleCode"> -->
-                    <svg id="svg">
-                        <line v-bind:x1='this.x1' :y1='this.y1' :x2='this.x2' :y2='this.y2'></line>
-                    </svg>
-                <!-- </li> -->
-            <!-- </ul> -->
+        <svg id="svg">
+            <line v-bind:x1='this.x1' :y1='this.y1' :x2='this.x2' :y2='this.y2'></line>
+        </svg>
     </div>
 </template>
 
@@ -16,10 +12,10 @@ import Vue from 'vue'
 export default {
   data () {
     return {
-      x1: 506,
-      y1: 381,
-      x2: 1047,
-      y2: 526
+      x1: 0,
+      y1: 0,
+      x2: 0,
+      y2: 0
     }
   },
   methods: {
@@ -44,7 +40,7 @@ export default {
   },
   props: ['modules'],
   mounted () {
-    this.constructEdge('IS1103', 'CS3230')
+    this.constructEdge('ES1103', 'CS2103')
   }
 }
 </script>

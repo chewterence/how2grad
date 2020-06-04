@@ -10,7 +10,7 @@
             <!-- {{prerequisite}} -->
         </div>
         <div class='coordinates'>
-          {{'('+xthis + ', ' + ythis+')'}}
+          <!-- {{'('+xthis + ', ' + ythis+')'}} -->
         </div>
   </div>
 </template>
@@ -35,14 +35,9 @@ export default {
       // calculate middle coordinate of element for constructing edges
       this.xthis = this.$refs['pos-moduleCode'].getBoundingClientRect().x + 100
       this.ythis = this.$refs['pos-moduleCode'].getBoundingClientRect().y
-      // Vue.prototype.$coordinates.append('hello')
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
       Vue.prototype.$modcoordinates.push(this.module.moduleCode)
-    },
-    returnCoordinates () {
-      // this passes information back to Structure.vue
-      this.$emit('returningCoordinates', this.xthis, this.ythis, this.module.moduleCode)
     }
   },
   created (module) {
@@ -53,7 +48,6 @@ export default {
   },
   mounted () {
     this.calcPosition()
-    this.returnCoordinates()
   }
 }
 </script>

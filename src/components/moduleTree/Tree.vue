@@ -2,6 +2,7 @@
   <div class="img-overlay-wrap">
     <h1>Bachelor of Computing (Honours) in Computer Science</h1>
         <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k' :modules='modules'/>
+    <!-- {{noprereq}} -->
   </div>
 </template>
 
@@ -31,7 +32,7 @@ export default {
     },
     level1k: function () {
       const mod = this.modules.filter(m => (m.moduleCode.match(/[0-9]/g)[0] === '1'))
-      return mod
+      return mod.filter(m => m.prerequisite != null)
     },
     level2k: function () {
       const mod = this.modules.filter(m => m.moduleCode.match(/[0-9]/g)[0] === '2')
