@@ -3,6 +3,9 @@
         <div class='moduleCode-text'>
             {{module.moduleCode}}
         </div>
+        <button v-on:click="removeModule" class="remove-button">
+          x
+        </button>
         <div class='title-text'>
             {{module.title}}
         </div>
@@ -16,14 +19,14 @@ export default {
   },
   data () {
     return {
-      module: {
-        moduleCode: 'CS2030',
-        title: 'Programming Methodology II',
-        description: 'This module is a follow up to CS1010. It explores two modern programming paradigms, object-oriented programming and functional programming. Through a series of integrated assignments, students will learn to develop medium-scale software programs in the order of thousands of lines of code and tens of classes using objectoriented design principles and advanced programming constructs available in the two paradigms. Topics include\nobjects and classes, composition, association, inheritance, interface, polymorphism, abstract classes, dynamic binding, lambda expression, effect-free programming, first class functions, closures, continuations, monad, etc.'
-      }
     }
-  }
-//   props: ['module']
+  },
+  methods: {
+    removeModule (event) {
+      this.$emit('removeModule', this.module)
+    }
+  },
+  props: ['module']
 }
 </script>
 
@@ -31,17 +34,29 @@ export default {
   .module-box {
     border-radius: 20px;
     height: 10%;
-    width: 99%;
-    background: #a5a5a5;
+    width: 390px;
+    background: #dedede;
     border:1px solid #000;
   }
   .moduleCode-text {
       font-weight: bold;
       font-size: 22px;
       color: rgb(0, 0, 0);
+      padding-left: 10px
   }
   .title-text {
       font-size: 18px;
       color: rgb(0, 0, 0);
+      padding-left: 10px
+  }
+  .remove-button {
+    border-radius: 100px;
+    border:1px solid #000;
+    background-color: rgb(255, 143, 143);
+    width:28px;
+    height:28px;
+    font-size: 22px;
+    font-weight: bold;
+    float: right;
   }
 </style>

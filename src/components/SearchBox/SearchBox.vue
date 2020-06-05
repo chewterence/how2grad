@@ -9,10 +9,10 @@
         </div>
         <perfect-scrollbar>
         <ul style="list-style: none;">
-          <li class="photo" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
-            <p style="text-align: left; font-size:18px; font-family: Avenir;">
-              <SearchBoxModule v-bind:module='mod' v-on:addModule="onMinimizeClick"/>
-            </p>
+          <li class="list" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
+            <div class="module-list">
+              <SearchBoxModule v-bind:module='mod' v-on:addModule="addModule"/>
+            </div>
             </li>
         </ul>
         </perfect-scrollbar>
@@ -60,14 +60,12 @@ export default {
   methods: {
     onMinimizeClick (event) {
       this.$emit('minimize')
+    },
+    addModule (value) {
+      this.$emit('addModule', value)
     }
   },
   created () {
-    axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
-      .then(response => (this.modules = response.data))
-      .catch(err => console.log(err))
-  },
-  mounted () {
     axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
       .then(response => (this.modules = response.data))
       .catch(err => console.log(err))
@@ -76,10 +74,30 @@ export default {
 </script>
 
 <style>
+  .search-container {
+    /* style for the whole search box */
+    border-radius: 25px;
+    width:500px;
+    height:500px;
+    background-color: rgb(255, 209, 152);
+    border:1px solid #000;
+    padding: 5px;
+    color: rgb(0, 0, 0);
+    position: absolute;
+  }
+
+  .module-list {
+     text-align: left;
+     font-size:18px;
+     font-family: Avenir;
+     margin: 5px;
+  }
+
   .input-container {
     border-radius: 25px;
     background: #ffffff;
-    padding: 10px;
+    border:1px solid #000;
+    padding: 5px;
     text-align: left;
   }
 
@@ -99,15 +117,6 @@ export default {
     text-align: left
   }
 
-  .search-container {
-    border-radius: 25px;
-    width:500px;
-    height:100%;
-    background-color: rgb(255, 209, 152);
-    border:1px solid #000;
-    padding: 5px;
-    color: rgb(0, 0, 0);
-  }
   .minimize-button {
     border-radius: 100px;
     border:1px solid #000;
@@ -118,6 +127,7 @@ export default {
     font-weight: bold;
   }
   .ps {
-    height: 400px;
+    /* scroll container properties */
+    height: 450px;
   }
 </style>

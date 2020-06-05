@@ -4,19 +4,19 @@
         <div class="input-container">
           <input type="text" placeholder="Search for Modules by Module Code or Name..." v-model="NameSearchString" />
         </div>
-        <ul style="list-style: none;">
-          <li v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
-            <p style="text-align: left; font-size:25px; font-family: Avenir;">
-              {{mod.moduleCode + " " + mod.title}}
-            </p>
-            <p style="text-align: left;">
-              {{mod.description}}
-            </p>
-            <p style="text-align: left;">
-              {{'Prerequisite: ' + mod.prerequisite}}
-            </p>
-          </li>
-        </ul>
+          <ul style="list-style: none;">
+            <li v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
+              <p style="text-align: left; font-size:25px; font-family: Avenir;">
+                {{mod.moduleCode + " " + mod.title}}
+              </p>
+              <p style="text-align: left;">
+                {{mod.description}}
+              </p>
+              <p style="text-align: left;">
+                {{'Prerequisite: ' + mod.prerequisite}}
+              </p>
+            </li>
+          </ul>
       </div>
   </div>
 </template>
@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .input-container {
     border-radius: 25px;
     background: #c1c1c1;

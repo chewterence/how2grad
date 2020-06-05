@@ -22,10 +22,6 @@ export default {
 </script>
 
 <style>
-  .y1s1 {
-    width: 400px;
-    height: 600px;
-  }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
