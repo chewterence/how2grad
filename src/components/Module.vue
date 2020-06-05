@@ -1,11 +1,11 @@
 <template>
   <div class='module-box'>
-        <div class='moduleCode-text'>
-            {{module.moduleCode}}
-        </div>
         <button v-on:click="removeModule" class="remove-button">
           x
         </button>
+        <div class='moduleCode-text'>
+            {{module.moduleCode}}
+        </div>
         <div class='title-text'>
             {{module.title}}
         </div>
@@ -33,9 +33,10 @@ export default {
 <style scoped>
   .module-box {
     border-radius: 20px;
-    height: 10%;
-    width: 390px;
-    background: #dedede;
+    /* height: 10%; */
+    width: 380px;
+    padding: 5px;
+    background: #d8d8d8;
     border:1px solid #000;
   }
   .moduleCode-text {
@@ -50,12 +51,12 @@ export default {
       padding-left: 10px
   }
   .remove-button {
-    border-radius: 100px;
+    border-radius: 50px;
     border:1px solid #000;
-    background-color: rgb(255, 143, 143);
-    width:28px;
-    height:28px;
-    font-size: 22px;
+    background-color: rgb(255, 126, 126);
+    width:26px;
+    height:26px;
+    font-size: 20px;
     font-weight: bold;
     float: right;
   }

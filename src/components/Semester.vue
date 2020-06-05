@@ -1,13 +1,13 @@
 <template>
     <div class="semester-box">
         <div class="semester-title">
-          Year 1 Semester 1
+          {{title}}
         </div>
         <div class="module-search" v-if="isHidden">
           <SearchBox v-on:minimize="isHidden = false" v-on:addModule="addModule"/>
         </div>
         <button class="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
-          <p> + Add Module </p>
+          + Add Module
         </button>
         <ul style="list-style: none;">
           <li class="module-list" v-for="mod in modules" v-bind:key="mod.moduleCode">
@@ -22,6 +22,7 @@
 <script>
 import Module from '../components/Module.vue'
 import SearchBox from '../components/SearchBox/SearchBox.vue'
+import axios from 'axios'
 
 export default {
   name: 'Semester',
@@ -31,7 +32,7 @@ export default {
   },
   data () {
     return {
-      modules: [],
+      // modules: [],
       isHidden: false
     }
   },
@@ -46,20 +47,29 @@ export default {
     removeModule (value) {
       this.modules = this.modules.filter(mod => mod !== value)
     }
+  },
+  props: ['title', 'modules', 'plannedModules'],
+  created (modules) {
+    axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
+      .then(response => (
+        this.modules = response.data.filter(mod => this.plannedModules.includes(mod.moduleCode)))
+      )
+      .catch(err => console.log(err))
   }
 }
 </script>
 
 <style scoped>
   .semester-title {
-    font-size:28px;
+    font-size:26px;
     font-weight: bold;
+    margin: 5px;
   }
   .semester-box {
     border-radius: 25px;
     width:400px;
     height:500px;
-    background-color: rgb(102, 150, 255);
+    background-color: rgb(114, 114, 114);
     border:1px solid #000;
     padding: 5px;
     color: rgb(0, 0, 0);
@@ -78,7 +88,7 @@ export default {
     color: rgb(0, 0, 0);
     border:1px solid #000;
     width: 99%;
-    position: relative;
+    height: 10%;
     top: 82%;
   }
 </style>

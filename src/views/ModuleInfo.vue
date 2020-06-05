@@ -58,11 +58,7 @@ export default {
     axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json')
       .then(response => (this.modules = response.data))
       .catch(err => console.log(err))
-  },
-  mounted () {
-    axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json')
-      .then(response => (this.modules = response.data))
-      .catch(err => console.log(err))
+      // .slice limits the display to 20 so it wont lag so much
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="search-container">
       <div id="search-box">
         <div class="input-container">
-          <input type="text" placeholder="Search for Module" v-model="NameSearchString" />
+          <input type="text" placeholder="Search for Module..." v-model="NameSearchString" />
             <button v-on:click="onMinimizeClick" class="minimize-button">
               x
             </button>
@@ -79,7 +79,7 @@ export default {
     border-radius: 25px;
     width:500px;
     height:500px;
-    background-color: rgb(255, 209, 152);
+    background-color: rgb(167, 167, 167);
     border:1px solid #000;
     padding: 5px;
     color: rgb(0, 0, 0);
