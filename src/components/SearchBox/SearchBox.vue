@@ -3,7 +3,7 @@
       <div id="search-box">
         <div class="input-container">
           <input type="text" placeholder="Search for Module..." v-model="NameSearchString" />
-            <button v-on:click="onMinimizeClick" class="minimize-button">
+            <button v-on:click="onMinimizeClick" id="minimize-button">
               x
             </button>
         </div>
@@ -117,13 +117,23 @@ export default {
     text-align: left
   }
 
-  .minimize-button {
+  #minimize-button {
     border-radius: 100px;
     border:1px solid #000;
     background-color: rgb(255, 143, 143);
     width:28px;
     height:28px;
     font-size: 22px;
+    font-weight: bold;
+  }
+
+  #minimize-button:hover {
+    border-radius: 100px;
+    border:1px solid #000;
+    background-color: rgb(255, 0, 0);
+    width:28px;
+    height:28px;
+    font-size: 23px;
     font-weight: bold;
   }
   .ps {

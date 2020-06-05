@@ -6,7 +6,7 @@
         <div class="module-search" v-if="isHidden">
           <SearchBox v-on:minimize="isHidden = false" v-on:addModule="addModule"/>
         </div>
-        <button class="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
+        <button id="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
           + Add Module
         </button>
         <ul style="list-style: none;">
@@ -80,12 +80,24 @@ export default {
     padding: 2px;
     text-align: left;
   }
-  .add-module-button {
+  #add-module-button {
     border-radius: 20px;
     font-size:18px;
     font-family: Avenir;
     font-weight: bold;
     color: rgb(0, 0, 0);
+    border:1px solid #000;
+    width: 99%;
+    height: 10%;
+    top: 82%;
+  }
+  #add-module-button:hover {
+    border-radius: 20px;
+    font-size:21px;
+    font-family: Avenir;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    background: #dfdfdf;
     border:1px solid #000;
     width: 99%;
     height: 10%;
