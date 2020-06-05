@@ -3,33 +3,37 @@
         <div class="semester-title">
           Year 1 Semester 1
         </div>
-        <div class="module-search">
-          <ModuleSearchBox />
+        <div class="module-search" v-if="isHidden">
+          <SearchBox v-on:minimize="isHidden = false"/>
         </div>
         <div class="module-style">
-          <Module />
+          <!-- <Module /> -->
         </div>
-        <!-- <button type="button" name="addModule" formtarget="_self" class="add-module-button">
-          <div>
-              <p>+ Add Module</p>
-          </div>
-        </button> -->
+        <button type="button" name="addModule" formtarget="_self" class="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
+          <p> + Add Module </p>
+        </button>
     </div>
 </template>
 
 <script>
-import Module from '../components/Module.vue'
-import ModuleSearchBox from '../components/ModuleSearchBox.vue'
+// import Module from '../components/Module.vue'
+import SearchBox from '../components/SearchBox/SearchBox.vue'
 
 export default {
   name: 'Semester',
   components: {
-    Module,
-    ModuleSearchBox
+    // Module,
+    SearchBox
   },
   data () {
     return {
-      modules: []
+      modules: [],
+      isHidden: false
+    }
+  },
+  methods: {
+    minimizeSearch (value) {
+      this.isHidden = value
     }
   }
 }
