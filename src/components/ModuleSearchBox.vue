@@ -1,30 +1,35 @@
 <template>
-  <div class="moduleinfo">
-      <div id="app-instasearch">
+  <div class="search-container">
+      <div id="search-box">
         <div class="input-container">
           <input type="text" placeholder="Search for Module" v-model="NameSearchString" />
         </div>
-        <ul>
-          <!-- <li class="photo" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
-            <p style="text-align: left; font-size:25px; font-family: Avenir;">
+        <perfect-scrollbar>
+        <ul style="list-style: none;">
+          <li class="photo" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
+            <p style="text-align: left; font-size:18px; font-family: Avenir;">
               {{mod.moduleCode + " " + mod.title}}
             </p>
-            <p style="text-align: left;">
-              {{mod.description}}
-            </p>
-            </li> -->
+            </li>
         </ul>
+        </perfect-scrollbar>
       </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from 'axios'
+import PerfectScrollbar from 'vue2-perfect-scrollbar'
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+
+Vue.use(PerfectScrollbar)
 
 export default {
   name: 'ModuleSearchBox',
-  el: '#app-instasearch',
+  el: '#search-box',
   components: {
+    // PerfectScrollbar
   },
   data () {
     return {
@@ -85,5 +90,18 @@ export default {
     color: #545454;
     opacity: 1;
     text-align: left
+  }
+
+  .search-container {
+    border-radius: 25px;
+    width:500px;
+    height:100%;
+    background-color: rgb(255, 209, 152);
+    border:1px solid #000;
+    padding: 5px;
+    color: rgb(0, 0, 0);
+  }
+  .ps {
+    height: 400px;
   }
 </style>

@@ -52,7 +52,7 @@ export default {
     //   } catch (error) {
     //     console.log(error)
     //   }
-    // ==============================
+    // =================================================================================
     // loadPrereqData () {
     //   let i = 0
     //   for (i = 0; i < this.requiredModules.length; i++) {

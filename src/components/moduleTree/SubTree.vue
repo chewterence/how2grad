@@ -1,6 +1,6 @@
 <template>
     <div id="outer-struct">
-        <!-- {{trueNoPrereq}} -->
+        {{trueNoPrereq}}
         <br>
         {{requiredModules}}
         <br>
@@ -27,17 +27,21 @@ export default {
   },
   props: ['modules', 'prereqData', 'requiredModules'],
   computed: {
-    trueNoPrereq: function () {
-      const returnarray = []
-      let i = 0
-      const noprereq1 = this.modules.filter(m => m.prerequisite == null)
-      for (i = 0; i < this.requiredModules.length; i++) {
-        if (this.prereqData[i] == null) {
-          returnarray.push(this.requiredModules[i])
-        }
-      }
-      return returnarray
-    }
+    // trueNoPrereq: function () {
+    //   const returnarray = []
+    //   let i = 0
+    //   const noprereq1 = this.modules.filter(m => m.prerequisite == null)
+    //   for (i = 0; i < this.requiredModules.length; i++) {
+    //     if ((this.prereqData[i] == null)) {
+    //       let j = 0
+    //       for (j = 0; j < this.noprereq1.length; j++) {
+    //         if (this.noprereq1[j].prerequisite )
+    //         returnarray.push(this.requiredModules[i])
+    //       }
+    //     }
+    //   }
+    //   return returnarray
+    // }
   }
 }
 </script>
