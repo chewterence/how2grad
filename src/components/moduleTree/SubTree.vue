@@ -1,10 +1,5 @@
 <template>
     <div id="outer-struct">
-        {{trueNoPrereq}}
-        <br>
-        {{requiredModules}}
-        <br>
-        {{prereqData}}
         <div id="inner-struct">
             <ul style="list-style: none">
                 <li v-for="mod in modules" v-bind:key="mod.moduleCode">

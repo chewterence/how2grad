@@ -1,5 +1,11 @@
 <template>
     <div class="tree-structure">
+            <!-- {{trueNoPrereq}} -->
+            <hr>
+            <br>
+            {{requiredModules}}
+            <br><hr>
+            {{prereqData}}
         <SubTree v-bind:modules='modules' :prereqData='prereqData' :requiredModules='requiredModules'/>
     </div>
 </template>
@@ -34,37 +40,30 @@ export default {
             throw new Error(res.status)
           }
           data = await res.json()
+          if (data.prereqTree != null) {
+            // data.prereqTree = data.prereqTree.f
+          }
           this.prereqData.push(data.prereqTree)
           console.log(data)
         } catch (error) {
           console.log(error)
         }
+        // to filter prereqTree to available mods
+        // let a = 0
+        // for (a = 0; a < this.prereqData; a++) {
+        //   if (this.prereqData[a] != null) {
+        //     this.prereqData[a] = this.prereqData[a].filter(m => this.requiredModules.includes(m))
+        //     if (this.prereqData[a].or != null) {
+        //     }
+        //   }
+        // }
       }
     }
-    //   try {
-    //     const res = await fetch('https://api.nusmods.com/v2/2019-2020/modules/' + 'CS2103' + '.json')
-    //     if (!res.ok) {
-    //       throw new Error(res.status)
-    //     }
-    //     const data = await res.json()
-    //     this.prereqData = data.prereqTree
-    //     console.log(data)
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // =================================================================================
-    // loadPrereqData () {
-    //   let i = 0
-    //   for (i = 0; i < this.requiredModules.length; i++) {
-    //     axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
-    //       .then(response => (this.prereqData.push(response.data.prereqTree)))
-    //       .catch(err => console.log(err))
-    //   }
-    // }
   },
   props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules', 'modules'],
   mounted () {
     this.loadPrereqData()
+    this.processData()
   }
 }
 </script>

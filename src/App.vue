@@ -2,30 +2,22 @@
   <div id="app">
     <Header />
     <div id="nav">
-      <ul style="list-style: none; display: inline-flex;">
-      <router-link to="/plan">
-        <div id="nav-element">
+      <ul id="nav-list">
+      <router-link to="/plan" id="nav-element">
           <img alt="Logo" src="./assets/planLogo.png" style="width:40px;height:40px;">
           Plan
-        </div>
       </router-link>
-      <router-link to="/moduleTree">
-        <div id="nav-element">
+      <router-link to="/moduleTree" id="nav-element">
           <img alt="Logo" src="./assets/treeLogo.png" style="width:40px;height:40px;">
           Module Tree
-        </div>
       </router-link>
-      <router-link to="/moduleinfo">
-        <div id="nav-element">
+      <router-link to="/moduleinfo" id="nav-element">
           <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
           Module Information
-        </div>
       </router-link>
-      <router-link to="/calculator">
-        <div id="nav-element">
+      <router-link to="/calculator" id="nav-element">
           <img alt="Logo" src="./assets/capcalculatorLogo.png" style="width:40px;height:40px;">
           CAP Calculator
-        </div>
       </router-link>
       </ul>
     </div>
@@ -62,12 +54,18 @@ export default {
   position: relative;
 }
 
+#nav-list {
+  list-style: none;
+  /* display: inline-flex; */
+}
+
 #nav {
   padding: 10px;
   text-decoration: none;
   text-align: left;
   font-size:25px;
   font-family: Avenir;
+  /* margin-left: 1px; */
 }
 
 #nav-element:hover {
@@ -79,6 +77,7 @@ export default {
   font-weight: bold;
   color: #2c3e50;
   text-decoration: none;
+  margin-left: 6px;
 }
 
 #nav a.router-link-exact-active {

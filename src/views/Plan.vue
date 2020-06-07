@@ -62,11 +62,11 @@ export default {
 
 <style scoped>
   #y1s1 .semester-box {
-    background: #38d1bf;
+    background: #2a9d8f;
     margin: 5px 5px;
   }
   #y1s2 .semester-box {
-    background: #38d1bf;
+    background: #2a9d8f;
     margin: 5px 5px;
   }
   #y2s1 .semester-box {

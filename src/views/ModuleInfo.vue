@@ -10,10 +10,16 @@
                 {{mod.moduleCode + " " + mod.title}}
               </p>
               <p style="text-align: left;">
+                {{'Modular Credits: ' + mod.moduleCredit}}
+                <br>
                 {{mod.description}}
               </p>
               <p style="text-align: left;">
-                {{'Prerequisite: ' + mod.prerequisite}}
+                {{'Prerequisites: ' + mod.prerequisite}}
+                <br>
+                {{'Preclusions: ' + mod.preclusion}}
+                <br>
+                {{'Corequisites: ' + mod.corequisite}}
               </p>
             </li>
           </ul>

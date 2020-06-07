@@ -8,8 +8,8 @@
             </button>
         </div>
         <perfect-scrollbar>
-        <ul style="list-style: none;">
-          <li class="list" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
+        <ul id="list" style="list-style: none;">
+          <li v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
             <div class="module-list">
               <SearchBoxModule v-bind:module='mod' v-on:addModule="addModule"/>
             </div>
@@ -48,7 +48,8 @@ export default {
       if (!NameSearchString) {
         return mod
       }
-      const SearchString = NameSearchString.trim().toLowerCase()
+      const SearchString = NameSearchString
+      // .trim().toLowerCase()
       mod = mod.filter(function (item) {
         if ((item.title.toLowerCase().indexOf(NameSearchString) !== -1) || (item.moduleCode.toLowerCase().indexOf(NameSearchString) !== -1)) {
           return item
@@ -84,6 +85,11 @@ export default {
     padding: 5px;
     color: rgb(0, 0, 0);
     position: absolute;
+  }
+
+  #list li:nth-of-type(1n+20) {
+    /* change the number at the back of 1n+ to limit the number of elements shown in list */
+    display: none;
   }
 
   .module-list {
