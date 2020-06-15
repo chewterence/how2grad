@@ -4,7 +4,7 @@
             <ul style="list-style: none">
                 <li v-for="mod in modules" v-bind:key="mod.moduleCode">
                     <div class="leaf-style">
-                        <TreeModule v-bind:module='mod' />
+                        <TreeModule v-bind:module='mod' :modlist='requiredModules'/>
                     </div>
                 </li>
             </ul>

@@ -15,7 +15,8 @@
         <div class='coordinates'>
           <!-- {{'('+xthis + ', ' + ythis+')'}} -->
         </div>
-        {{module.prerequisite}}
+        <!-- {{module.prerequisite}} -->
+        {{prerequisite}}
   </div>
 </template>
 
@@ -29,7 +30,7 @@ export default {
   },
   data () {
     return {
-      prerequisite: null,
+      prerequisite: [],
       or: [],
       and: [],
       xthis: 0,
@@ -37,7 +38,7 @@ export default {
       prereqTree: -1
     }
   },
-  props: ['module'],
+  props: ['module', 'modlist'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
@@ -46,11 +47,25 @@ export default {
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
       Vue.prototype.$modcoordinates.push(this.module.moduleCode)
+    },
+    processpreq () {
+      let temp = []
+      // FILTER 1: to filter out the other words leaving only the module
+      temp = this.module.prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
+      // FILTER 2: to fIlter out unwanted characters like brackets and stuff
+      for (let i = 0; i < temp.length; i++) {
+        temp[i] = temp[i].replace(/[{()}]/g, '')
+      }
+      // FILTER 3: to filter out the modules that is not included in the list of modules taken
+      for (let i = 0; i < temp.length; i++) {
+        if (this.modlist.includes(temp[i])) {
+          this.prerequisite.push(temp[i])
+        }
+      }
     }
   },
   created (module) {
-    // this is to filter out the other words leaving only the module
-    this.prerequisite = this.module.prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
+    this.processpreq()
   },
   mounted () {
     this.calcPosition()
