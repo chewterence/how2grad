@@ -43,7 +43,7 @@ export default {
       return mod
     },
     level4k: function () {
-      const mod = this.modules.filter(m => m.moduleCode.match(/[0-9]/g)[0] === '3')
+      const mod = this.modules.filter(m => m.moduleCode.match(/[0-9]/g)[0] === '4')
       return mod
     }
   },

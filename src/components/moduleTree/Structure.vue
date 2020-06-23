@@ -6,7 +6,7 @@
             {{requiredModules}}
             <br><hr>
             {{prereqData}}
-        <SubTree v-bind:modules='modules' :prereqData='prereqData' :requiredModules='requiredModules'/>
+        <SubTree v-bind:modules='modules' :requiredModules='requiredModules'/>
     </div>
 </template>
 
@@ -26,7 +26,8 @@ export default {
   },
   data () {
     return {
-      prereqData: []
+      prereqData: new Map(),
+      parentMap: new Map()
     }
   },
   methods: {
@@ -48,15 +49,45 @@ export default {
         } catch (error) {
           console.log(error)
         }
-        // to filter prereqTree to available mods
-        // let a = 0
-        // for (a = 0; a < this.prereqData; a++) {
-        //   if (this.prereqData[a] != null) {
-        //     this.prereqData[a] = this.prereqData[a].filter(m => this.requiredModules.includes(m))
-        //     if (this.prereqData[a].or != null) {
-        //     }
-        //   }
-        // }
+      }
+    },
+
+    initMap () {
+      this.modules.forEach(element => {
+        this.parentMap.set(element, element)
+      })
+    },
+
+    findParent (module) {
+      let p = this.parentMap(module)
+      while (p.moduleCode !== module.moduleCode) {
+        module = p
+        p = this.parentMap(module)
+      }
+      return p
+    },
+
+    isSameSet (module1, module2) {
+      return this.findParent(module1).moduleCode === this.findParent(module2).moduleCode
+    },
+
+    isPreReqof (module1, module2) {
+      if (this.noprereq.includes(module2)) {
+        return false
+      }
+      // if ()
+    },
+
+    genSubTreeList () {
+      this.initMap()
+      for (let i = 0; i < this.modules.length; i++) {
+        const modI = this.modules[i]
+        for (let j = 0; j < this.modules.length; j++) {
+          const modJ = this.modules[j]
+          if (this.isSameSet(modI, modJ)) {
+            continue
+          }
+        }
       }
     }
   },

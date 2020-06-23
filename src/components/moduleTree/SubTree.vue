@@ -19,23 +19,19 @@ export default {
   name: 'SubTree',
   components: {
     TreeModule
+    // Edges
   },
-  props: ['modules', 'prereqData', 'requiredModules'],
+  props: ['modules', 'requiredModules'],
+  // methods: {
+  //   isPartOfSubTree(module1, module2) {
+
+  //   }
+  // },
   computed: {
-    // trueNoPrereq: function () {
-    //   const returnarray = []
-    //   let i = 0
-    //   const noprereq1 = this.modules.filter(m => m.prerequisite == null)
-    //   for (i = 0; i < this.requiredModules.length; i++) {
-    //     if ((this.prereqData[i] == null)) {
-    //       let j = 0
-    //       for (j = 0; j < this.noprereq1.length; j++) {
-    //         if (this.noprereq1[j].prerequisite )
-    //         returnarray.push(this.requiredModules[i])
-    //       }
-    //     }
+    // subtrees: function () {
+    //   for (let i = 0; i < modules.length(); i++) {
+    //     const element = array[index];
     //   }
-    //   return returnarray
     // }
   }
 }
