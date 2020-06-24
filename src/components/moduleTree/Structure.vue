@@ -5,7 +5,7 @@
             <br>
             {{requiredModules}}
             <br><hr>
-            {{this.moduleData.get('CS3230').prerequisite}}
+            <!-- {{this.moduleData.get('CS3230').prerequisite}} -->
         <SubTree v-bind:modules='modules' :requiredModules='requiredModules'/>
     </div>
 </template>
@@ -32,15 +32,23 @@ export default {
     }
   },
   methods: {
-    loadPrereqData () {
+    initData () {
+      // for (let i = 0; i < this.requiredModules.length; i++) {
+      //   axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
+      //     .then(response => this.moduleData.set(response.data.moduleCode, response.data))
+      //     .catch(err => console.log(err))
+      // }
+
+      const promises = []
       for (let i = 0; i < this.requiredModules.length; i++) {
-        axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
-          .then(response => this.moduleData.set(response.data.moduleCode, response.data))
-          .catch(err => console.log(err))
+        promises.push(axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json'))
       }
+      axios.all(promises).then(promise => promise.forEach(response => this.moduleData.set(response.data.moduleCode, response.data)))
+        .then(() => { this.genSubTreeList() })
     },
 
     initMap () {
+      console.log(this.moduleData.size)
       this.modules.forEach(element => {
         this.parentMap.set(element.moduleCode, element.moduleCode)
         this.sizeMap.set(element.moduleCode, 1)
@@ -61,7 +69,7 @@ export default {
     },
 
     isPreReq (moduleCode1, moduleCode2) {
-      if (this.moduleData.get(moduleCode1).prerequisite === null || this.moduleData.get(moduleCode2).prerequisite === null) {
+      if (this.moduleData.get(moduleCode1).prerequisite === undefined || this.moduleData.get(moduleCode2).prerequisite === undefined) {
         return false
       }
       const module1PrereqTree = this.moduleData.get(moduleCode1).prerequisite
@@ -96,6 +104,7 @@ export default {
               console.log(i + ' ' + j)
               continue
             }
+            console.log('not same set')
             if (this.isPreReq(modI, modJ)) {
               this.union(modI, modJ)
               console.log('unioned')
@@ -108,8 +117,7 @@ export default {
   },
   props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules', 'modules'],
   mounted () {
-    this.loadPrereqData()
-    this.genSubTreeList()
+    this.initData()
   }
 }
 </script>
