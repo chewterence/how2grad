@@ -5,7 +5,7 @@
             <br>
             {{requiredModules}}
             <br><hr>
-            {{prereqData}}
+            {{this.moduleData.get('CS3230').prerequisite}}
         <SubTree v-bind:modules='modules' :requiredModules='requiredModules'/>
     </div>
 </template>
@@ -26,75 +26,90 @@ export default {
   },
   data () {
     return {
-      prereqData: new Map(),
-      parentMap: new Map()
+      moduleData: new Map(),
+      parentMap: new Map(),
+      sizeMap: new Map()
     }
   },
   methods: {
-    async loadPrereqData () {
-      let i = 0
-      for (i = 0; i < this.requiredModules.length; i++) {
-        try {
-          let data = null
-          const res = await fetch('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
-          if (!res.ok) {
-            throw new Error(res.status)
-          }
-          data = await res.json()
-          if (data.prereqTree != null) {
-            // data.prereqTree = data.prereqTree.f
-          }
-          this.prereqData.push(data.prereqTree)
-          console.log(data)
-        } catch (error) {
-          console.log(error)
-        }
+    loadPrereqData () {
+      for (let i = 0; i < this.requiredModules.length; i++) {
+        axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
+          .then(response => this.moduleData.set(response.data.moduleCode, response.data))
+          .catch(err => console.log(err))
       }
     },
 
     initMap () {
       this.modules.forEach(element => {
-        this.parentMap.set(element, element)
+        this.parentMap.set(element.moduleCode, element.moduleCode)
+        this.sizeMap.set(element.moduleCode, 1)
       })
     },
 
-    findParent (module) {
-      let p = this.parentMap(module)
-      while (p.moduleCode !== module.moduleCode) {
-        module = p
-        p = this.parentMap(module)
+    findParent (moduleCode) {
+      let pCode = this.parentMap.get(moduleCode)
+      while (pCode !== moduleCode) {
+        moduleCode = pCode
+        pCode = this.parentMap.get(moduleCode)
       }
-      return p
+      return pCode
     },
 
-    isSameSet (module1, module2) {
-      return this.findParent(module1).moduleCode === this.findParent(module2).moduleCode
+    isSameSet (moduleCode1, moduleCode2) {
+      return this.findParent(moduleCode1) === this.findParent(moduleCode2)
     },
 
-    isPreReqof (module1, module2) {
-      if (this.noprereq.includes(module2)) {
+    isPreReq (moduleCode1, moduleCode2) {
+      if (this.moduleData.get(moduleCode1).prerequisite === null || this.moduleData.get(moduleCode2).prerequisite === null) {
         return false
       }
-      // if ()
+      const module1PrereqTree = this.moduleData.get(moduleCode1).prerequisite
+      const module2PrereqTree = this.moduleData.get(moduleCode1).prerequisite
+      return module1PrereqTree.includes(moduleCode2) || module2PrereqTree.includes(moduleCode2)
+    },
+
+    union (module1, module2) {
+      const p1 = this.findParent(module1)
+      const p2 = this.findParent(module2)
+      if (this.sizeMap.get(p1) <= this.sizeMap.get(p2)) {
+        this.parentMap.set(p1, p2)
+        this.sizeMap.set(p2, this.sizeMap.get(p2) + this.sizeMap.get(p1))
+        this.sizeMap.set(p1, 0)
+      } else {
+        this.parentMap.set(p2, p1)
+        this.sizeMap.set(p1, this.sizeMap.get(p1) + this.sizeMap.get(p2))
+        this.sizeMap.set(p2, 0)
+      }
     },
 
     genSubTreeList () {
       this.initMap()
-      for (let i = 0; i < this.modules.length; i++) {
-        const modI = this.modules[i]
-        for (let j = 0; j < this.modules.length; j++) {
-          const modJ = this.modules[j]
-          if (this.isSameSet(modI, modJ)) {
-            continue
+      for (let i = 0; i < this.requiredModules.length; i++) {
+        const modI = this.requiredModules[i]
+        for (let j = 0; j < this.requiredModules.length; j++) {
+          const modJ = this.requiredModules[j]
+          if (i !== j) {
+            console.log(modI + ' ' + modJ)
+            if (this.isSameSet(modI, modJ)) {
+              console.log('same set Found')
+              console.log(i + ' ' + j)
+              continue
+            }
+            if (this.isPreReq(modI, modJ)) {
+              this.union(modI, modJ)
+              console.log('unioned')
+            }
           }
         }
       }
+      console.log('subTreeListGenerated')
     }
   },
   props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules', 'modules'],
   mounted () {
     this.loadPrereqData()
-    this.processData()
+    this.genSubTreeList()
   }
 }
 </script>
