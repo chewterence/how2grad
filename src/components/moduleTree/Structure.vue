@@ -5,11 +5,11 @@
             <br>
             {{requiredModules}}
             <br><hr>
-            <!-- {{this.moduleData.get('CS3230').prerequisite}} -->
-        <!-- <SubTree v-bind:modules='modules' :requiredModules='requiredModules'/> -->
         <li v-for="entry in setMap" v-bind:key="entry[0]">
+            <!-- testPrint{{entry[1].size}}
+            <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :moduleData='moduleData.get(entry[0])' :modlist='requiredModules'/> -->
             <div class="leaf-style">
-                <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :module='mod' :modlist='requiredModules'/>
+              <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :moduleData='moduleData.get(entry[0])' :modlist='requiredModules'/>
             </div>
         </li>
     </div>
@@ -87,7 +87,7 @@ export default {
         const currSet = this.setMap.get(p2)
         this.setMap.get(p1).forEach((value, valueAgain, set) => currSet.add(value))
         this.setMap.set(p2, currSet)
-        this.setMap.set(p1, new Set())
+        this.setMap.delete(p1)
       } else {
         this.parentMap.set(p2, p1)
         this.sizeMap.set(p1, this.sizeMap.get(p1) + this.sizeMap.get(p2))
@@ -95,7 +95,7 @@ export default {
         const currSet = this.setMap.get(p1)
         this.setMap.get(p2).forEach((value, valueAgain, set) => currSet.add(value))
         this.setMap.set(p1, currSet)
-        this.setMap.set(p2, new Set())
+        this.setMap.delete(p2)
       }
     },
 
@@ -117,6 +117,7 @@ export default {
         }
       }
       console.log('subTreeSetsGenerated')
+      this.$forceUpdate()
     }
   },
   props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules', 'modules'],
