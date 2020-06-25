@@ -1,22 +1,16 @@
 <template>
-    <div class="tree-structure">
-            <!-- {{trueNoPrereq}} -->
-            <hr>
-            <br>
-            {{requiredModules}}
-            <br><hr>
-        <li v-for="entry in setMap" v-bind:key="entry[0]">
-            <!-- testPrint{{entry[1].size}}
-            <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :moduleData='moduleData.get(entry[0])' :modlist='requiredModules'/> -->
-            <div class="leaf-style">
-              <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :moduleData='moduleData.get(entry[0])' :modlist='requiredModules'/>
-            </div>
-        </li>
-    </div>
+    <v-container>
+      <v-row justify="center">
+        <v-col v-for="entry in setMap" v-bind:key="entry[0]">
+          <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modList='requiredModules'/>
+        </v-col>
+      </v-row>
+    </v-container>
 </template>
 
 <script>
 import Vue from 'vue'
+import Vuetify from 'vuetify/lib'
 import axios from 'axios'
 import SubTree from './SubTree.vue'
 
@@ -31,21 +25,12 @@ export default {
   },
   data () {
     return {
-      moduleData: new Map(),
       parentMap: new Map(),
       sizeMap: new Map(),
       setMap: new Map()
     }
   },
   methods: {
-    initData () {
-      const promises = []
-      for (let i = 0; i < this.requiredModules.length; i++) {
-        promises.push(axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json'))
-      }
-      axios.all(promises).then(promise => promise.forEach(response => this.moduleData.set(response.data.moduleCode, response.data)))
-        .then(() => { this.genSubTreeSets() })
-    },
 
     initMap () {
       this.requiredModules.forEach(moduleCode => {
@@ -69,12 +54,35 @@ export default {
     },
 
     isPreReq (moduleCode1, moduleCode2) {
-      if (this.moduleData.get(moduleCode1).prerequisite === undefined || this.moduleData.get(moduleCode2).prerequisite === undefined) {
+      if (this.modulePrereqData.get(moduleCode1) === undefined && this.modulePrereqData.get(moduleCode2) !== undefined) {
+        console.log('1')
+        const module2PrereqTree = this.modulePrereqData.get(moduleCode2)
+        if (!moduleCode1.substr(-1).match(/\d/)) {
+          moduleCode1 = moduleCode1.match(/\w+\d\d\d\d/)[0]
+        }
+        return module2PrereqTree.has(moduleCode1)
+      } else if (this.modulePrereqData.get(moduleCode2) === undefined && this.modulePrereqData.get(moduleCode1) !== undefined) {
+        console.log('2')
+        const module1PrereqTree = this.modulePrereqData.get(moduleCode1)
+        if (!moduleCode2.substr(-1).match(/\d/)) {
+          moduleCode2 = moduleCode2.match(/\w+\d\d\d\d/)[0]
+        }
+        return module1PrereqTree.has(moduleCode2)
+      } else if (this.modulePrereqData.get(moduleCode2) !== undefined && this.modulePrereqData.get(moduleCode1) !== undefined) {
+        console.log('3')
+        const module1PrereqTree = this.modulePrereqData.get(moduleCode1)
+        const module2PrereqTree = this.modulePrereqData.get(moduleCode2)
+        if (!moduleCode1.substr(-1).match(/\d/)) {
+          moduleCode1 = moduleCode1.match(/\w+\d\d\d\d/)[0]
+        }
+        if (!moduleCode2.substr(-1).match(/\d/)) {
+          moduleCode2 = moduleCode2.match(/\w+\d\d\d\d/)[0]
+        }
+        return module1PrereqTree.has(moduleCode2) || module2PrereqTree.has(moduleCode1)
+      } else {
+        console.log('4')
         return false
       }
-      const module1PrereqTree = this.moduleData.get(moduleCode1).prerequisite
-      const module2PrereqTree = this.moduleData.get(moduleCode1).prerequisite
-      return module1PrereqTree.includes(moduleCode2) || module2PrereqTree.includes(moduleCode2)
     },
 
     union (moduleCode1, moduleCode2) {
@@ -120,9 +128,9 @@ export default {
       this.$forceUpdate()
     }
   },
-  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules', 'modules'],
+  props: ['requiredModules', 'modulePrereqData'],
   mounted () {
-    this.initData()
+    this.genSubTreeSets()
   }
 }
 </script>

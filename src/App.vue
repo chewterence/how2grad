@@ -1,30 +1,32 @@
 <template>
-  <div id="app">
-    <Header />
-    <div id="nav">
-      <ul id="nav-list">
-      <router-link to="/plan" id="nav-element">
-          <img alt="Logo" src="./assets/planLogo.png" style="width:40px;height:40px;">
-          Plan
-      </router-link>
-      <router-link to="/moduleTree" id="nav-element">
-          <img alt="Logo" src="./assets/treeLogo.png" style="width:40px;height:40px;">
-          Module Tree
-      </router-link>
-      <router-link to="/moduleinfo" id="nav-element">
-          <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
-          Module Information
-      </router-link>
-      <router-link to="/calculator" id="nav-element">
-          <img alt="Logo" src="./assets/capcalculatorLogo.png" style="width:40px;height:40px;">
-          CAP Calculator
-      </router-link>
-      </ul>
+  <v-app>
+    <div id="app">
+      <Header />
+      <div id="nav">
+        <ul id="nav-list">
+        <router-link to="/plan" id="nav-element">
+            <img alt="Logo" src="./assets/planLogo.png" style="width:40px;height:40px;">
+            Plan
+        </router-link>
+        <router-link to="/moduleTree" id="nav-element">
+            <img alt="Logo" src="./assets/treeLogo.png" style="width:40px;height:40px;">
+            Module Tree
+        </router-link>
+        <router-link to="/moduleinfo" id="nav-element">
+            <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
+            Module Information
+        </router-link>
+        <router-link to="/calculator" id="nav-element">
+            <img alt="Logo" src="./assets/capcalculatorLogo.png" style="width:40px;height:40px;">
+            CAP Calculator
+        </router-link>
+        </ul>
+      </div>
+        <hr>
+      <router-view/>
+      <!-- <img alt="Logo" src="./assets/mainpage.png" style="width:100%; height:100%;" v-if="!isHidden"> -->
     </div>
-      <hr>
-    <router-view/>
-    <!-- <img alt="Logo" src="./assets/mainpage.png" style="width:100%; height:100%;" v-if="!isHidden"> -->
-  </div>
+  </v-app>
 </template>
 
 <script>

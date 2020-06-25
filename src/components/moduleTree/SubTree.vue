@@ -1,23 +1,35 @@
 <template>
-    <div id="outer-struct">
-        <hr>
-        <br>
-        testPrint: {{treeRoot}}
-        <TreeModule v-bind:module='mod' :modlist='requiredModules'/>
-        <br><hr>
+    <div>
+      <SubTreeModule v-bind:moduleID='treeRoot' :treeData:='treeData' :modList='modList'/>
     </div>
 </template>
 
 <script>
-import TreeModule from './TreeModule.vue'
-
+import SubTreeModule from './SubTreeModule.vue'
+// var modNode = {
+//   numHops = -1,
+//   childrenList = []
+// }
 export default {
   name: 'SubTree',
   components: {
-    TreeModule
+    SubTreeModule
   },
   props: ['treeRoot', 'treeData', 'moduleData', 'modList'],
-  computed: {
+  data () {
+    return {
+      // numHopsList = []
+    }
+  },
+  methods: {
+    // hopSplit (queue, numHops) {
+    //   queue.forEach((value, valueAgain, set) => {
+    //     this.moduleData.get(value).
+    //   })
+    // }
+  },
+  mounted () {
+    // this.hopSplit(this.treeData, 0)
   }
 }
 </script>
