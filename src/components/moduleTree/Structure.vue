@@ -2,7 +2,7 @@
     <v-container>
       <v-row justify="center">
         <v-col v-for="entry in setMap" v-bind:key="entry[0]">
-          <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modList='requiredModules'/>
+          <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules'/>
         </v-col>
       </v-row>
     </v-container>
@@ -55,21 +55,18 @@ export default {
 
     isPreReq (moduleCode1, moduleCode2) {
       if (this.modulePrereqData.get(moduleCode1) === undefined && this.modulePrereqData.get(moduleCode2) !== undefined) {
-        console.log('1')
         const module2PrereqTree = this.modulePrereqData.get(moduleCode2)
         if (!moduleCode1.substr(-1).match(/\d/)) {
           moduleCode1 = moduleCode1.match(/\w+\d\d\d\d/)[0]
         }
         return module2PrereqTree.has(moduleCode1)
       } else if (this.modulePrereqData.get(moduleCode2) === undefined && this.modulePrereqData.get(moduleCode1) !== undefined) {
-        console.log('2')
         const module1PrereqTree = this.modulePrereqData.get(moduleCode1)
         if (!moduleCode2.substr(-1).match(/\d/)) {
           moduleCode2 = moduleCode2.match(/\w+\d\d\d\d/)[0]
         }
         return module1PrereqTree.has(moduleCode2)
       } else if (this.modulePrereqData.get(moduleCode2) !== undefined && this.modulePrereqData.get(moduleCode1) !== undefined) {
-        console.log('3')
         const module1PrereqTree = this.modulePrereqData.get(moduleCode1)
         const module2PrereqTree = this.modulePrereqData.get(moduleCode2)
         if (!moduleCode1.substr(-1).match(/\d/)) {
@@ -80,7 +77,6 @@ export default {
         }
         return module1PrereqTree.has(moduleCode2) || module2PrereqTree.has(moduleCode1)
       } else {
-        console.log('4')
         return false
       }
     },
@@ -128,7 +124,7 @@ export default {
       this.$forceUpdate()
     }
   },
-  props: ['requiredModules', 'modulePrereqData'],
+  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers'],
   mounted () {
     this.genSubTreeSets()
   }

@@ -2,7 +2,7 @@
   <div class="img-overlay-wrap">
     <h1>Bachelor of Computing (Honours) in Computer Science</h1>
         <!-- <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k' :requiredModules='requiredModules' :modules='modules'/>\ -->
-        <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :moduleData='moduleData'/>
+        <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers'/>
     <!-- {{noprereq}} -->
   </div>
 </template>
