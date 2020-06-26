@@ -1,16 +1,46 @@
 <template>
-    <div>
-      <SubTreeModule v-bind:moduleID='treeRoot' :treeData:='treeData' :modList='modList'/>
-    </div>
+    <v-container fluid>
+      <!-- <v-row justify="center" v-for="hopList in numHopsList" v-bind:key="hopList">
+        <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
+          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
+        </v-col>
+      </v-row> -->
+      <v-row class="justify center my-5" >
+        <v-col v-for="mod in numHopsList[3]" v-bind:key="mod.modCode">
+          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
+        </v-col>
+      </v-row>
+      <v-row class="justify center my-5">
+        <v-col v-for="mod in numHopsList[2]" v-bind:key="mod.modCode">
+          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
+        </v-col>
+      </v-row>
+      <v-row class="justify center my-5">
+        <v-col v-for="mod in numHopsList[1]" v-bind:key="mod.modCode">
+          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
+        </v-col>
+      </v-row>
+      <v-row class="justify center my-5">
+        <v-col v-for="mod in numHopsList[0]" v-bind:key="mod.modCode">
+          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
+        </v-col>
+      </v-row>
+      <v-row v-for="edge in edgeList" v-bind:key="edge.index">
+        <Edges v-if="numHopsList.length > 0" v-bind:edge='edge'/>
+         <!-- {{edgeIndex}} -->
+      </v-row>
+    </v-container>
 </template>
 
 <script>
 import SubTreeModule from './SubTreeModule.vue'
+import Edges from './Edges.vue'
 
 export default {
   name: 'SubTree',
   components: {
-    SubTreeModule
+    SubTreeModule,
+    Edges
   },
   props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList'],
   data () {
@@ -18,7 +48,8 @@ export default {
       stack: [],
       numHopsList: [],
       doneNodes: [],
-      distanceMap: new Map()
+      distanceMap: new Map(),
+      edgeList: []
     }
   },
   methods: {
@@ -42,44 +73,83 @@ export default {
     genGraphDFS () {
       while (this.stack.length !== 0) {
         const currModNode = this.stack.pop()
-        console.log(currModNode.modCode)
-        console.log('children:')
         const tempChildList = []
+        // iterate through prereqData to find mods that require currModNode as a prereq
         this.modulePrereqData.forEach((modPrereqs, modCode) => {
+          // remove modifiers
           if (!modCode.substr(-1).match(/\d/)) {
             modCode = modCode.match(/\w+\d\d\d\d/)[0]
           }
           if (modPrereqs.has(currModNode.modCode)) {
+            // create new child node. x is a child of y means y is a prereq for x
             const modNode = {
               modCode: modCode,
               numHops: currModNode.numHops + 1,
               childrenList: []
             }
-            console.log(modNode.modCode)
+            this.edgeList.push([modCode, currModNode.modCode])
             const numHops = modNode.numHops
+            // check if child has been visited before
             if (this.distanceMap.get(modCode) === undefined) {
               this.distanceMap.set(modCode, numHops)
-            }
-            if (numHops >= this.distanceMap.get(modCode)) {
-              tempChildList.push(modNode)
               this.stack.push(modNode)
+              tempChildList.push(modNode)
               currModNode.childrenList.push(modNode)
-              this.distanceMap.set(modCode, numHops)
               while (this.numHopsList[numHops] === undefined) {
                 this.numHopsList.push([])
               }
               this.numHopsList[numHops].push(modNode)
+              // if visited before, is current distance greater than previous distance
+            } else {
+              currModNode.childrenList.push(modNode)
+              if (numHops >= this.distanceMap.get(modCode)) {
+                this.stack.forEach(mod => {
+                  if (mod.modCode === modCode) {
+                    mod.numHops = numHops
+                  }
+                })
+                const oldDList = this.numHopsList[this.distanceMap.get(modCode)]
+                const index = oldDList.indexOf(oldDList.find(mod => mod.modCode === modCode))
+                this.numHopsList[this.distanceMap.get(modCode)].splice(index, 1)
+                this.distanceMap.set(modCode, numHops)
+                while (this.numHopsList[numHops] === undefined) {
+                  this.numHopsList.push([])
+                }
+                this.numHopsList[numHops].push(modNode)
+              }
             }
           }
         })
         this.doneNodes.push(currModNode)
-        console.log('done\n')
+      }
+    },
+    numHopsListOrdering () {
+      let upperList = []
+      let lowerList = []
+      for (let hop = 1; hop < this.numHopsList.length; hop++) {
+        upperList = this.numHopsList[hop]
+        lowerList = this.numHopsList[hop - 1]
+        let swapIndex = 0
+        for (let LIndex = 0; LIndex < lowerList.length; LIndex++) {
+          // bottom mod
+          for (let UIndex = 0; UIndex < upperList.length; UIndex++) {
+            // upper mod
+            if (lowerList[LIndex].childrenList.includes(upperList[UIndex].modCode)) {
+              swapIndex++
+            } else if (swapIndex !== UIndex) {
+              const temp = upperList[swapIndex]
+              upperList[swapIndex] = upperList[UIndex]
+              upperList[UIndex] = temp
+            }
+          }
+        }
       }
     }
   },
   mounted () {
     this.findRoots()
     this.genGraphDFS()
+    this.numHopsListOrdering()
   }
 }
 </script>

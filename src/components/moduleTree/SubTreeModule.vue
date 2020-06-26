@@ -5,7 +5,9 @@
         <div
           class="pa-6 text-center grey lighten-2 rounded-lg"
           v-text="moduleID"
-        ></div>
+          ref='pos-moduleCode'
+        >
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -21,45 +23,25 @@ export default {
   },
   data () {
     return {
-      prerequisite: [],
-      or: [],
-      and: [],
       xthis: 0,
-      ythis: 0,
-      prereqTree: -1
+      ythis: 0
     }
   },
-  props: ['moduleID', 'treeData', 'modList'],
+  props: ['moduleID', 'nodeData'],
   methods: {
-    // calcPosition () {
-    //   // calculate middle coordinate of element for constructing edges
-    //   this.xthis = this.$refs['pos-moduleCode'].getBoundingClientRect().x + 100
-    //   this.ythis = this.$refs['pos-moduleCode'].getBoundingClientRect().y
-    //   Vue.prototype.$xcoordinates.push(this.xthis)
-    //   Vue.prototype.$ycoordinates.push(this.ythis)
-    //   Vue.prototype.$modcoordinates.push(this.module.moduleCode)
-    // },
-    // processpreq () {
-    //   let temp = []
-    //   // FILTER 1: to filter out the other words leaving only the module
-    //   temp = this.module.prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
-    //   // FILTER 2: to fIlter out unwanted characters like brackets and stuff
-    //   for (let i = 0; i < temp.length; i++) {
-    //     temp[i] = temp[i].replace(/[{()}]/g, '')
-    //   }
-    //   // FILTER 3: to filter out the modules that is not included in the list of modules taken
-    //   for (let i = 0; i < temp.length; i++) {
-    //     if (this.modlist.includes(temp[i])) {
-    //       this.prerequisite.push(temp[i])
-    //     }
-    //   }
-    // }
-  },
-  created (module) {
-    // this.processpreq()
+    calcPosition () {
+      // calculate middle coordinate of element for constructing edges
+
+      this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
+
+      this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0
+      Vue.prototype.$xcoordinates.push(this.xthis)
+      Vue.prototype.$ycoordinates.push(this.ythis)
+      Vue.prototype.$modcoordinates.push(this.moduleID)
+    }
   },
   mounted () {
-    // this.calcPosition()
+    Vue.nextTick().then(this.calcPosition())
   }
 }
 </script>

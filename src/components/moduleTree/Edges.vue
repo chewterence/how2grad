@@ -1,8 +1,8 @@
 <template>
     <div>
-        <svg id="svg">
-            <line v-bind:x1='this.x1' :y1='this.y1' :x2='this.x2' :y2='this.y2'></line>
-        </svg>
+      <svg id="svg">
+        <line v-bind:x1='this.x1' :y1='this.y1' :x2='this.x2' :y2='this.y2'></line>
+      </svg>
     </div>
 </template>
 
@@ -22,6 +22,8 @@ export default {
     constructEdge (mod1, mod2) {
       let index1 = 0
       let index2 = 0
+      // console.log(mod1, mod2)
+      // console.log(Vue.prototype.$modcoordinates)
       for (index1 = 0; index1 < Vue.prototype.$modcoordinates.length; index1++) {
         if (Vue.prototype.$modcoordinates[index1] === mod1) {
           break
@@ -38,9 +40,9 @@ export default {
       this.y2 = Vue.prototype.$ycoordinates[index2]
     }
   },
-  props: ['modules'],
+  props: ['edge'],
   mounted () {
-    // this.constructEdge('CS1010', 'CS2040')
+    this.constructEdge(this.edge[0], this.edge[1])
   }
 }
 </script>
