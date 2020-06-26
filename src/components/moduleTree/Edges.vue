@@ -53,18 +53,22 @@ export default {
         height:100%;
         position: absolute;
         pointer-events: none;
+        z-index: -100px;
     }
     #svg line {
         stroke:#000;
         stroke-width:5px;
         position: absolute;
+        z-index: -100px;
     }
     .img-overlay-wrap {
         position: relative;
+        z-index: -100px;
     }
     .img-overlay-wrap svg {
         position: relative;
         top: 0;
         left: 0;
+        z-index: -100px;
     }
 </style>

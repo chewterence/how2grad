@@ -1,34 +1,13 @@
 <template>
     <v-container fluid>
-      <!-- <v-row justify="center" v-for="hopList in numHopsList" v-bind:key="hopList">
+      <v-row class="subTreeModules" justify="center" my-5 v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
         <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
           <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
         </v-col>
-      </v-row> -->
-      <v-row class="justify center my-5" >
-        <v-col v-for="mod in numHopsList[3]" v-bind:key="mod.modCode">
-          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
-        </v-col>
       </v-row>
-      <v-row class="justify center my-5">
-        <v-col v-for="mod in numHopsList[2]" v-bind:key="mod.modCode">
-          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
-        </v-col>
-      </v-row>
-      <v-row class="justify center my-5">
-        <v-col v-for="mod in numHopsList[1]" v-bind:key="mod.modCode">
-          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
-        </v-col>
-      </v-row>
-      <v-row class="justify center my-5">
-        <v-col v-for="mod in numHopsList[0]" v-bind:key="mod.modCode">
-          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
-        </v-col>
-      </v-row>
-      <v-row v-for="edge in edgeList" v-bind:key="edge.index">
-        <Edges v-if="numHopsList.length > 0" v-bind:edge='edge'/>
-         <!-- {{edgeIndex}} -->
-      </v-row>
+      <div v-for="edge in edgeList" v-bind:key="edge.index">
+          <Edges v-if="numHopsList.length > 0" v-bind:edge='edge'/>
+      </div>
     </v-container>
 </template>
 
@@ -144,17 +123,27 @@ export default {
           }
         }
       }
+    },
+    flipNumHopsList () {
+      const temp = []
+      while (this.numHopsList.length > 0) {
+        temp.push(this.numHopsList.pop())
+      }
+      this.numHopsList = temp
     }
   },
   mounted () {
     this.findRoots()
     this.genGraphDFS()
     this.numHopsListOrdering()
+    this.flipNumHopsList()
   }
 }
 </script>
 
 <style scoped>
- #outer-struct ul{
-    }
+ .subTreeModules{
+   z-index: 2;
+   position: relative
+ }
 </style>

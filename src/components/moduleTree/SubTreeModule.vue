@@ -24,7 +24,8 @@ export default {
   data () {
     return {
       xthis: 0,
-      ythis: 0
+      ythis: 0,
+      classes: ['pa-6 text-center grey lighten-2 rounded-lg', 'pa-6 text-center grey rounded-lg']
     }
   },
   props: ['moduleID', 'nodeData'],
