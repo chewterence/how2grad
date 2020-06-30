@@ -2,11 +2,11 @@
   <v-container class="text-center">
     <v-row justify="center">
       <v-col>
-        <div
-          class="pa-6 text-center grey lighten-2 rounded-lg"
-          v-text="moduleID"
-          ref='pos-moduleCode'
-        >
+        <!-- <div class="pa-6 text-center grey lighten-2 rounded-lg" ref='pos-moduleCode'> -->
+        <div class='module-box' ref='pos-moduleCode'>
+          <div class='moduleCode-text'>
+            {{moduleID}}
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -48,20 +48,23 @@ export default {
 </script>
 
 <style scoped>
-  /* .module-box {
+  .module-box {
     border-radius: 20px;
-    height: 10%;
+    height: 100%;
     width: 200px;
-    background: #94bbff;
+    background: #D3D3D3;
     border:1px solid #000;
-    padding: 5px;
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
   .moduleCode-text {
       font-weight: bold;
       font-size: 18px;
       color: rgb(0, 0, 0);
   }
-  .title-text {
+  /* .title-text {
       font-size: 16px;
       color: rgb(0, 0, 0);
   } */
