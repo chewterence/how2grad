@@ -1,13 +1,16 @@
 <template>
   <div class="img-overlay-wrap">
     <h1>Bachelor of Computing (Honours) in Computer Science</h1>
+        <!-- {{requiredModules}} -->
+        <!-- {{test}} -->
         <!-- <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k' :requiredModules='requiredModules' :modules='modules'/>\ -->
-        <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers'/>
+        <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
     <!-- {{noprereq}} -->
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import Structure from './Structure.vue'
 import axios from 'axios'
 
@@ -21,10 +24,13 @@ export default {
       requiredModules: [
         'CS1010', 'CS1231', 'MA1521', 'MA1101R', 'ES1103', 'IS1103',
         'CS2100', 'CS2030', 'CS2040S', 'ES2660', 'MA1301', 'ST2334',
-        'CS2106', 'CS3230', 'CS2103', 'CS2101', 'CS2105'
+        'CS2106', 'CS3230', 'CS2103', 'CS2101', 'CS2105',
+        'CS6207', 'CS4248', 'CS3243'
+        // 'CS6216', 'CS3244'
       ],
       moduleData: new Map(),
-      modulePrereqData: new Map()
+      modulePrereqData: new Map(),
+      test: 1
     }
   },
   methods: {
@@ -125,6 +131,7 @@ export default {
   },
   mounted () {
     this.initData()
+    // this.test = Vue.prototype.$currentlyplannedModules // testing global variables to export from plan tab
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <v-container>
       <v-row class="z-index 100px justify center mb-15"  v-for="entry in setMap" v-bind:key="entry[0]">
-        <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules'/>
+        <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules' :moduleData='moduleData'/>
         <!-- <v-col v-for="entry in setMap" v-bind:key="entry[0]">
           <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules'/>
         </v-col> -->
@@ -28,7 +28,8 @@ export default {
     return {
       parentMap: new Map(),
       sizeMap: new Map(),
-      setMap: new Map()
+      setMap: new Map(),
+      test: -100
     }
   },
   methods: {
@@ -125,7 +126,7 @@ export default {
       this.$forceUpdate()
     }
   },
-  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers'],
+  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData'],
   mounted () {
     this.genSubTreeSets()
   }
@@ -141,7 +142,7 @@ export default {
     #outer-struct ul{
     }
     .leaf-style {
-        padding: 5px;
+        padding: 0px;
         position: relative;
     }
 </style>

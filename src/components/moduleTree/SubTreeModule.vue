@@ -7,6 +7,10 @@
           <div class='moduleCode-text'>
             {{moduleID}}
           </div>
+          <div class='title-text'>
+            <!-- UNCOMMENT THIS FOR MODULE TITLE -->
+            <!-- {{moduleTitle}} -->
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -25,10 +29,11 @@ export default {
     return {
       xthis: 0,
       ythis: 0,
-      classes: ['pa-6 text-center grey lighten-2 rounded-lg', 'pa-6 text-center grey rounded-lg']
+      classes: ['pa-6 text-center grey lighten-2 rounded-lg', 'pa-6 text-center grey rounded-lg'],
+      moduleTitle: null
     }
   },
-  props: ['moduleID', 'nodeData'],
+  props: ['moduleID', 'nodeData', 'moduleData'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
@@ -43,6 +48,7 @@ export default {
   },
   mounted () {
     Vue.nextTick().then(this.calcPosition())
+    this.moduleTitle = this.moduleData.get(this.moduleID).title
   }
 }
 </script>
@@ -54,18 +60,18 @@ export default {
     width: 200px;
     background: #D3D3D3;
     border:1px solid #000;
-    padding: 10px;
+    padding: 0px;
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
   .moduleCode-text {
       font-weight: bold;
-      font-size: 18px;
+      font-size: 22px;
       color: rgb(0, 0, 0);
   }
-  /* .title-text {
+  .title-text {
       font-size: 16px;
       color: rgb(0, 0, 0);
-  } */
+  }
 </style>

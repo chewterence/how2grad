@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Module from '../components/Module.vue'
 import SearchBox from '../components/SearchBox/SearchBox.vue'
 import axios from 'axios'
@@ -32,7 +33,6 @@ export default {
   },
   data () {
     return {
-      // modules: [],
       isHidden: false
     }
   },
@@ -43,9 +43,11 @@ export default {
     addModule (value) {
       this.isHidden = false
       this.modules.push(value)
+      Vue.prototype.$currentlyplannedModules.push(value)
     },
     removeModule (value) {
       this.modules = this.modules.filter(mod => mod !== value)
+      Vue.prototype.$currentlyplannedModules = Vue.prototype.$currentlyplannedModules.filter(mod => mod !== value)
     }
   },
   props: ['title', 'modules', 'plannedModules'],
@@ -68,7 +70,7 @@ export default {
   .semester-box {
     border-radius: 25px;
     width:400px;
-    height:500px;
+    height:525px;
     background-color: rgb(114, 114, 114);
     border:1px solid #000;
     padding: 5px;

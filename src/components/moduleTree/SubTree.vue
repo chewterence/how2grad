@@ -2,7 +2,7 @@
     <v-container fluid>
       <v-row class="subTreeModules" justify="center" my-5 v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
         <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
-          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod'/>
+          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod' :moduleData='moduleData'/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
@@ -21,7 +21,7 @@ export default {
     SubTreeModule,
     Edges
   },
-  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList'],
+  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData'],
   data () {
     return {
       stack: [],
