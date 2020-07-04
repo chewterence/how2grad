@@ -2,11 +2,11 @@
     <v-container fluid>
       <v-row class="subTreeModules" justify="center" my-5 v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
         <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
-          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' :nodeData:='mod' :moduleData='moduleData'/>
+          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' v-on:pos-updated='updateEdges' :nodeData:='mod' :moduleData='moduleData'/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
-          <Edges v-if="numHopsList.length > 0" v-bind:edge='edge'/>
+          <Edges v-if="numHopsList.length > 0" v-bind:edge='edge' :key='componentKey'/>
       </div>
     </v-container>
 </template>
@@ -28,7 +28,8 @@ export default {
       numHopsList: [],
       doneNodes: [],
       distanceMap: new Map(),
-      edgeList: []
+      edgeList: [],
+      componentKey: 0
     }
   },
   methods: {
@@ -37,6 +38,7 @@ export default {
         if (this.modulePrereqData.get(modCode) === undefined) {
           const modNode = {
             modCode: modCode,
+            modCodeNoModi: this.stripModifier(modCode),
             numHops: 0,
             // x is a child of y means x is a prerequisite for y
             childrenList: []
@@ -56,13 +58,11 @@ export default {
         // iterate through prereqData to find mods that require currModNode as a prereq
         this.modulePrereqData.forEach((modPrereqs, modCode) => {
           // remove modifiers
-          if (!modCode.substr(-1).match(/\d/)) {
-            modCode = modCode.match(/\w+\d\d\d\d/)[0]
-          }
-          if (modPrereqs.has(currModNode.modCode)) {
+          if (modPrereqs.has(currModNode.modCode) || modPrereqs.has(currModNode.modCodeNoModi)) {
             // create new child node. x is a child of y means y is a prereq for x
             const modNode = {
               modCode: modCode,
+              modCodeNoModi: this.stripModifier(modCode),
               numHops: currModNode.numHops + 1,
               childrenList: []
             }
@@ -130,6 +130,16 @@ export default {
         temp.push(this.numHopsList.pop())
       }
       this.numHopsList = temp
+    },
+    stripModifier (modCode) {
+      if (!modCode.substr(-1).match(/\d/)) {
+        return modCode.match(/\w+\d\d\d\d/)[0]
+      } else {
+        return modCode
+      }
+    },
+    updateEdges () {
+      this.componentKey += 1
     }
   },
   mounted () {

@@ -15,15 +15,15 @@ export default {
       x1: 0,
       y1: 0,
       x2: 0,
-      y2: 0
+      y2: 0,
+      v1: '',
+      v2: ''
     }
   },
   methods: {
     constructEdge (mod1, mod2) {
       let index1 = 0
       let index2 = 0
-      // console.log(mod1, mod2)
-      // console.log(Vue.prototype.$modcoordinates)
       for (index1 = 0; index1 < Vue.prototype.$modcoordinates.length; index1++) {
         if (Vue.prototype.$modcoordinates[index1] === mod1) {
           break
