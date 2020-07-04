@@ -24,6 +24,8 @@ export default {
     constructEdge (mod1, mod2) {
       let index1 = 0
       let index2 = 0
+      this.v1 = mod1
+      this.v2 = mod2
       for (index1 = 0; index1 < Vue.prototype.$modcoordinates.length; index1++) {
         if (Vue.prototype.$modcoordinates[index1] === mod1) {
           break
@@ -38,6 +40,10 @@ export default {
       this.y1 = Vue.prototype.$ycoordinates[index1]
       this.x2 = Vue.prototype.$xcoordinates[index2]
       this.y2 = Vue.prototype.$ycoordinates[index2]
+    },
+    updateEdge () {
+      // console.log('---(' + this.x1 + ',' + this.y1 + ')' + '(' + this.x2 + ',' + this.y2 + ')')
+      this.constructEdge(this.v1, this.v2)
     }
   },
   props: ['edge'],
@@ -58,15 +64,15 @@ export default {
     #svg line {
         stroke:#000;
         stroke-width:5px;
-        position: absolute;
+        position: relative;
         z-index: -100px;
     }
     .img-overlay-wrap {
-        position: relative;
+        position: absolute;
         z-index: -100px;
     }
     .img-overlay-wrap svg {
-        position: relative;
+        position: absolute;
         top: 0;
         left: 0;
         z-index: -100px;

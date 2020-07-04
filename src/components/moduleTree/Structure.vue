@@ -1,10 +1,7 @@
 <template>
     <v-container>
       <v-row class="z-index 100px justify center mb-15"  v-for="entry in setMap" v-bind:key="entry[0]">
-        <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules' :moduleData='moduleData'/>
-        <!-- <v-col v-for="entry in setMap" v-bind:key="entry[0]">
-          <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules'/>
-        </v-col> -->
+        <SubTree id="scroll-target" v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules' :moduleData='moduleData'/>
       </v-row>
     </v-container>
 </template>

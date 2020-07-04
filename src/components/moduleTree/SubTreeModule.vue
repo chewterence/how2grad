@@ -11,14 +11,13 @@
           min-width="150"
           max-width="300"
           default
-          color="grey lighten 2"
+          @mouseover="hover = true"
+          @mouseleave="hover = false"
+          :class="{ active: hover}"
         >
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{moduleID}}</v-list-item-title>
-              <v-list-item-subtitle>{{moduleTitle}}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
+          <!-- <v-card-text class="text-sm-subtitle-1">{{moduleTitle}}</v-card-text> -->
+          <v-card-text class="text-sm-subtitle-1">{{this.xthis}} , {{this.ythis}}</v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -37,7 +36,8 @@ export default {
     return {
       xthis: 0,
       ythis: 0,
-      moduleTitle: null
+      moduleTitle: null,
+      hover: false
     }
   },
   props: ['moduleID', 'nodeData', 'moduleData'],
@@ -46,7 +46,7 @@ export default {
       // calculate middle coordinate of element for constructing edges
       this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0
-      console.log(this.xthis + ', ' + this.ythis)
+      // console.log(this.xthis + ', ' + this.ythis)
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
       Vue.prototype.$modcoordinates.push(this.moduleID)
@@ -66,7 +66,19 @@ export default {
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0
       Vue.prototype.$xcoordinates[index] = this.xthis
       Vue.prototype.$ycoordinates[index] = this.ythis
-      console.log('updated: ' + this.xthis + ', ' + this.ythis)
+      // console.log('updated: ' + this.xthis + ', ' + this.ythis)
+      // console.log(this.getOffsetTop(document.getElementById('SubTreeModule' + this.moduleID)))
+    },
+
+    getOffsetTop (elem) {
+      let offsetTop = 0
+      do {
+        if (!isNaN(elem.offsetTop)) {
+          offsetTop += elem.offsetTop
+        }
+        elem = elem.offsetParent
+      } while (elem !== null)
+      return offsetTop
     }
   },
   mounted () {
@@ -75,10 +87,8 @@ export default {
     } else {
       this.moduleTitle = this.moduleData.get(this.moduleID).title
     }
-    // console.log(this.moduleTitle)
     this.calcPosition()
-    console.log('completed')
-    // this.moduleTitle = this.moduleData.get(this.moduleID).title
+    // console.log('completed')
   },
   updated: function () {
     this.updatePos()
@@ -88,24 +98,7 @@ export default {
 </script>
 
 <style scoped>
-  .module-box {
-    border-radius: 20px;
-    height: 100%;
-    width: 200px;
-    background: #D3D3D3;
-    border:1px solid #000;
-    padding: 0px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .moduleCode-text {
-      font-weight: bold;
-      font-size: 22px;
-      color: rgb(0, 0, 0);
-  }
-  .title-text {
-      font-size: 16px;
-      color: rgb(0, 0, 0);
+  .active {
+    background: brown
   }
 </style>

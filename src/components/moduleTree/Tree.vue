@@ -1,11 +1,16 @@
 <template>
   <div class="img-overlay-wrap">
-    <h1>Bachelor of Computing (Honours) in Computer Science</h1>
-        <!-- {{requiredModules}} -->
-        <!-- {{test}} -->
-        <!-- <Structure v-bind:noprereq='noprereq' :level1k='level1k' :level2k='level2k' :level3k='level3k' :level4k='level4k' :requiredModules='requiredModules' :modules='modules'/>\ -->
+    <v-container>
+      <h1>Bachelor of Computing (Honours) in Computer Science</h1>
         <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
-    <!-- {{noprereq}} -->
+    </v-container>
+    <!-- <v-container
+      id="scroll-target"
+      style="max-height: 90vh"
+      class="overflow-y-auto">
+      <h1>Bachelor of Computing (Honours) in Computer Science</h1>
+        <Structure v-scroll:#scroll-target="onScroll" v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
+    </v-container> -->
   </div>
 </template>
 
@@ -75,6 +80,10 @@ export default {
           }
         }
       }
+    },
+
+    onScroll (e) {
+      console.log(e.target.scrollTop)
     },
 
     processPrereqTree (moduleCode, arr) {

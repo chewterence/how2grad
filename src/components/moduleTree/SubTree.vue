@@ -2,16 +2,23 @@
     <v-container fluid>
       <v-row class="subTreeModules" justify="center" my-5 v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
         <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
-          <SubTreeModule v-if="numHopsList.length > 0" v-bind:moduleID='mod.modCode' v-on:pos-updated='updateEdges' :nodeData:='mod' :moduleData='moduleData'/>
+          <SubTreeModule ref='subTreeMod'
+            v-if="numHopsList.length > 0"
+            v-bind:moduleID='mod.modCode'
+            v-on:pos-updated='updateEdges'
+            :id="'SubTreeModule' + mod.modCode"
+            :nodeData:='mod'
+            :moduleData='moduleData'/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
-          <Edges v-if="numHopsList.length > 0" v-bind:edge='edge' :key='componentKey'/>
+          <Edges ref='edgeRef' v-if="numHopsList.length > 0" v-bind:edge='edge' :key='componentKey'/>
       </div>
     </v-container>
 </template>
 
 <script>
+// import Vue from 'vue'
 import SubTreeModule from './SubTreeModule.vue'
 import Edges from './Edges.vue'
 
@@ -139,14 +146,26 @@ export default {
       }
     },
     updateEdges () {
-      this.componentKey += 1
+      // this.componentKey += 1
+      if (this.edgeList.length > 0) {
+        this.$refs.edgeRef.forEach(edge => edge.updateEdge())
+      }
+    },
+    onResize () {
+      this.$refs.subTreeMod.forEach(subTreeMod => subTreeMod.updatePos())
+      this.updateEdges()
+      console.log('resized')
     }
   },
   mounted () {
+    window.addEventListener('resize', this.onResize)
     this.findRoots()
     this.genGraphDFS()
     this.numHopsListOrdering()
     this.flipNumHopsList()
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
