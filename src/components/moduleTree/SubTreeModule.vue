@@ -16,8 +16,8 @@
           :class="{ active: hover}"
         >
           <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
-          <!-- <v-card-text class="text-sm-subtitle-1">{{moduleTitle}}</v-card-text> -->
-          <v-card-text class="text-sm-subtitle-1">{{this.xthis}} , {{this.ythis}}</v-card-text>
+          <v-card-text class="text-sm-subtitle-1">{{moduleTitle}}</v-card-text>
+          <!-- <v-card-text class="text-sm-subtitle-1">{{this.xthis}} , {{this.ythis}}</v-card-text> -->
         </v-card>
       </v-col>
     </v-row>
@@ -36,7 +36,7 @@ export default {
     return {
       xthis: 0,
       ythis: 0,
-      moduleTitle: null,
+      // moduleTitle: null,
       hover: false
     }
   },
@@ -45,7 +45,7 @@ export default {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
       this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
-      this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0
+      this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
       // console.log(this.xthis + ', ' + this.ythis)
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
@@ -63,11 +63,9 @@ export default {
       }
 
       this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
-      this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0
+      this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
       Vue.prototype.$xcoordinates[index] = this.xthis
       Vue.prototype.$ycoordinates[index] = this.ythis
-      // console.log('updated: ' + this.xthis + ', ' + this.ythis)
-      // console.log(this.getOffsetTop(document.getElementById('SubTreeModule' + this.moduleID)))
     },
 
     getOffsetTop (elem) {
@@ -81,14 +79,13 @@ export default {
       return offsetTop
     }
   },
-  mounted () {
-    if (this.moduleData.get(this.moduleID) === undefined) {
-      this.moduleTitle = 'test'
-    } else {
-      this.moduleTitle = this.moduleData.get(this.moduleID).title
+  computed: {
+    moduleTitle: function () {
+      return this.moduleData.get(this.moduleID).title
     }
+  },
+  mounted () {
     this.calcPosition()
-    // console.log('completed')
   },
   updated: function () {
     this.updatePos()

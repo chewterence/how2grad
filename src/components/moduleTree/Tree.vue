@@ -1,15 +1,17 @@
 <template>
   <div class="img-overlay-wrap">
-    <v-container>
       <h1>Bachelor of Computing (Honours) in Computer Science</h1>
         <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
-    </v-container>
     <!-- <v-container
       id="scroll-target"
-      style="max-height: 90vh"
+      style="max-height: 83vh"
       class="overflow-y-auto">
-      <h1>Bachelor of Computing (Honours) in Computer Science</h1>
+      <v-row justify=center>
+        <h1>Bachelor of Computing (Honours) in Computer Science</h1>
+      </v-row>
+      <v-row>
         <Structure v-scroll:#scroll-target="onScroll" v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
+      </v-row>
     </v-container> -->
   </div>
 </template>
@@ -80,10 +82,6 @@ export default {
           }
         }
       }
-    },
-
-    onScroll (e) {
-      console.log(e.target.scrollTop)
     },
 
     processPrereqTree (moduleCode, arr) {
