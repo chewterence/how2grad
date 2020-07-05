@@ -163,10 +163,10 @@ export default {
         const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
         if (hoveredIndex !== -1) {
           const other = 1 - hoveredIndex
-          if (this.modulePrereqData.get(edge[hoveredIndex]).has(this.stripModifier(edge[other]))) {
+          if (this.modulePrereqData.get(edge[hoveredIndex]) !== undefined && this.modulePrereqData.get(edge[hoveredIndex]).has(this.stripModifier(edge[other]))) {
             console.log('red ' + edge[other])
             edge[2] = 'redEdge'
-          } else if (this.modulePrereqData.get(edge[other]).has(this.stripModifier(hoveredModCode))) {
+          } else if (this.modulePrereqData.get(edge[other]) !== undefined && this.modulePrereqData.get(edge[other]).has(this.stripModifier(hoveredModCode))) {
             console.log('green ' + edge[other])
             edge[2] = 'greenEdge'
           }
@@ -179,7 +179,6 @@ export default {
         const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
         if (hoveredIndex !== -1) {
           edge[2] = 'defaultEdge'
-          // console.log('mouseleft')
         }
       })
       this.updateEdges()

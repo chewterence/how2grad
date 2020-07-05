@@ -3,7 +3,6 @@
       <svg key="componentKey" class="svg" :class="strokeColour">
         <line v-bind:x1='this.x1' :y1='this.y1' :x2='this.x2' :y2='this.y2'></line>
       </svg>
-      {{edge}}
     </div>
 </template>
 
