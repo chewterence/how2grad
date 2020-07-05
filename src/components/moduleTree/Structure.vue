@@ -1,8 +1,4 @@
 <template>
-    <!-- <v-container
-      id="scroll-target"
-      style="max-height: 83vh"
-      class="overflow-y-auto"> -->
     <v-container>
       <v-row class="z-index 100px justify center mb-15"  v-for="entry in setMap" v-bind:key="entry[0]">
         <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules' :moduleData='moduleData'/>

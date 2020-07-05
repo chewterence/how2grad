@@ -7,18 +7,22 @@
           v-text="moduleID"
           ref='pos-moduleCode'
         > -->
-        <v-card class="mx-auto"
-          min-width="150"
-          max-width="300"
-          default
-          @mouseover="hover = true"
-          @mouseleave="hover = false"
-          :class="{ active: hover}"
-        >
-          <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
-          <v-card-text class="text-sm-subtitle-1">{{moduleTitle}}</v-card-text>
-          <!-- <v-card-text class="text-sm-subtitle-1">{{this.xthis}} , {{this.ythis}}</v-card-text> -->
-        </v-card>
+        <v-hover>
+          <template v-slot="{ hover }">
+            <v-card class="mx-auto"
+              min-width="150"
+              max-width="300"
+              default
+              :class="hover ? 'hoverClass' : 'defaultClass'"
+              :elevation="hover ? 24 : 3"
+              @mouseover="$emit('mouseover', moduleID)"
+              @mouseleave="$emit('mouseleave', moduleID)"
+            >
+              <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
+              <v-card-text class="text-sm-subtitle-1">{{moduleTitle}}</v-card-text>
+            </v-card>
+          </template>
+        </v-hover>
       </v-col>
     </v-row>
   </v-container>
@@ -36,8 +40,8 @@ export default {
     return {
       xthis: 0,
       ythis: 0,
-      // moduleTitle: null,
-      hover: false
+      defaultClass: 'defaultClass',
+      hoverClass: 'hoverClass'
     }
   },
   props: ['moduleID', 'nodeData', 'moduleData'],
@@ -66,17 +70,6 @@ export default {
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
       Vue.prototype.$xcoordinates[index] = this.xthis
       Vue.prototype.$ycoordinates[index] = this.ythis
-    },
-
-    getOffsetTop (elem) {
-      let offsetTop = 0
-      do {
-        if (!isNaN(elem.offsetTop)) {
-          offsetTop += elem.offsetTop
-        }
-        elem = elem.offsetParent
-      } while (elem !== null)
-      return offsetTop
     }
   },
   computed: {
@@ -95,7 +88,15 @@ export default {
 </script>
 
 <style scoped>
-  .active {
-    background: brown
+  /* .active {
+    background: brown;
+    elevation: 24
+  } */
+  .defaultClass {
+    background: lightgrey;
+  }
+
+  .hoverClass {
+    background: lightblue;
   }
 </style>

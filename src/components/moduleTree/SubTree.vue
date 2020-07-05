@@ -6,6 +6,8 @@
             v-if="numHopsList.length > 0"
             v-bind:moduleID='mod.modCode'
             v-on:pos-updated='updateEdges'
+            @mouseover="colourEdges"
+            @mouseleave="revertEdges"
             :id="'SubTreeModule' + mod.modCode"
             :nodeData:='mod'
             :moduleData='moduleData'/>
@@ -73,7 +75,7 @@ export default {
               numHops: currModNode.numHops + 1,
               childrenList: []
             }
-            this.edgeList.push([modCode, currModNode.modCode])
+            this.edgeList.push([modCode, currModNode.modCode, 'defaultEdge'])
             const numHops = modNode.numHops
             // check if child has been visited before
             if (this.distanceMap.get(modCode) === undefined) {
@@ -155,6 +157,32 @@ export default {
       this.$refs.subTreeMod.forEach(subTreeMod => subTreeMod.updatePos())
       this.updateEdges()
       console.log('resized')
+    },
+    colourEdges (hoveredModCode) {
+      this.edgeList.forEach(edge => {
+        const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
+        if (hoveredIndex !== -1) {
+          const other = 1 - hoveredIndex
+          if (this.modulePrereqData.get(edge[hoveredIndex]).has(this.stripModifier(edge[other]))) {
+            console.log('red ' + edge[other])
+            edge[2] = 'redEdge'
+          } else if (this.modulePrereqData.get(edge[other]).has(this.stripModifier(hoveredModCode))) {
+            console.log('green ' + edge[other])
+            edge[2] = 'greenEdge'
+          }
+        }
+      })
+      this.updateEdges()
+    },
+    revertEdges (hoveredModCode) {
+      this.edgeList.forEach(edge => {
+        const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
+        if (hoveredIndex !== -1) {
+          edge[2] = 'defaultEdge'
+          // console.log('mouseleft')
+        }
+      })
+      this.updateEdges()
     }
   },
   mounted () {
