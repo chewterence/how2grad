@@ -3,13 +3,13 @@
       <div id="search-box">
         <div class="input-container">
           <input type="text" placeholder="Search for Module..." v-model="NameSearchString" />
-            <button v-on:click="onMinimizeClick" class="minimize-button">
+            <button v-on:click="onMinimizeClick" id="minimize-button">
               x
             </button>
         </div>
         <perfect-scrollbar>
-        <ul style="list-style: none;">
-          <li class="list" v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
+        <ul id="list" style="list-style: none;">
+          <li v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
             <div class="module-list">
               <SearchBoxModule v-bind:module='mod' v-on:addModule="addModule"/>
             </div>
@@ -48,7 +48,8 @@ export default {
       if (!NameSearchString) {
         return mod
       }
-      const SearchString = NameSearchString.trim().toLowerCase()
+      const SearchString = NameSearchString
+      // .trim().toLowerCase()
       mod = mod.filter(function (item) {
         if ((item.title.toLowerCase().indexOf(NameSearchString) !== -1) || (item.moduleCode.toLowerCase().indexOf(NameSearchString) !== -1)) {
           return item
@@ -86,6 +87,11 @@ export default {
     position: absolute;
   }
 
+  #list li:nth-of-type(1n+20) {
+    /* change the number at the back of 1n+ to limit the number of elements shown in list */
+    display: none;
+  }
+
   .module-list {
      text-align: left;
      font-size:18px;
@@ -117,13 +123,23 @@ export default {
     text-align: left
   }
 
-  .minimize-button {
+  #minimize-button {
     border-radius: 100px;
     border:1px solid #000;
     background-color: rgb(255, 143, 143);
     width:28px;
     height:28px;
     font-size: 22px;
+    font-weight: bold;
+  }
+
+  #minimize-button:hover {
+    border-radius: 100px;
+    border:1px solid #000;
+    background-color: rgb(255, 0, 0);
+    width:28px;
+    height:28px;
+    font-size: 23px;
     font-weight: bold;
   }
   .ps {

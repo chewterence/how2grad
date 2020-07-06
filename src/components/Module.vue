@@ -1,6 +1,6 @@
 <template>
   <div class='module-box'>
-        <button v-on:click="removeModule" class="remove-button">
+        <button v-on:click="removeModule" id="remove-button">
           x
         </button>
         <div class='moduleCode-text'>
@@ -50,13 +50,23 @@ export default {
       color: rgb(0, 0, 0);
       padding-left: 10px
   }
-  .remove-button {
+  #remove-button {
     border-radius: 50px;
     border:1px solid #000;
     background-color: rgb(255, 126, 126);
     width:26px;
     height:26px;
     font-size: 20px;
+    font-weight: bold;
+    float: right;
+  }
+  #remove-button:hover {
+    border-radius: 50px;
+    border:1px solid #000;
+    background-color: rgb(255, 0, 0);
+    width:27px;
+    height:27px;
+    font-size: 21px;
     font-weight: bold;
     float: right;
   }

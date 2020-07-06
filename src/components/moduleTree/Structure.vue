@@ -1,11 +1,14 @@
 <template>
-    <div class="tree-structure">
-        <SubTree v-bind:modules='modules' :prereqData='prereqData' :requiredModules='requiredModules'/>
-    </div>
+    <v-container>
+      <v-row class="z-index 100px justify center mb-15"  v-for="entry in setMap" v-bind:key="entry[0]">
+        <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules' :moduleData='moduleData'/>
+      </v-row>
+    </v-container>
 </template>
 
 <script>
 import Vue from 'vue'
+import Vuetify from 'vuetify/lib'
 import axios from 'axios'
 import SubTree from './SubTree.vue'
 
@@ -20,51 +23,113 @@ export default {
   },
   data () {
     return {
-      prereqData: []
+      parentMap: new Map(),
+      sizeMap: new Map(),
+      setMap: new Map(),
+      test: -100
     }
   },
   methods: {
-    async loadPrereqData () {
-      let i = 0
-      for (i = 0; i < this.requiredModules.length; i++) {
-        try {
-          let data = null
-          const res = await fetch('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
-          if (!res.ok) {
-            throw new Error(res.status)
+
+    initMap () {
+      this.requiredModules.forEach(moduleCode => {
+        this.parentMap.set(moduleCode, moduleCode)
+        this.sizeMap.set(moduleCode, 1)
+        this.setMap.set(moduleCode, new Set().add(moduleCode))
+      })
+    },
+
+    findParent (moduleCode) {
+      let pCode = this.parentMap.get(moduleCode)
+      while (pCode !== moduleCode) {
+        moduleCode = pCode
+        pCode = this.parentMap.get(moduleCode)
+      }
+      return pCode
+    },
+
+    isSameSet (moduleCode1, moduleCode2) {
+      return this.findParent(moduleCode1) === this.findParent(moduleCode2)
+    },
+
+    isPreReq (moduleCode1, moduleCode2) {
+      if (this.modulePrereqData.get(moduleCode1) === undefined && this.modulePrereqData.get(moduleCode2) !== undefined) {
+        const module2PrereqTree = this.modulePrereqData.get(moduleCode2)
+        if (!moduleCode1.substr(-1).match(/\d/)) {
+          moduleCode1 = moduleCode1.match(/\w+\d\d\d\d/)[0]
+        }
+        return module2PrereqTree.has(moduleCode1)
+      } else if (this.modulePrereqData.get(moduleCode2) === undefined && this.modulePrereqData.get(moduleCode1) !== undefined) {
+        const module1PrereqTree = this.modulePrereqData.get(moduleCode1)
+        if (!moduleCode2.substr(-1).match(/\d/)) {
+          moduleCode2 = moduleCode2.match(/\w+\d\d\d\d/)[0]
+        }
+        return module1PrereqTree.has(moduleCode2)
+      } else if (this.modulePrereqData.get(moduleCode2) !== undefined && this.modulePrereqData.get(moduleCode1) !== undefined) {
+        const module1PrereqTree = this.modulePrereqData.get(moduleCode1)
+        const module2PrereqTree = this.modulePrereqData.get(moduleCode2)
+        if (!moduleCode1.substr(-1).match(/\d/)) {
+          moduleCode1 = moduleCode1.match(/\w+\d\d\d\d/)[0]
+        }
+        if (!moduleCode2.substr(-1).match(/\d/)) {
+          moduleCode2 = moduleCode2.match(/\w+\d\d\d\d/)[0]
+        }
+        return module1PrereqTree.has(moduleCode2) || module2PrereqTree.has(moduleCode1)
+      } else {
+        return false
+      }
+    },
+
+    union (moduleCode1, moduleCode2) {
+      const p1 = this.findParent(moduleCode1)
+      const p2 = this.findParent(moduleCode2)
+      if (this.sizeMap.get(p1) <= this.sizeMap.get(p2)) {
+        this.parentMap.set(p1, p2)
+        this.sizeMap.set(p2, this.sizeMap.get(p2) + this.sizeMap.get(p1))
+        this.sizeMap.set(p1, 0)
+        const currSet = this.setMap.get(p2)
+        this.setMap.get(p1).forEach((value, valueAgain, set) => currSet.add(value))
+        this.setMap.set(p2, currSet)
+        this.setMap.delete(p1)
+      } else {
+        this.parentMap.set(p2, p1)
+        this.sizeMap.set(p1, this.sizeMap.get(p1) + this.sizeMap.get(p2))
+        this.sizeMap.set(p2, 0)
+        const currSet = this.setMap.get(p1)
+        this.setMap.get(p2).forEach((value, valueAgain, set) => currSet.add(value))
+        this.setMap.set(p1, currSet)
+        this.setMap.delete(p2)
+      }
+    },
+
+    // onScroll (e) {
+    //   console.log(e.target.scrollTop)
+    // },
+
+    genSubTreeSets () {
+      // todo make effecient later on
+      this.initMap()
+      for (let i = 0; i < this.requiredModules.length; i++) {
+        const modI = this.requiredModules[i]
+        for (let j = 0; j < this.requiredModules.length; j++) {
+          const modJ = this.requiredModules[j]
+          if (i !== j) {
+            if (this.isSameSet(modI, modJ)) {
+              continue
+            }
+            if (this.isPreReq(modI, modJ)) {
+              this.union(modI, modJ)
+            }
           }
-          data = await res.json()
-          this.prereqData.push(data.prereqTree)
-          console.log(data)
-        } catch (error) {
-          console.log(error)
         }
       }
+      console.log('subTreeSetsGenerated')
+      this.$forceUpdate()
     }
-    //   try {
-    //     const res = await fetch('https://api.nusmods.com/v2/2019-2020/modules/' + 'CS2103' + '.json')
-    //     if (!res.ok) {
-    //       throw new Error(res.status)
-    //     }
-    //     const data = await res.json()
-    //     this.prereqData = data.prereqTree
-    //     console.log(data)
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // =================================================================================
-    // loadPrereqData () {
-    //   let i = 0
-    //   for (i = 0; i < this.requiredModules.length; i++) {
-    //     axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json')
-    //       .then(response => (this.prereqData.push(response.data.prereqTree)))
-    //       .catch(err => console.log(err))
-    //   }
-    // }
   },
-  props: ['noprereq', 'level1k', 'level2k', 'level3k', 'level4k', 'requiredModules', 'modules'],
+  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData'],
   mounted () {
-    this.loadPrereqData()
+    this.genSubTreeSets()
   }
 }
 </script>
@@ -78,7 +143,7 @@ export default {
     #outer-struct ul{
     }
     .leaf-style {
-        padding: 5px;
+        padding: 0px;
         position: relative;
     }
 </style>

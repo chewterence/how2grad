@@ -6,7 +6,7 @@
         <div class="module-search" v-if="isHidden">
           <SearchBox v-on:minimize="isHidden = false" v-on:addModule="addModule"/>
         </div>
-        <button class="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
+        <button id="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
           + Add Module
         </button>
         <ul style="list-style: none;">
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Module from '../components/Module.vue'
 import SearchBox from '../components/SearchBox/SearchBox.vue'
 import axios from 'axios'
@@ -32,7 +33,6 @@ export default {
   },
   data () {
     return {
-      // modules: [],
       isHidden: false
     }
   },
@@ -43,9 +43,11 @@ export default {
     addModule (value) {
       this.isHidden = false
       this.modules.push(value)
+      Vue.prototype.$currentlyplannedModules.push(value)
     },
     removeModule (value) {
       this.modules = this.modules.filter(mod => mod !== value)
+      Vue.prototype.$currentlyplannedModules = Vue.prototype.$currentlyplannedModules.filter(mod => mod !== value)
     }
   },
   props: ['title', 'modules', 'plannedModules'],
@@ -68,7 +70,7 @@ export default {
   .semester-box {
     border-radius: 25px;
     width:400px;
-    height:500px;
+    height:525px;
     background-color: rgb(114, 114, 114);
     border:1px solid #000;
     padding: 5px;
@@ -80,12 +82,24 @@ export default {
     padding: 2px;
     text-align: left;
   }
-  .add-module-button {
+  #add-module-button {
     border-radius: 20px;
     font-size:18px;
     font-family: Avenir;
     font-weight: bold;
     color: rgb(0, 0, 0);
+    border:1px solid #000;
+    width: 99%;
+    height: 10%;
+    top: 82%;
+  }
+  #add-module-button:hover {
+    border-radius: 20px;
+    font-size:21px;
+    font-family: Avenir;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    background: #dfdfdf;
     border:1px solid #000;
     width: 99%;
     height: 10%;
