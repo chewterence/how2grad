@@ -1,5 +1,9 @@
 <template>
   <div id="plan">
+    {{y2s1}}
+    {{y2s1Storage}}
+    <!-- {{y2s1}}
+    {{y2s1Storage}} -->
     <ul style="list-style: none; display: inline-flex;">
       <div id="Semester Block">
         <ul style="list-style: none; display: inline-flex;">
@@ -33,13 +37,13 @@
         </ul>
       </div>
       <ul>
-        <button id="save-button" v-on:click="saveAll">
+        <button class="button-style" v-on:click="saveAll">
           Save
         </button>
-        <button id="save-button">
+        <button class="button-style" v-on:click="loadPlan">
           Load
         </button>
-        <button id="save-button" v-on:click="removeAll">
+        <button class="button-style" v-on:click="removeAll">
           Clear
         </button>
       </ul>
@@ -51,7 +55,7 @@
 import Semester from '../components/Semester.vue'
 
 export default {
-  name: 'Home',
+  name: 'Plan',
   components: {
     Semester
   },
@@ -152,6 +156,22 @@ export default {
   },
   methods: {
     // =================================================================== General Methods
+    loadPlan () {
+      // Semester 1
+      this.y1s1Storage = ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521']
+      this.y1s2Storage = ['CS2030', 'CS2100', 'CS2040S', 'UTW1001Z', 'UTC2101']
+      // Semester 2
+      this.y2s1Storage = ['MA1101R', 'CS2103T', 'CS2106', 'CS2101', 'UTC2105']
+      this.y2s2Storage = ['ST2334', 'ES2660', 'CS3230', 'UTW2001Q', 'CS2105']
+      // Semester 3
+      this.y3s1Storage = ['CS2104', 'CS2107', 'CS3210', 'CS3220', 'CS3223']
+      this.y3s2Storage = ['CS3233', 'CS3234', 'CS3244', 'CS3241', 'CS3236']
+      // Semester 4
+      this.y4s1Storage = ['CS4212', 'CS4226', 'CS5224', 'CS5223', 'CS6207']
+      this.y4s2Storage = ['CS4225', 'CS4234', 'CS6270', 'CS6285', 'CS6234']
+      this.saveAll()
+      window.location.reload()
+    },
     saveAll () {
       this.savey1s1()
       this.savey2s1()
@@ -161,6 +181,7 @@ export default {
       this.savey2s2()
       this.savey3s2()
       this.savey4s2()
+      window.location.reload()
     },
     removeAll () {
       this.removey1s1()
@@ -284,14 +305,26 @@ export default {
 </script>
 
 <style scoped>
-  /* Styles */
-  #save-button {
+  /* Button Styles */
+  .button-style {
     border-radius: 20px;
-    font-size:18px;
+    font-size:20px;
     font-family: Avenir;
     font-weight: bold;
     color: rgb(0, 0, 0);
     background: #9a9a9a;
+    border:1px solid #000;
+    width: 88px;
+    height: 88px;
+    margin: 5px;
+  }
+  .button-style:hover {
+    border-radius: 20px;
+    font-size:22px;
+    font-family: Avenir;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    background: #787878;
     border:1px solid #000;
     width: 88px;
     height: 88px;
