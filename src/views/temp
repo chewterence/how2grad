@@ -1,0 +1,28 @@
+    if (localStorage.getItem('y1s2Storage')) {
+      try {
+        this.y1s2 = JSON.parse(localStorage.getItem('y1s2Storage'))
+      } catch (e) {
+        localStorage.removeItem('y1s2Storage')
+      }
+    }
+    if (localStorage.getItem('y2s2Storage')) {
+      try {
+        this.y2s2 = JSON.parse(localStorage.getItem('y2s2Storage'))
+      } catch (e) {
+        localStorage.removeItem('y2s2Storage')
+      }
+    }
+    if (localStorage.getItem('y3s2Storage')) {
+      try {
+        this.y3s2 = JSON.parse(localStorage.getItem('y3s2Storage'))
+      } catch (e) {
+        localStorage.removeItem('y3s2Storage')
+      }
+    }
+    if (localStorage.getItem('y4s2Storage')) {
+      try {
+        this.y4s2 = JSON.parse(localStorage.getItem('y4s2Storage'))
+      } catch (e) {
+        localStorage.removeItem('y4s2Storage')
+      }
+    }
