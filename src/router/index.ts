@@ -19,11 +19,6 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ModuleInfo.vue')
   },
   {
-    path: '/calculator',
-    name: 'Calculator',
-    component: () => import('../views/Calculator.vue')
-  },
-  {
     path: '/moduletree',
     name: 'ModuleTree',
     component: () => import('../views/ModuleTree.vue')

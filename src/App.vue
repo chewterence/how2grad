@@ -16,10 +16,6 @@
             <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
             Module Information
         </router-link>
-        <router-link to="/calculator" id="nav-element">
-            <img alt="Logo" src="./assets/capcalculatorLogo.png" style="width:40px;height:40px;">
-            CAP Calculator
-        </router-link>
         </ul>
       </div>
         <hr>
