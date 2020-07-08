@@ -1,9 +1,5 @@
 <template>
   <div id="plan">
-    {{y2s1}}
-    {{y2s1Storage}}
-    <!-- {{y2s1}}
-    {{y2s1Storage}} -->
     <ul style="list-style: none; display: inline-flex;">
       <div id="Semester Block">
         <ul style="list-style: none; display: inline-flex;">
@@ -98,28 +94,28 @@ export default {
     // SEMESTER 1
     if (localStorage.getItem('y1s1Storage')) {
       try {
-        this.y1s1 = JSON.parse(localStorage.getItem('y1s1Storage'))
+        this.y1s1Storage = JSON.parse(localStorage.getItem('y1s1Storage'))
       } catch (e) {
         localStorage.removeItem('y1s1Storage')
       }
     }
     if (localStorage.getItem('y2s1Storage')) {
       try {
-        this.y2s1 = JSON.parse(localStorage.getItem('y2s1Storage'))
+        this.y2s1Storage = JSON.parse(localStorage.getItem('y2s1Storage'))
       } catch (e) {
         localStorage.removeItem('y2s1Storage')
       }
     }
     if (localStorage.getItem('y3s1Storage')) {
       try {
-        this.y3s1 = JSON.parse(localStorage.getItem('y3s1Storage'))
+        this.y3s1Storage = JSON.parse(localStorage.getItem('y3s1Storage'))
       } catch (e) {
         localStorage.removeItem('y3s1Storage')
       }
     }
     if (localStorage.getItem('y4s1Storage')) {
       try {
-        this.y4s1 = JSON.parse(localStorage.getItem('y4s1Storage'))
+        this.y4s1Storage = JSON.parse(localStorage.getItem('y4s1Storage'))
       } catch (e) {
         localStorage.removeItem('y4s1Storage')
       }
@@ -127,32 +123,40 @@ export default {
     // SEMESTER 2
     if (localStorage.getItem('y1s2Storage')) {
       try {
-        this.y1s2 = JSON.parse(localStorage.getItem('y1s2Storage'))
+        this.y1s2Storage = JSON.parse(localStorage.getItem('y1s2Storage'))
       } catch (e) {
         localStorage.removeItem('y1s2Storage')
       }
     }
     if (localStorage.getItem('y2s2Storage')) {
       try {
-        this.y2s2 = JSON.parse(localStorage.getItem('y2s2Storage'))
+        this.y2s2Storage = JSON.parse(localStorage.getItem('y2s2Storage'))
       } catch (e) {
         localStorage.removeItem('y2s2Storage')
       }
     }
     if (localStorage.getItem('y3s2Storage')) {
       try {
-        this.y3s2 = JSON.parse(localStorage.getItem('y3s2Storage'))
+        this.y3s2Storage = JSON.parse(localStorage.getItem('y3s2Storage'))
       } catch (e) {
         localStorage.removeItem('y3s2Storage')
       }
     }
     if (localStorage.getItem('y4s2Storage')) {
       try {
-        this.y4s2 = JSON.parse(localStorage.getItem('y4s2Storage'))
+        this.y4s2Storage = JSON.parse(localStorage.getItem('y4s2Storage'))
       } catch (e) {
         localStorage.removeItem('y4s2Storage')
       }
     }
+    this.y1s1 = this.y1s1Storage
+    this.y2s1 = this.y2s1Storage
+    this.y3s1 = this.y3s1Storage
+    this.y4s1 = this.y4s1Storage
+    this.y1s2 = this.y1s2Storage
+    this.y2s2 = this.y2s2Storage
+    this.y3s2 = this.y3s2Storage
+    this.y4s2 = this.y4s2Storage
   },
   methods: {
     // =================================================================== General Methods
@@ -184,14 +188,23 @@ export default {
       window.location.reload()
     },
     removeAll () {
-      this.removey1s1()
-      this.removey2s1()
-      this.removey3s1()
-      this.removey4s1()
-      this.removey1s2()
-      this.removey2s2()
-      this.removey3s2()
-      this.removey4s2()
+      this.y1s1Storage = []
+      this.y1s2Storage = []
+      this.y2s1Storage = []
+      this.y2s2Storage = []
+      this.y3s1Storage = []
+      this.y3s2Storage = []
+      this.y4s1Storage = []
+      this.y4s2Storage = []
+      this.y1s1 = []
+      this.y1s2 = []
+      this.y2s1 = []
+      this.y2s2 = []
+      this.y3s1 = []
+      this.y3s2 = []
+      this.y4s1 = []
+      this.y4s2 = []
+      this.saveAll()
       window.location.reload()
     },
     // ############################################################################### SEMESTER 1
@@ -203,9 +216,10 @@ export default {
     addy1s1 (value) {
       this.y1s1Storage.push(value.moduleCode)
       this.savey1s1()
+      window.location.reload()
     },
     removey1s1 (value) {
-      this.y1s1Storage = this.y1s1Storage.filter(mod => mod !== value)
+      this.y1s1Storage = this.y1s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s1()
     },
     // =================================================================== Y2S1
@@ -216,9 +230,10 @@ export default {
     addy2s1 (value) {
       this.y2s1Storage.push(value.moduleCode)
       this.savey2s1()
+      window.location.reload()
     },
     removey2s1 (value) {
-      this.y2s1Storage = this.y2s1Storage.filter(mod => mod !== value)
+      this.y2s1Storage = this.y2s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s1()
     },
     // =================================================================== Y3S1
@@ -229,9 +244,10 @@ export default {
     addy3s1 (value) {
       this.y3s1Storage.push(value.moduleCode)
       this.savey3s1()
+      window.location.reload()
     },
     removey3s1 (value) {
-      this.y3s1Storage = this.y3s1Storage.filter(mod => mod !== value)
+      this.y3s1Storage = this.y3s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s1()
     },
     // =================================================================== Y4S1
@@ -242,9 +258,10 @@ export default {
     addy4s1 (value) {
       this.y4s1Storage.push(value.moduleCode)
       this.savey4s1()
+      window.location.reload()
     },
     removey4s1 (value) {
-      this.y4s1Storage = this.y4s1Storage.filter(mod => mod !== value)
+      this.y4s1Storage = this.y4s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s1()
     },
     // ############################################################################### SEMESTER 2
@@ -256,9 +273,10 @@ export default {
     addy1s2 (value) {
       this.y1s2Storage.push(value.moduleCode)
       this.savey1s2()
+      window.location.reload()
     },
     removey1s2 (value) {
-      this.y1s2Storage = this.y1s2Storage.filter(mod => mod !== value)
+      this.y1s2Storage = this.y1s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s2()
     },
     // =================================================================== Y2S2
@@ -269,9 +287,10 @@ export default {
     addy2s2 (value) {
       this.y2s2Storage.push(value.moduleCode)
       this.savey2s2()
+      window.location.reload()
     },
     removey2s2 (value) {
-      this.y2s2Storage = this.y2s2Storage.filter(mod => mod !== value)
+      this.y2s2Storage = this.y2s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s2()
     },
     // =================================================================== Y3S2
@@ -282,9 +301,10 @@ export default {
     addy3s2 (value) {
       this.y3s2Storage.push(value.moduleCode)
       this.savey3s2()
+      window.location.reload()
     },
     removey3s2 (value) {
-      this.y3s2Storage = this.y3s2Storage.filter(mod => mod !== value)
+      this.y3s2Storage = this.y3s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s2()
     },
     // =================================================================== Y4S2
@@ -295,9 +315,10 @@ export default {
     addy4s2 (value) {
       this.y4s2Storage.push(value.moduleCode)
       this.savey4s2()
+      window.location.reload()
     },
     removey4s2 (value) {
-      this.y4s2Storage = this.y4s2Storage.filter(mod => mod !== value)
+      this.y4s2Storage = this.y4s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s2()
     }
   }
