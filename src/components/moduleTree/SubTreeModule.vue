@@ -9,7 +9,7 @@
               max-width="300"
               default
               :elevation="hover || related ? 24 : 3"
-              :color="hover || locked ? 'blue lighten-3' : modColour"
+              :color="hover || locked ? hoverColour : modColour"
               @click="toggleLockState"
               @mouseover="$emit('mouseover', moduleID)"
               @mouseleave="$emit('mouseleave', moduleID)"
@@ -37,13 +37,14 @@ export default {
     return {
       xthis: 0,
       ythis: 0,
-      greenMod: 'green lighten-2',
-      redMod: 'red lighten-2',
-      defaultMod: 'grey lighten-2',
+      greenModColour: 'green lighten-2',
+      redModColour: 'red lighten-2',
+      defaultModColour: 'grey lighten-2',
+      hoverColour: 'blue lighten-3',
+      cachedColour: '',
       state: 'default',
       componentKey: 0,
       locked: false,
-      cachedColour: '',
       frozen: false,
       related: false
     }
@@ -80,8 +81,9 @@ export default {
     },
 
     changeColour (newState) {
+      this.state = newState
+      const wtf = this.modColour
       if (!this.locked && !this.frozen) {
-        this.state = newState
         this.forceRender()
       }
     },
@@ -91,17 +93,18 @@ export default {
     },
 
     getColour () {
+      console.log(this.state + this.frozen)
       if (!this.frozen) {
         switch (this.state) {
           case 'red':
-            this.cachedColour = this.redMod
-            return this.redMod
+            this.cachedColour = this.redModColour
+            return this.redModColour
           case 'green':
-            this.cachedColour = this.greenMod
-            return this.greenMod
+            this.cachedColour = this.greenModColour
+            return this.greenModColour
           default:
-            this.cachedColour = this.defaultMod
-            return this.defaultMod
+            this.cachedColour = this.defaultModColour
+            return this.defaultModColour
         }
       } else {
         return this.cachedColour

@@ -39,7 +39,8 @@ export default {
       doneNodes: [],
       distanceMap: new Map(),
       edgeList: [],
-      componentKey: 0
+      componentKey: 0,
+      currLockedMod: ''
     }
   },
   methods: {
@@ -197,18 +198,41 @@ export default {
       this.updateEdges()
     },
     lockToggled (lockedMod) {
+      if (this.currLockedMod !== '' && this.currLockedMod !== lockedMod) {
+        document.getElementById('SubTreeModule' + this.currLockedMod).__vue__.locked = false
+        this.unfreezeRelated(this.currLockedMod)
+      }
+      if (document.getElementById('SubTreeModule' + lockedMod).__vue__.locked) {
+        this.unfreezeRelated(lockedMod)
+        this.currLockedMod = ''
+      } else {
+        this.freezeRelated(lockedMod)
+        this.currLockedMod = lockedMod
+      }
       document.getElementById('SubTreeModule' + lockedMod).__vue__.locked = !document.getElementById('SubTreeModule' + lockedMod).__vue__.locked
-      this.toggleRelatedFreeze(lockedMod)
     },
-    toggleRelatedFreeze (lockedMod) {
+    freezeRelated (lockedMod) {
+      this.colourEdges(lockedMod)
       this.edgeList.forEach(edge => {
         const lockedIndex = edge.findIndex(v => v === lockedMod)
         if (lockedIndex !== -1) {
-          edge[2] = 'defaultEdge'
-          edge[3] = !edge[3]
+          edge[3] = true
           const other = 1 - lockedIndex
           const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
-          otherModCard.frozen = !otherModCard.frozen
+          otherModCard.frozen = true
+        }
+      })
+      this.updateEdges()
+    },
+    unfreezeRelated (lockedMod) {
+      this.edgeList.forEach(edge => {
+        const lockedIndex = edge.findIndex(v => v === lockedMod)
+        if (lockedIndex !== -1) {
+          edge[3] = false
+          const other = 1 - lockedIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.frozen = false
+          otherModCard.changeColour('default')
         }
       })
       this.updateEdges()
