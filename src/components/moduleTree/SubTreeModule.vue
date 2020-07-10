@@ -5,7 +5,7 @@
         <v-hover>
           <template v-slot="{ hover }">
             <v-card class="mx-auto"
-              min-width="150"
+              min-width="125"
               max-width="300"
               default
               :elevation="hover || related ? 24 : 3"
@@ -16,7 +16,7 @@
               key="componentKey"
             >
               <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
-              <v-card-text class="text-sm-subtitle-1">{{moduleTitle}}</v-card-text>
+              <v-card-text class="text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
             </v-card>
           </template>
         </v-hover>
@@ -93,7 +93,6 @@ export default {
     },
 
     getColour () {
-      console.log(this.state + this.frozen)
       if (!this.frozen) {
         switch (this.state) {
           case 'red':

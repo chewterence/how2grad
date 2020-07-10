@@ -1,9 +1,8 @@
 <template>
     <v-container fluid>
-      <v-row class="subTreeModules" justify="center" my-5 v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
+      <v-row class="subTreeModules py-10" justify="center"  v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
         <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
           <SubTreeModule ref='subTreeMod'
-            v-if="numHopsList.length > 0"
             v-bind:moduleID='mod.modCode'
             v-on:pos-updated='updateEdges'
             v-on:lock-toggled="lockToggled"
@@ -114,22 +113,32 @@ export default {
       }
     },
     numHopsListOrdering () {
-      let upperList = []
-      let lowerList = []
       for (let hop = 1; hop < this.numHopsList.length; hop++) {
-        upperList = this.numHopsList[hop]
-        lowerList = this.numHopsList[hop - 1]
+        const upperList = this.numHopsList[hop]
+        const lowerList = this.numHopsList[hop - 1]
         let swapIndex = 0
         for (let LIndex = 0; LIndex < lowerList.length; LIndex++) {
           // bottom mod
           for (let UIndex = 0; UIndex < upperList.length; UIndex++) {
             // upper mod
-            if (lowerList[LIndex].childrenList.includes(upperList[UIndex].modCode)) {
-              swapIndex++
+            let isLinked = false
+            lowerList[LIndex].childrenList.forEach(modNode => {
+              if (modNode.modCode === upperList[UIndex].modCode) {
+                isLinked = true
+              }
+            })
+            if (isLinked) {
+              if (swapIndex < upperList.length - 1) {
+                swapIndex += 1
+              }
             } else if (swapIndex !== UIndex) {
+              // console.log('swapped at swapIndex: ' + swapIndex + ' and UIndex:' + UIndex)
               const temp = upperList[swapIndex]
               upperList[swapIndex] = upperList[UIndex]
               upperList[UIndex] = temp
+              // console.log('--------newPos------')
+              // console.log(upperList[swapIndex].modCode)
+              // console.log(upperList[UIndex].modCode)
             }
           }
         }

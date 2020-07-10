@@ -67,13 +67,13 @@ export default {
    .svg {
         width:100%;
         height:100%;
-        position: absolute;
+        position: relative;
         pointer-events: none;
         /* z-index: -100px; */
     }
     .svg line {
         stroke-width:5px;
-        position: absolute;
+        position: relative;
         /* z-index: -100px; */
     }
     .img-overlay-wrap {
