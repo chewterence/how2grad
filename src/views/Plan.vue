@@ -1,6 +1,5 @@
 <template>
   <div id="plan">
-    {{exportedModules}}
     <ul style="list-style: none; display: inline-flex;">
       <div id="Semester Block">
         <ul style="list-style: none; display: inline-flex;">
@@ -44,7 +43,7 @@
           Clear All
         </button>
         <button class="button-style" v-on:click="consolidateExports">
-          Create Tree
+          Update Tree
         </button>
       </ul>
     </ul>
@@ -177,7 +176,6 @@ export default {
       this.exportedModules.push(this.y4s2Storage)
       this.exportedModules = this.exportedModules.flat()
       this.saveExports()
-      window.location.reload()
     },
     loadPlan () {
       // Semester 1
