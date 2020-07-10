@@ -44,7 +44,6 @@ export default {
       this.y2 = Vue.prototype.$ycoordinates[index2]
     },
     updateEdge () {
-      // console.log('---(' + this.x1 + ',' + this.y1 + ')' + '(' + this.x2 + ',' + this.y2 + ')')
       this.constructEdge(this.v1, this.v2)
       this.forceRender()
     },
@@ -52,27 +51,11 @@ export default {
       this.strokeColour = this.edge[2]
       this.componentKey += 1
     }
-    // ,
-    // greenEdge () {
-    //   this.strokeColour = 'greenEdge'
-    // },
-    // redEdge () {
-    //   this.strokeColour = 'redEdge'
-    // },
-    // revertEdge () {
-    //   this.strokeColour = 'defaultEdge'
-    // }
   },
   props: ['edge'],
   mounted () {
     this.constructEdge(this.edge[0], this.edge[1])
   }
-  // ,
-  // computed: {
-  //   strokeColour: function () {
-  //     return this.edge[2]
-  //   }
-  // }
 }
 </script>
 
@@ -85,7 +68,6 @@ export default {
         z-index: -100px;
     }
     .svg line {
-        /* stroke:#000; */
         stroke-width:5px;
         position: absolute;
         z-index: -100px;

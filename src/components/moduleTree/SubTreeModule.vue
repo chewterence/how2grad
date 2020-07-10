@@ -2,19 +2,14 @@
   <v-container class="text-center">
     <v-row justify="center">
       <v-col ref='pos-moduleCode'>
-        <!-- <div
-          class="pa-6 text-center grey lighten-2 rounded-lg"
-          v-text="moduleID"
-          ref='pos-moduleCode'
-        > -->
         <v-hover>
           <template v-slot="{ hover }">
             <v-card class="mx-auto"
               min-width="150"
               max-width="300"
               default
-              :class="hover ? 'hoverClass' : 'defaultClass'"
               :elevation="hover ? 24 : 3"
+              :color="hover ? 'blue lighten-3' : 'grey lighten-2'"
               @mouseover="$emit('mouseover', moduleID)"
               @mouseleave="$emit('mouseleave', moduleID)"
             >
@@ -50,7 +45,6 @@ export default {
       // calculate middle coordinate of element for constructing edges
       this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
-      // console.log(this.xthis + ', ' + this.ythis)
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
       Vue.prototype.$modcoordinates.push(this.moduleID)
@@ -88,15 +82,11 @@ export default {
 </script>
 
 <style scoped>
-  /* .active {
-    background: brown;
-    elevation: 24
-  } */
   .defaultClass {
-    background: lightgrey;
+    background: rgb(211, 211, 211);
   }
 
   .hoverClass {
-    background: lightblue;
+    background: rgb(171, 210, 223);
   }
 </style>
