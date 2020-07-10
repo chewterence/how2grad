@@ -1,5 +1,6 @@
 <template>
   <div id="plan">
+    {{exportedModules}}
     <ul style="list-style: none; display: inline-flex;">
       <div id="Semester Block">
         <ul style="list-style: none; display: inline-flex;">
@@ -40,7 +41,10 @@
           Load
         </button>
         <button class="button-style" v-on:click="removeAll">
-          Clear
+          Clear All
+        </button>
+        <button class="button-style" v-on:click="consolidateExports">
+          Create Tree
         </button>
       </ul>
     </ul>
@@ -49,6 +53,7 @@
 
 <script>
 import Semester from '../components/Semester.vue'
+import Vue from 'vue'
 
 export default {
   name: 'Plan',
@@ -57,6 +62,7 @@ export default {
   },
   data () {
     return {
+      exportedModules: [],
       // Testing preloaded planned data (COMMENT THESE OUT FOR CLEAN SLATE)
       // // Semester 1
       // y1s1: ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521'],
@@ -160,6 +166,19 @@ export default {
   },
   methods: {
     // =================================================================== General Methods
+    consolidateExports () {
+      this.exportedModules.push(this.y1s1Storage)
+      this.exportedModules.push(this.y2s1Storage)
+      this.exportedModules.push(this.y3s1Storage)
+      this.exportedModules.push(this.y4s1Storage)
+      this.exportedModules.push(this.y1s2Storage)
+      this.exportedModules.push(this.y2s2Storage)
+      this.exportedModules.push(this.y3s2Storage)
+      this.exportedModules.push(this.y4s2Storage)
+      this.exportedModules = this.exportedModules.flat()
+      this.saveExports()
+      window.location.reload()
+    },
     loadPlan () {
       // Semester 1
       this.y1s1Storage = ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521']
@@ -206,6 +225,19 @@ export default {
       this.y4s2 = []
       this.saveAll()
       window.location.reload()
+    },
+    // Exported Modules
+    saveExports () {
+      const parsed = JSON.stringify(this.exportedModules)
+      localStorage.setItem('exportedModules', parsed)
+    },
+    addExports (value) {
+      this.exportedModules.push(value.moduleCode)
+      this.saveExports()
+    },
+    removeExports (value) {
+      this.exportedModules = this.exportedModules.filter(mod => mod !== value.moduleCode)
+      this.saveExports()
     },
     // ############################################################################### SEMESTER 1
     // =================================================================== Y1S1
@@ -329,7 +361,7 @@ export default {
   /* Button Styles */
   .button-style {
     border-radius: 20px;
-    font-size:20px;
+    font-size:22px;
     font-family: Avenir;
     font-weight: bold;
     color: rgb(0, 0, 0);
@@ -341,7 +373,7 @@ export default {
   }
   .button-style:hover {
     border-radius: 20px;
-    font-size:22px;
+    font-size:24px;
     font-family: Avenir;
     font-weight: bold;
     color: rgb(0, 0, 0);

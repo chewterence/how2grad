@@ -1,6 +1,5 @@
 <template>
   <div class="img-overlay-wrap">
-      <h1>Bachelor of Computing (Honours) in Computer Science</h1>
         <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
     <!-- <v-container
       id="scroll-target"
@@ -28,18 +27,12 @@ export default {
   },
   data () {
     return {
-      requiredModules: [
-        'CS1010', 'CS1231', 'MA1521', 'MA1101R', 'ES1103', 'IS1103',
-        'CS2100', 'CS2030', 'CS2040S', 'ES2660', 'MA1301', 'ST2334',
-        'CS2106', 'CS3230', 'CS2103', 'CS2101', 'CS2105',
-        'CS6207', 'CS4248', 'CS3243'
-        // 'CS6216', 'CS3244'
-      ],
       moduleData: new Map(),
       modulePrereqData: new Map(),
       test: 1
     }
   },
+  props: ['requiredModules'],
   methods: {
     initData () {
       const promises = []

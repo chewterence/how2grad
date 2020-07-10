@@ -22,6 +22,7 @@ const routes: Array<RouteConfig> = [
     path: '/moduletree',
     name: 'ModuleTree',
     component: () => import('../views/ModuleTree.vue')
+    // props: true
   }
 ]
 
