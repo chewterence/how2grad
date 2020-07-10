@@ -19,7 +19,8 @@ export default {
       v1: '',
       v2: '',
       componentKey: 0,
-      strokeColour: this.edge[2]
+      strokeColour: this.edge[2],
+      frozen: this.edge[3]
     }
   },
   methods: {
@@ -48,7 +49,10 @@ export default {
       this.forceRender()
     },
     forceRender () {
-      this.strokeColour = this.edge[2]
+      this.frozen = this.edge[3]
+      if (!this.frozen) {
+        this.strokeColour = this.edge[2]
+      }
       this.componentKey += 1
     }
   },
@@ -65,22 +69,22 @@ export default {
         height:100%;
         position: absolute;
         pointer-events: none;
-        z-index: -100px;
+        /* z-index: -100px; */
     }
     .svg line {
         stroke-width:5px;
         position: absolute;
-        z-index: -100px;
+        /* z-index: -100px; */
     }
     .img-overlay-wrap {
         position: absolute;
-        z-index: -100px;
+        /* z-index: -100px; */
     }
     .img-overlay-wrap svg {
         position: absolute;
         top: 0;
         left: 0;
-        z-index: -100px;
+        /* z-index: -100px; */
     }
     .defaultEdge {
       stroke: #000

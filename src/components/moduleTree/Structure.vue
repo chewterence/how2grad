@@ -102,10 +102,6 @@ export default {
       }
     },
 
-    // onScroll (e) {
-    //   console.log(e.target.scrollTop)
-    // },
-
     genSubTreeSets () {
       // todo make effecient later on
       this.initMap()

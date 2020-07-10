@@ -6,6 +6,7 @@
             v-if="numHopsList.length > 0"
             v-bind:moduleID='mod.modCode'
             v-on:pos-updated='updateEdges'
+            v-on:lock-toggled="lockToggled"
             @mouseover="colourEdges"
             @mouseleave="revertEdges"
             :id="'SubTreeModule' + mod.modCode"
@@ -75,7 +76,7 @@ export default {
               numHops: currModNode.numHops + 1,
               childrenList: []
             }
-            this.edgeList.push([modCode, currModNode.modCode, 'defaultEdge'])
+            this.edgeList.push([modCode, currModNode.modCode, 'defaultEdge', false])
             const numHops = modNode.numHops
             // check if child has been visited before
             if (this.distanceMap.get(modCode) === undefined) {
@@ -156,19 +157,24 @@ export default {
     onResize () {
       this.$refs.subTreeMod.forEach(subTreeMod => subTreeMod.updatePos())
       this.updateEdges()
-      console.log('resized')
     },
+    // can improve effeciency
     colourEdges (hoveredModCode) {
       this.edgeList.forEach(edge => {
         const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
         if (hoveredIndex !== -1) {
           const other = 1 - hoveredIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
           if (this.modulePrereqData.get(edge[hoveredIndex]) !== undefined && this.modulePrereqData.get(edge[hoveredIndex]).has(this.stripModifier(edge[other]))) {
-            console.log('red ' + edge[other])
             edge[2] = 'redEdge'
+            if (!otherModCard.frozen) {
+              otherModCard.changeColour('red')
+            }
           } else if (this.modulePrereqData.get(edge[other]) !== undefined && this.modulePrereqData.get(edge[other]).has(this.stripModifier(hoveredModCode))) {
-            console.log('green ' + edge[other])
             edge[2] = 'greenEdge'
+            if (!otherModCard.frozen) {
+              otherModCard.changeColour('green')
+            }
           }
         }
       })
@@ -179,6 +185,28 @@ export default {
         const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
         if (hoveredIndex !== -1) {
           edge[2] = 'defaultEdge'
+          const other = 1 - hoveredIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          if (!document.getElementById('SubTreeModule' + edge[other]).__vue__.frozen) {
+            otherModCard.changeColour('default')
+          }
+        }
+      })
+      this.updateEdges()
+    },
+    lockToggled (lockedMod) {
+      document.getElementById('SubTreeModule' + lockedMod).__vue__.locked = !document.getElementById('SubTreeModule' + lockedMod).__vue__.locked
+      this.toggleRelatedFreeze(lockedMod)
+    },
+    toggleRelatedFreeze (lockedMod) {
+      this.edgeList.forEach(edge => {
+        const lockedIndex = edge.findIndex(v => v === lockedMod)
+        if (lockedIndex !== -1) {
+          edge[2] = 'defaultEdge'
+          edge[3] = !edge[3]
+          const other = 1 - lockedIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.frozen = !otherModCard.frozen
         }
       })
       this.updateEdges()
