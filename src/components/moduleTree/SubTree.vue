@@ -165,6 +165,7 @@ export default {
         if (hoveredIndex !== -1) {
           const other = 1 - hoveredIndex
           const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.related = true
           if (this.modulePrereqData.get(edge[hoveredIndex]) !== undefined && this.modulePrereqData.get(edge[hoveredIndex]).has(this.stripModifier(edge[other]))) {
             edge[2] = 'redEdge'
             if (!otherModCard.frozen) {
@@ -187,6 +188,7 @@ export default {
           edge[2] = 'defaultEdge'
           const other = 1 - hoveredIndex
           const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.related = false
           if (!document.getElementById('SubTreeModule' + edge[other]).__vue__.frozen) {
             otherModCard.changeColour('default')
           }

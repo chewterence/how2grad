@@ -8,7 +8,7 @@
               min-width="150"
               max-width="300"
               default
-              :elevation="hover ? 24 : 3"
+              :elevation="hover || related ? 24 : 3"
               :color="hover || locked ? 'blue lighten-3' : modColour"
               @click="toggleLockState"
               @mouseover="$emit('mouseover', moduleID)"
@@ -44,7 +44,8 @@ export default {
       componentKey: 0,
       locked: false,
       cachedColour: '',
-      frozen: false
+      frozen: false,
+      related: false
     }
   },
   props: ['moduleID', 'nodeData', 'moduleData'],
