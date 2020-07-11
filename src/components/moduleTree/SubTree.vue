@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-      <v-row class="subTreeModules py-10" justify="center"  v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
+      <v-row class="subTreeModules pb-15" justify="center"  v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
         <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
           <SubTreeModule ref='subTreeMod'
             v-bind:moduleID='mod.modCode'
@@ -119,27 +119,42 @@ export default {
         let swapIndex = 0
         for (let LIndex = 0; LIndex < lowerList.length; LIndex++) {
           // bottom mod
+          console.log('******LMod: ' + lowerList[LIndex].modCode + ' ******')
+          console.log(lowerList[LIndex].childrenList)
+
           for (let UIndex = 0; UIndex < upperList.length; UIndex++) {
             // upper mod
             let isLinked = false
             lowerList[LIndex].childrenList.forEach(modNode => {
               if (modNode.modCode === upperList[UIndex].modCode) {
+                console.log(modNode.modCode)
                 isLinked = true
               }
             })
+
             if (isLinked) {
+              if (swapIndex !== UIndex) {
+                const temp = upperList[swapIndex]
+                upperList[swapIndex] = upperList[UIndex]
+                upperList[UIndex] = temp
+              }
               if (swapIndex < upperList.length - 1) {
                 swapIndex += 1
               }
-            } else if (swapIndex !== UIndex) {
-              // console.log('swapped at swapIndex: ' + swapIndex + ' and UIndex:' + UIndex)
-              const temp = upperList[swapIndex]
-              upperList[swapIndex] = upperList[UIndex]
-              upperList[UIndex] = temp
-              // console.log('--------newPos------')
-              // console.log(upperList[swapIndex].modCode)
-              // console.log(upperList[UIndex].modCode)
             }
+            // if (isLinked) {
+            //   if (swapIndex < upperList.length - 1) {
+            //     swapIndex += 1
+            //   }
+            // } else if (swapIndex !== UIndex) {
+            //   console.log('swapped at swapIndex: ' + swapIndex + ' and UIndex:' + UIndex)
+            //   const temp = upperList[swapIndex]
+            //   upperList[swapIndex] = upperList[UIndex]
+            //   upperList[UIndex] = temp
+            //   console.log('--------newPos------' + hop)
+            //   console.log(upperList[swapIndex].modCode)
+            //   console.log(upperList[UIndex].modCode)
+            // }
           }
         }
       }
