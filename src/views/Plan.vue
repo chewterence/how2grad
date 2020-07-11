@@ -1,67 +1,79 @@
 <template>
-  <div id="plan">
-    <ul style="list-style: none; display: inline-flex;">
-      <div id="Semester Block">
-        <ul style="list-style: none; display: inline-flex;">
-          <div id="y1s1">
-            <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1" v-on:removeModule="removey1s1"/>
-          </div>
-          <div id="y2s1">
-            <Semester v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1"/>
-          </div>
-          <div id="y3s1">
-            <Semester v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1"/>
-          </div>
-          <div id="y4s1">
-            <Semester v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1"/>
-          </div>
+  <v-container fluid>
+    <!-- <v-row>
+      <v-col v-for="year in numYears" :key="year+1">
+        <YearPillar :title="year"/>
+      </v-col>
+    </v-row> -->
+
+    <div id="plan">
+      <ul style="list-style: none; display: inline-flex;">
+        <div id="Semester Block">
+          <ul style="list-style: none; display: inline-flex;">
+            <div id="y1s1">
+              <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1" v-on:removeModule="removey1s1"/>
+            </div>
+            <div id="y2s1">
+              <Semester v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1"/>
+            </div>
+            <div id="y3s1">
+              <Semester v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1"/>
+            </div>
+            <div id="y4s1">
+              <Semester v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1"/>
+            </div>
+          </ul>
+          <br>
+          <ul style="list-style: none; display: inline-flex;">
+            <div id="y1s2">
+              <Semester v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2"/>
+            </div>
+            <div id="y2s2">
+              <Semester v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2"/>
+            </div>
+            <div id="y3s2">
+              <Semester v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2"/>
+            </div>
+            <div id="y4s2">
+              <Semester v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2"/>
+            </div>
+          </ul>
+        </div>
+        <ul>
+          <button class="button-style" v-on:click="saveAll">
+            Save
+          </button>
+          <button class="button-style" v-on:click="loadPlan">
+            Load
+          </button>
+          <button class="button-style" v-on:click="removeAll">
+            Clear All
+          </button>
+          <button class="button-style" v-on:click="consolidateExports">
+            Update Tree
+          </button>
         </ul>
-        <br>
-        <ul style="list-style: none; display: inline-flex;">
-          <div id="y1s2">
-            <Semester v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2"/>
-          </div>
-          <div id="y2s2">
-            <Semester v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2"/>
-          </div>
-          <div id="y3s2">
-            <Semester v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2"/>
-          </div>
-          <div id="y4s2">
-            <Semester v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2"/>
-          </div>
-        </ul>
-      </div>
-      <ul>
-        <button class="button-style" v-on:click="saveAll">
-          Save
-        </button>
-        <button class="button-style" v-on:click="loadPlan">
-          Load
-        </button>
-        <button class="button-style" v-on:click="removeAll">
-          Clear All
-        </button>
-        <button class="button-style" v-on:click="consolidateExports">
-          Update Tree
-        </button>
       </ul>
-    </ul>
-  </div>
+    </div>
+  </v-container>
 </template>
 
 <script>
 import Semester from '../components/Semester.vue'
+// import YearPillar from '../components/YearPillar.vue'
 import Vue from 'vue'
 
 export default {
   name: 'Plan',
   components: {
     Semester
+    // YearPillar
   },
   data () {
     return {
-      exportedModules: [],
+      // inputNumYears: -1,
+      // defaultNumYears: 4,
+      // exportedModules: [],
       // Testing preloaded planned data (COMMENT THESE OUT FOR CLEAN SLATE)
       // // Semester 1
       // y1s1: ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521'],
@@ -350,6 +362,15 @@ export default {
     removey4s2 (value) {
       this.y4s2Storage = this.y4s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s2()
+    }
+  },
+  computed: {
+    numYears: function () {
+      if (this.inputNumYears < 1) {
+        return this.defaultNumYears
+      } else {
+        return this.inputNumYears
+      }
     }
   }
 }
