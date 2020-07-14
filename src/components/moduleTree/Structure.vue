@@ -1,16 +1,28 @@
 <template>
-    <v-container>
-      <v-row class="z-index 100px justify center mb-15"  v-for="entry in setMap" v-bind:key="entry[0]">
+    <v-container fluid>
+      <v-row justify="center">
+        <v-col class="text-xl-h2 pb-0">
+        Related Module Trees
+        </v-col>
+      </v-row>
+      <v-row class="z-index 100px justify center mb-15" v-for="entry in treesMap" v-bind:key="entry[0]">
         <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules' :moduleData='moduleData'/>
+      </v-row>
+      <v-row justify="center">
+        <v-col class="text-xl-h2">
+        Standalone Modules
+        </v-col>
+      </v-row>
+      <v-row>
+        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData"/>
       </v-row>
     </v-container>
 </template>
 
 <script>
 import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
-import axios from 'axios'
 import SubTree from './SubTree.vue'
+import SingleMods from './SingleMods.vue'
 
 Vue.prototype.$xcoordinates = []
 Vue.prototype.$ycoordinates = []
@@ -19,14 +31,16 @@ Vue.prototype.$modcoordinates = []
 export default {
   name: 'Structure',
   components: {
-    SubTree
+    SubTree,
+    SingleMods
   },
   data () {
     return {
       parentMap: new Map(),
       sizeMap: new Map(),
       setMap: new Map(),
-      test: -100
+      treesMap: new Map(),
+      unlinkedModsList: []
     }
   },
   methods: {
@@ -38,7 +52,6 @@ export default {
         this.setMap.set(moduleCode, new Set().add(moduleCode))
       })
     },
-
     findParent (moduleCode) {
       let pCode = this.parentMap.get(moduleCode)
       while (pCode !== moduleCode) {
@@ -47,11 +60,9 @@ export default {
       }
       return pCode
     },
-
     isSameSet (moduleCode1, moduleCode2) {
       return this.findParent(moduleCode1) === this.findParent(moduleCode2)
     },
-
     isPreReq (moduleCode1, moduleCode2) {
       if (this.modulePrereqData.get(moduleCode1) === undefined && this.modulePrereqData.get(moduleCode2) !== undefined) {
         const module2PrereqTree = this.modulePrereqData.get(moduleCode2)
@@ -79,7 +90,6 @@ export default {
         return false
       }
     },
-
     union (moduleCode1, moduleCode2) {
       const p1 = this.findParent(moduleCode1)
       const p2 = this.findParent(moduleCode2)
@@ -88,7 +98,7 @@ export default {
         this.sizeMap.set(p2, this.sizeMap.get(p2) + this.sizeMap.get(p1))
         this.sizeMap.set(p1, 0)
         const currSet = this.setMap.get(p2)
-        this.setMap.get(p1).forEach((value, valueAgain, set) => currSet.add(value))
+        this.setMap.get(p1).forEach((value) => currSet.add(value))
         this.setMap.set(p2, currSet)
         this.setMap.delete(p1)
       } else {
@@ -96,16 +106,11 @@ export default {
         this.sizeMap.set(p1, this.sizeMap.get(p1) + this.sizeMap.get(p2))
         this.sizeMap.set(p2, 0)
         const currSet = this.setMap.get(p1)
-        this.setMap.get(p2).forEach((value, valueAgain, set) => currSet.add(value))
+        this.setMap.get(p2).forEach((value) => currSet.add(value))
         this.setMap.set(p1, currSet)
         this.setMap.delete(p2)
       }
     },
-
-    // onScroll (e) {
-    //   console.log(e.target.scrollTop)
-    // },
-
     genSubTreeSets () {
       // todo make effecient later on
       this.initMap()
@@ -123,8 +128,18 @@ export default {
           }
         }
       }
+      this.getTrees()
       console.log('subTreeSetsGenerated')
       this.$forceUpdate()
+    },
+    getTrees () {
+      this.setMap.forEach((value, key) => {
+        if (value.size > 1) {
+          this.treesMap.set(key, value)
+        } else {
+          this.unlinkedModsList.push(key)
+        }
+      })
     }
   },
   props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData'],

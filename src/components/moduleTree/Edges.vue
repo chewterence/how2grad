@@ -19,7 +19,8 @@ export default {
       v1: '',
       v2: '',
       componentKey: 0,
-      strokeColour: this.edge[2]
+      strokeColour: this.edge[2],
+      frozen: this.edge[3]
     }
   },
   methods: {
@@ -44,35 +45,21 @@ export default {
       this.y2 = Vue.prototype.$ycoordinates[index2]
     },
     updateEdge () {
-      // console.log('---(' + this.x1 + ',' + this.y1 + ')' + '(' + this.x2 + ',' + this.y2 + ')')
       this.constructEdge(this.v1, this.v2)
       this.forceRender()
     },
     forceRender () {
-      this.strokeColour = this.edge[2]
+      this.frozen = this.edge[3]
+      if (!this.frozen) {
+        this.strokeColour = this.edge[2]
+      }
       this.componentKey += 1
     }
-    // ,
-    // greenEdge () {
-    //   this.strokeColour = 'greenEdge'
-    // },
-    // redEdge () {
-    //   this.strokeColour = 'redEdge'
-    // },
-    // revertEdge () {
-    //   this.strokeColour = 'defaultEdge'
-    // }
   },
   props: ['edge'],
   mounted () {
     this.constructEdge(this.edge[0], this.edge[1])
   }
-  // ,
-  // computed: {
-  //   strokeColour: function () {
-  //     return this.edge[2]
-  //   }
-  // }
 }
 </script>
 
@@ -80,25 +67,24 @@ export default {
    .svg {
         width:100%;
         height:100%;
-        position: absolute;
+        position: relative;
         pointer-events: none;
-        z-index: -100px;
+        /* z-index: -100px; */
     }
     .svg line {
-        /* stroke:#000; */
         stroke-width:5px;
-        position: absolute;
-        z-index: -100px;
+        position: relative;
+        /* z-index: -100px; */
     }
     .img-overlay-wrap {
         position: absolute;
-        z-index: -100px;
+        /* z-index: -100px; */
     }
     .img-overlay-wrap svg {
         position: absolute;
         top: 0;
         left: 0;
-        z-index: -100px;
+        /* z-index: -100px; */
     }
     .defaultEdge {
       stroke: #000
