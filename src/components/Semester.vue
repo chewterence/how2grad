@@ -1,9 +1,24 @@
 <template>
-    <div class="semester-box">
+  <v-container>
+    <v-card>
+      <v-card-title class="headline pb-0 justify-center">{{title}}</v-card-title>
+      <v-row class="py-1 justify-center" v-for="mod in modules" v-bind:key="mod.moduleCode">
+        <Module v-bind:module='mod' v-on:removeModule="removeModule"/>
+      </v-row>
+      <v-text-field
+        justify="center"
+        class="px-3 py-1"
+        label="Search to Add Modules"
+        hint="For example, MA1521 or CS1231S"
+        outlined
+        v-on:keyup.enter="test"
+        v-model="searchModuleCode"
+      ></v-text-field>
+    </v-card>
+    <!-- <div class="semester-box">
         <div class="semester-title">
           {{title}}
         </div>
-          <!-- {{plannedModules}} -->
         <div class="module-search" v-if="isHidden">
           <SearchBox v-on:minimize="isHidden = false" v-on:addModule="addModule"/>
         </div>
@@ -17,24 +32,25 @@
             </div>
           </li>
         </ul>
-    </div>
+    </div> -->
+  </v-container>
 </template>
 
 <script>
 // import Vue from 'vue'
 import Module from '../components/Module.vue'
-import SearchBox from '../components/SearchBox/SearchBox.vue'
+// import SearchBox from '../components/SearchBox/SearchBox.vue'
 import axios from 'axios'
 
 export default {
   name: 'Semester',
   components: {
-    Module,
-    SearchBox
+    Module
   },
   data () {
     return {
-      isHidden: false
+      isHidden: false,
+      searchModuleCode: ''
     }
   },
   methods: {
@@ -49,18 +65,12 @@ export default {
     removeModule (value) {
       this.modules = this.modules.filter(mod => mod !== value)
       this.$emit('removeModule', value)
+    },
+    test () {
+      console.log('123')
     }
   },
-  props: ['title', 'modules', 'plannedModules'],
-  created (modules) {
-    // if (!(this.plannedModules.length === 0)) {
-    axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
-      .then(response => (
-        this.modules = response.data.filter(mod => this.plannedModules.includes(mod.moduleCode)))
-      )
-      .catch(err => console.log(err))
-    // }
-  }
+  props: ['title', 'modules', 'plannedModules']
 }
 </script>
 

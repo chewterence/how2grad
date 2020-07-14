@@ -1,12 +1,12 @@
 <template>
   <v-container fluid>
-    <!-- <v-row>
+    <v-row justify="center">
       <v-col v-for="year in numYears" :key="year+1">
-        <YearPillar :title="year"/>
+        <YearPillar :title="year" :plannedModules='y1s1'/>
       </v-col>
-    </v-row> -->
+    </v-row>
 
-    <div id="plan">
+    <!-- <div id="plan">
       <ul style="list-style: none; display: inline-flex;">
         <div id="Semester Block">
           <ul style="list-style: none; display: inline-flex;">
@@ -54,26 +54,28 @@
           </button>
         </ul>
       </ul>
-    </div>
+    </div> -->
   </v-container>
 </template>
 
 <script>
-import Semester from '../components/Semester.vue'
-// import YearPillar from '../components/YearPillar.vue'
+// import Semester from '../components/Semester.vue'
+import YearPillar from '../components/YearPillar.vue'
 import Vue from 'vue'
+import axios from 'axios'
 
 export default {
   name: 'Plan',
   components: {
-    Semester
-    // YearPillar
+    // Semester,
+    YearPillar
   },
   data () {
     return {
-      // inputNumYears: -1,
-      // defaultNumYears: 4,
-      // exportedModules: [],
+      inputNumYears: -1,
+      defaultNumYears: 4,
+      exportedModules: [],
+      fullModData: new Map(),
       // Testing preloaded planned data (COMMENT THESE OUT FOR CLEAN SLATE)
       // // Semester 1
       // y1s1: ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521'],
@@ -108,6 +110,14 @@ export default {
     }
   },
   mounted () {
+    axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
+      .then(response => (
+        response.data.forEach(moduleData => {
+          this.fullModData.set(moduleData.moduleCode, moduleData)
+        })
+      ))
+      .catch(err => console.log(err))
+
     // SEMESTER 1
     if (localStorage.getItem('y1s1Storage')) {
       try {

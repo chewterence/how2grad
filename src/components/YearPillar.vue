@@ -1,126 +1,68 @@
 <template>
   <v-container>
-    <v-card class="mb-5">
+    <Semester :title="'Year ' + title + ' ' + 'Sem 1'" :plannedModules='plannedModules'/>
+    <!-- <v-card class="mb-5">
       <v-card-title class="headline justify-center">Year {{title}} Sem 1</v-card-title>
-    </v-card>
-    <v-card class="mb-5">
-      <v-card-title class="headline justify-center">Year {{title}} Sem 2</v-card-title>
-    </v-card>
-    <v-card v-if="specialTerm1" class="mb-5">
-      <v-card-title class="headline justify-center">Year {{title}} Special Term 1</v-card-title>
-    </v-card>
-    <v-card v-if="specialTerm2" class="mb-5">
-      <v-card-title class="headline justify-center">Year {{title}} Special Term 1</v-card-title>
-    </v-card>
+    </v-card> -->
+    <Semester :title="'Year ' + title + ' ' + 'Sem 2'" :plannedModules='plannedModules'/>
+    <Semester v-if="specialTerm1" :title="'Year ' + title + ' ' + 'Special Term 1'" :plannedModules='plannedModules'/>
+    <Semester v-if="specialTerm2" :title="'Year ' + title + ' ' + 'Special Term 2'" :plannedModules='plannedModules'/>
+
+    <v-row>
+      <v-col>
+        <v-btn @click="toggleST(1)" class="text-sm-subtitle-2">{{st1Message}}</v-btn>
+      </v-col>
+      <v-col>
+        <v-btn @click="toggleST(2)" class="text-sm-subtitle-2">{{st2Message}}</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
-  <!-- <div class="semester-box">
-      <div class="semester-title">
-        {{title}}
-      </div>
-      <div class="module-search" v-if="isHidden">
-        <SearchBox v-on:minimize="isHidden = false" v-on:addModule="addModule"/>
-      </div>
-      <button id="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
-        + Add Module
-      </button>
-      <ul style="list-style: none;">
-        <li class="module-list" v-for="mod in modules" v-bind:key="mod.moduleCode">
-          <div class="module-element">
-            <Module v-bind:module='mod' v-on:removeModule="removeModule"/>
-          </div>
-        </li>
-      </ul>
-  </div> -->
 </template>
 
 <script>
-// import Vue from 'vue'
-// import Module from '../components/Module.vue'
-// import SearchBox from '../components/SearchBox/SearchBox.vue'
-// import axios from 'axios'
+import Semester from '../components/Semester.vue'
 
 export default {
   name: 'YearPillar',
   components: {
-    // Module,
-    // SearchBox
+    Semester
   },
   data () {
     return {
-      isHidden: false,
       specialTerm1: false,
-      specialTerm2: false
+      st1Message: 'Add Special Term 1',
+      specialTerm2: false,
+      st2Message: 'Add Special Term 2'
     }
   },
   methods: {
-    // minimizeSearch (value) {
-    //   this.isHidden = value
-    // },
-    // addModule (value) {
-    //   this.isHidden = false
-    //   this.modules.push(value)
-    //   this.$emit('addModule', value)
-    // },
-    // removeModule (value) {
-    //   this.modules = this.modules.filter(mod => mod !== value)
-    //   this.$emit('removeModule', value)
-    // }
+    toggleST (termToToggle) {
+      switch (termToToggle) {
+        case 1:
+          this.specialTerm1 = !this.specialTerm1
+          if (this.specialTerm1) {
+            this.st1Message = 'Remove Special Term 1'
+          } else {
+            this.st1Message = 'Add Special Term 1'
+          }
+          break
+        case 2:
+          this.specialTerm2 = !this.specialTerm2
+          if (this.specialTerm2) {
+            this.st2Message = 'Remove Special Term 2'
+          } else {
+            this.st2Message = 'Add Special Term 2'
+          }
+          break
+        default:
+          console.log('INVALID ST NUMBER')
+      }
+    }
   },
-  props: ['title'],
-  created (modules) {
-    // // if (!(this.plannedModules.length === 0)) {
-    // axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
-    //   .then(response => (
-    //     this.modules = response.data.filter(mod => this.plannedModules.includes(mod.moduleCode)))
-    //   )
-    //   .catch(err => console.log(err))
-    // // }
-  }
+  props: ['title', 'plannedModules']
 }
 </script>
 
 <style scoped>
-  .semester-title {
-    font-size:26px;
-    font-weight: bold;
-    margin: 1px;
-  }
-  .semester-box {
-    border-radius: 25px;
-    width:400px;
-    height:525px;
-    background-color: rgb(114, 114, 114);
-    border:1px solid #000;
-    padding: 5px;
-    color: rgb(0, 0, 0);
-  }
-  .module-element {
-    /* position: relative; */
-    float: right;
-    padding: 2px;
-    text-align: left;
-  }
-  #add-module-button {
-    border-radius: 20px;
-    font-size:18px;
-    font-family: Avenir;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    border:1px solid #000;
-    width: 99%;
-    height: 10%;
-    top: 82%;
-  }
-  #add-module-button:hover {
-    border-radius: 20px;
-    font-size:21px;
-    font-family: Avenir;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    background: #dfdfdf;
-    border:1px solid #000;
-    width: 99%;
-    height: 10%;
-    top: 82%;
-  }
+
 </style>

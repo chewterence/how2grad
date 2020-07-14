@@ -1,15 +1,15 @@
 <template>
-  <div class='module-box'>
-        <button v-on:click="removeModule" id="remove-button">
-          x
-        </button>
-        <div class='moduleCode-text'>
-            {{module.moduleCode}}
-        </div>
-        <div class='title-text'>
-            {{module.title}}
-        </div>
-  </div>
+  <v-container>
+    <v-card
+      class="mx-auto"
+      min-width="125"
+      max-width="300"
+      @click="removeModule"
+      :color="defaultModColour">
+      <v-card-title class="headline pb-0 justify-center">{{module.moduleCode}}</v-card-title>
+      <v-card-text class="text-sm-subtitle-2">{{module.title}}</v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -19,6 +19,7 @@ export default {
   },
   data () {
     return {
+      defaultModColour: 'grey lighten-2'
     }
   },
   methods: {
