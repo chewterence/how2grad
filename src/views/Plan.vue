@@ -33,6 +33,10 @@
         </ul>
       </div>
       <ul>
+        <SelectPlan />
+        <button class="button-style" v-on:click="consolidateExports">
+          Update Module Tree
+        </button>
         <button class="button-style" v-on:click="saveAll">
           Save
         </button>
@@ -42,9 +46,6 @@
         <button class="button-style" v-on:click="removeAll">
           Clear All
         </button>
-        <button class="button-style" v-on:click="consolidateExports">
-          Update Tree
-        </button>
       </ul>
     </ul>
   </div>
@@ -52,12 +53,13 @@
 
 <script>
 import Semester from '../components/Semester.vue'
-import Vue from 'vue'
+import SelectPlan from '../components/SelectPlan.vue'
 
 export default {
   name: 'Plan',
   components: {
-    Semester
+    Semester,
+    SelectPlan
   },
   data () {
     return {
@@ -366,7 +368,7 @@ export default {
     background: #9a9a9a;
     border:1px solid #000;
     width: 88px;
-    height: 88px;
+    height: 100px;
     margin: 5px;
   }
   .button-style:hover {
@@ -377,8 +379,8 @@ export default {
     color: rgb(0, 0, 0);
     background: #787878;
     border:1px solid #000;
-    width: 88px;
-    height: 88px;
+    width: 92px;
+    height: 108px;
     margin: 5px;
   }
   /* Semester Component Style */

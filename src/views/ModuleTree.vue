@@ -17,7 +17,6 @@ export default {
       requiredModules: []
     }
   },
-  // props: ['requiredModules'],
   methods: {
     saveMods () {
       const parsed = JSON.stringify(this.exportedModules)
