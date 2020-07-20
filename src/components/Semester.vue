@@ -73,7 +73,7 @@ export default {
   .semester-box {
     border-radius: 25px;
     width:400px;
-    height:525px;
+    height:550px;
     background-color: rgb(114, 114, 114);
     border:1px solid #000;
     padding: 5px;

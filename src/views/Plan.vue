@@ -1,22 +1,18 @@
 <template>
-  <!-- <v-container fluid> -->
     <div id="plan">
-      <ul style="list-style: none; display: inline-flex; ">
-        <!-- <SelectPlan /> -->
-        <button class="button-style" v-on:click="consolidateExports">
-          Update
-        </button>
-        <button class="button-style" v-on:click="saveAll">
+      <ul style="list-style: none; display: inline-flex; float: left; margin: 3px 45px;">
+        <SelectPlan v-on:slectedPlan="loadPlan" />
+        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
+          Update Tree
+        </v-btn>
+        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="saveAll">
           Save
-        </button>
-        <button class="button-style" v-on:click="loadPlan">
-          Load
-        </button>
-        <button class="button-style" v-on:click="removeAll">
+        </v-btn>
+        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">
           Clear All
-        </button>
+        </v-btn>
       </ul>
-      <ul style="list-style: none; display: inline-flex;">
+      <ul style="list-style: none; display: inline-flex; float: left;">
         <div id="Semester Block">
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s1">
@@ -50,18 +46,17 @@
         </div>
       </ul>
     </div>
-  <!-- </v-container> -->
 </template>
 
 <script>
 import Semester from '../components/Semester.vue'
-// import SelectPlan from '../components/SelectPlan.vue'
+import SelectPlan from '../components/SelectPlan.vue'
 
 export default {
   name: 'Plan',
   components: {
-    Semester
-    // SelectPlan
+    Semester,
+    SelectPlan
   },
   data () {
     return {
@@ -184,21 +179,21 @@ export default {
       this.saveExports()
       window.location.reload()
     },
-    loadPlan () {
+    loadPlan (value1, value2, value3, value4, value5, value6, value7, value8) {
       // Semester 1
-      this.y1s1Storage = ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521']
-      this.y1s2Storage = ['CS2030', 'CS2100', 'CS2040S', 'UTW1001Z', 'UTC2101']
+      this.y1s1Storage = value1
+      this.y1s2Storage = value2
       // Semester 2
-      this.y2s1Storage = ['MA1101R', 'CS2103T', 'CS2106', 'CS2101', 'UTC2105']
-      this.y2s2Storage = ['ST2334', 'ES2660', 'CS3230', 'UTW2001Q', 'CS2105']
+      this.y2s1Storage = value3
+      this.y2s2Storage = value4
       // Semester 3
-      this.y3s1Storage = ['CS2104', 'CS2107', 'CS3210', 'CS3220', 'CS3223']
-      this.y3s2Storage = ['CS3233', 'CS3234', 'CS3244', 'CS3241', 'CS3236']
+      this.y3s1Storage = value5
+      this.y3s2Storage = value6
       // Semester 4
-      this.y4s1Storage = ['CS4212', 'CS4226', 'CS5224', 'CS5223', 'CS6207']
-      this.y4s2Storage = ['CS4225', 'CS4234', 'CS6270', 'CS6285', 'CS6234']
+      this.y4s1Storage = value7
+      this.y4s2Storage = value8
       this.saveAll()
-      window.location.reload()
+      this.consolidateExports()
     },
     saveAll () {
       this.savey1s1()
@@ -372,62 +367,37 @@ export default {
 </script>
 
 <style scoped>
-  /* Button Styles */
-  .button-style {
-    border-radius: 20px;
-    font-size:22px;
-    font-family: Avenir;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    background: #9a9a9a;
-    border:1px solid #000;
-    width: 188px;
-    height: 35px;
-    margin: 5px;
-  }
-  .button-style:hover {
-    border-radius: 20px;
-    font-size:22px;
-    font-family: Avenir;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    background: #787878;
-    border:1px solid #000;
-    width: 188px;
-    height: 35px;
-    margin: 5px;
-  }
   /* Semester Component Style */
   #y1s1 .semester-box {
     background: #2a9d8f;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
   #y1s2 .semester-box {
     background: #2a9d8f;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
   #y2s1 .semester-box {
     background: #e9c46a;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
   #y2s2 .semester-box {
     background: #e9c46a;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
   #y3s1 .semester-box {
     background: #f4a261;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
   #y3s2 .semester-box {
     background: #f4a261;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
   #y4s1 .semester-box {
     background: #e76f51;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
   #y4s2 .semester-box {
     background: #e76f51;
-    margin: 5px 3px;
+    margin: 5px 5px;
   }
 </style>
