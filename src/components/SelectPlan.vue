@@ -27,6 +27,10 @@
                 Sample Business Administration Major Plan
                 <v-btn v-on:click="loadBizPlan">Select</v-btn>
                 </div><br>
+                <div>
+                Sample FASS Economics Major Plan
+                <v-btn v-on:click="loadEconsPlan">Select</v-btn>
+                </div><br>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -114,6 +118,21 @@ export default {
       this.y3s2Plan = ['EC3394', 'EC3303', 'PH2242', 'PH3201', 'GES1041']
       // Semester 4
       this.y4s1Plan = []
+      this.y4s2Plan = []
+      this.emitData()
+    },
+    loadEconsPlan () {
+      // Semester 1
+      this.y1s1Plan = ['EC1101E', 'GL1101E', 'EC2303', 'GER1000', 'UTW1001W', 'CFG1002']
+      this.y1s2Plan = ['EC2101', 'SE1101E', 'UTC1102G', 'MA1101R', 'MA1102R', 'FAS1102']
+      // Semester 2
+      this.y2s1Plan = ['EC2102', 'EC3101', 'EC3303', 'GET1050', 'NM1101E', 'UTS2100']
+      this.y2s2Plan = ['EC3102', 'EC3333', 'UTC2102', 'UTW2001Q', 'NM2101']
+      // Semester 3
+      this.y3s1Plan = ['EL1101E', 'NM2303', 'EC3304', 'EC3332', 'EC3303']
+      this.y3s2Plan = ['EC4332', 'EC4304', 'NM3215', 'GES1035']
+      // Semester 4
+      this.y4s1Plan = ['EC4333', 'NM3217', 'NM2220', 'EC4307']
       this.y4s2Plan = []
       this.emitData()
     }
