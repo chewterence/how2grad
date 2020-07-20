@@ -1,12 +1,21 @@
 <template>
-  <v-container fluid>
-    <!-- <v-row>
-      <v-col v-for="year in numYears" :key="year+1">
-        <YearPillar :title="year"/>
-      </v-col>
-    </v-row> -->
-
+  <!-- <v-container fluid> -->
     <div id="plan">
+      <ul style="list-style: none; display: inline-flex; ">
+        <!-- <SelectPlan /> -->
+        <button class="button-style" v-on:click="consolidateExports">
+          Update
+        </button>
+        <button class="button-style" v-on:click="saveAll">
+          Save
+        </button>
+        <button class="button-style" v-on:click="loadPlan">
+          Load
+        </button>
+        <button class="button-style" v-on:click="removeAll">
+          Clear All
+        </button>
+      </ul>
       <ul style="list-style: none; display: inline-flex;">
         <div id="Semester Block">
           <ul style="list-style: none; display: inline-flex;">
@@ -39,41 +48,26 @@
             </div>
           </ul>
         </div>
-        <ul style="list-style: none; display: inline-flex;">
-          <SelectPlan />
-          <button class="button-style" v-on:click="consolidateExports">
-            Update Module Tree
-          </button>
-          <button class="button-style" v-on:click="saveAll">
-            Save
-          </button>
-          <button class="button-style" v-on:click="loadPlan">
-            Load
-          </button>
-          <button class="button-style" v-on:click="removeAll">
-            Clear All
-          </button>
-        </ul>
       </ul>
     </div>
-  </v-container>
+  <!-- </v-container> -->
 </template>
 
 <script>
 import Semester from '../components/Semester.vue'
-import SelectPlan from '../components/SelectPlan.vue'
+// import SelectPlan from '../components/SelectPlan.vue'
 
 export default {
   name: 'Plan',
   components: {
-    Semester,
-    SelectPlan
+    Semester
+    // SelectPlan
   },
   data () {
     return {
       // inputNumYears: -1,
       // defaultNumYears: 4,
-      // exportedModules: [],
+      exportedModules: [],
       // Testing preloaded planned data (COMMENT THESE OUT FOR CLEAN SLATE)
       // // Semester 1
       // y1s1: ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521'],
@@ -188,6 +182,7 @@ export default {
       this.exportedModules.push(this.y4s2Storage)
       this.exportedModules = this.exportedModules.flat()
       this.saveExports()
+      window.location.reload()
     },
     loadPlan () {
       // Semester 1
@@ -386,20 +381,20 @@ export default {
     color: rgb(0, 0, 0);
     background: #9a9a9a;
     border:1px solid #000;
-    width: 88px;
-    height: 100px;
+    width: 188px;
+    height: 35px;
     margin: 5px;
   }
   .button-style:hover {
     border-radius: 20px;
-    font-size:24px;
+    font-size:22px;
     font-family: Avenir;
     font-weight: bold;
     color: rgb(0, 0, 0);
     background: #787878;
     border:1px solid #000;
-    width: 92px;
-    height: 108px;
+    width: 188px;
+    height: 35px;
     margin: 5px;
   }
   /* Semester Component Style */
