@@ -15,9 +15,11 @@
               @mouseleave="$emit('mouseleave', moduleID)"
               key="componentKey"
             >
-              <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
-              <v-card-text class="text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
-              <v-icon v-if="warn" color="orange">mdi-alert</v-icon>
+              <v-card-title offset-lg12 class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
+              <v-card-text class="pt-0 text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
+              <v-btn icon v-if="warn" class="pa-0">
+                  <v-icon class="justify-center" color="orange">mdi-alert</v-icon>
+              </v-btn>
             </v-card>
           </template>
         </v-hover>
@@ -51,7 +53,7 @@ export default {
       related: false
     }
   },
-  props: ['moduleID', 'nodeData', 'moduleData', 'warn'],
+  props: ['moduleID', 'nodeData', 'moduleData', 'missingMap'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
@@ -119,6 +121,10 @@ export default {
 
     modColour: function () {
       return this.getColour()
+    },
+
+    warn: function () {
+      return this.missingMap.get(this.moduleID)
     }
   },
   mounted () {

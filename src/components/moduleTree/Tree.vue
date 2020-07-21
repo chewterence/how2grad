@@ -1,17 +1,11 @@
 <template>
   <div class="img-overlay-wrap">
-        <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
-    <!-- <v-container
-      id="scroll-target"
-      style="max-height: 83vh"
-      class="overflow-y-auto">
-      <v-row justify=center>
-        <h1>Bachelor of Computing (Honours) in Computer Science</h1>
-      </v-row>
-      <v-row>
-        <Structure v-scroll:#scroll-target="onScroll" v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
-      </v-row>
-    </v-container> -->
+        <Structure v-if="modulePrereqData.size > 0"
+          v-bind:requiredModules='requiredModules'
+          :modulePrereqData='modulePrereqData'
+          :modulePrereqDataNoModifiers='reqModsNoModfiers'
+          :moduleData='moduleData'
+          :missingMap='missingMap'/>
   </div>
 </template>
 
@@ -86,7 +80,7 @@ export default {
               this.modulePrereqData.get(moduleCode).add(newList[i])
             }
           } else {
-            if (this.modulePrereqData.get(moduleCode) === undefined) {
+            if (this.missingMap.get(moduleCode) === undefined) {
               this.missingMap.set(moduleCode, new Set().add(newList[i]))
             } else {
               this.missingMap.get(moduleCode).add(newList[i])
@@ -98,13 +92,28 @@ export default {
 
     processPrereqTree (moduleCode, arr) {
       if (typeof arr === 'string') {
-        if (this.reqModsNoModfiers.includes(arr) && moduleCode !== arr) {
-          if (this.modulePrereqData.get(moduleCode) === undefined) {
-            this.modulePrereqData.set(moduleCode, new Set().add(arr))
+        if (moduleCode !== arr) {
+          if (this.reqModsNoModfiers.includes(arr)) {
+            if (this.modulePrereqData.get(moduleCode) === undefined) {
+              this.modulePrereqData.set(moduleCode, new Set().add(arr))
+            } else {
+              this.modulePrereqData.get(moduleCode).add(arr)
+            }
           } else {
-            this.modulePrereqData.get(moduleCode).add(arr)
+            if (this.missingMap.get(moduleCode) === undefined) {
+              this.missingMap.set(moduleCode, new Set().add(arr))
+            } else {
+              this.missingMap.get(moduleCode).add(arr)
+            }
           }
         }
+        // if (this.reqModsNoModfiers.includes(arr) && moduleCode !== arr) {
+        //   if (this.modulePrereqData.get(moduleCode) === undefined) {
+        //     this.modulePrereqData.set(moduleCode, new Set().add(arr))
+        //   } else {
+        //     this.modulePrereqData.get(moduleCode).add(arr)
+        //   }
+        // }
       } else if (typeof arr === 'object') {
         for (let i = 0; i < Object.entries(arr)[0][1].length; i++) {
           this.processPrereqTree(moduleCode, Object.entries(arr)[0][1][i])
