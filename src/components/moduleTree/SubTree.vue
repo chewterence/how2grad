@@ -119,8 +119,8 @@ export default {
         let swapIndex = 0
         for (let LIndex = 0; LIndex < lowerList.length; LIndex++) {
           // bottom mod
-          console.log('******LMod: ' + lowerList[LIndex].modCode + ' ******')
-          console.log(lowerList[LIndex].childrenList)
+          // console.log('******LMod: ' + lowerList[LIndex].modCode + ' ******')
+          // console.log(lowerList[LIndex].childrenList)
 
           for (let UIndex = 0; UIndex < upperList.length; UIndex++) {
             // upper mod

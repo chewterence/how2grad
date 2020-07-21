@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import Structure from './Structure.vue'
 import axios from 'axios'
 
@@ -60,18 +60,25 @@ export default {
     processPrereqPara (moduleCode) {
       let temp = []
       // FILTER 1: to filter out the other words leaving only the module
-      temp = this.moduleData.get(moduleCode).prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
+      temp = this.moduleData.get(moduleCode).prerequisite.split(' ').filter(str => this.modPrefixReq.test(str))
       // FILTER 2: to fIlter out unwanted characters like brackets and stuff
+      const newList = []
       for (let i = 0; i < temp.length; i++) {
-        temp[i] = temp[i].replace(/[{()}]/g, '')
+        if (temp[i].match(/\w+\d\d\d\d\w*/) !== null) {
+          newList.push(temp[i].match(/\w+\d\d\d\d\w*/)[0])
+        }
+      }
+      // temp.forEach(modCode => modcode.match(/\w+\d\d\d\d\w*/))
+      if (moduleCode === 'EC4332') {
+        console.log(newList)
       }
       // FILTER 3: to filter out the modules that is not included in the list of modules taken
-      for (let i = 0; i < temp.length; i++) {
-        if (this.reqModsNoModfiers.includes(temp[i]) && moduleCode !== temp[i]) {
+      for (let i = 0; i < newList.length; i++) {
+        if (this.reqModsNoModfiers.includes(newList[i]) && moduleCode !== newList[i]) {
           if (this.modulePrereqData.get(moduleCode) === undefined) {
-            this.modulePrereqData.set(moduleCode, new Set().add(temp[i]))
+            this.modulePrereqData.set(moduleCode, new Set().add(newList[i]))
           } else {
-            this.modulePrereqData.get(moduleCode).add(temp[i])
+            this.modulePrereqData.get(moduleCode).add(newList[i])
           }
         }
       }
@@ -100,7 +107,8 @@ export default {
         const index = modCode.match(/\d/).index
         temp.add(modCode.slice(0, index))
       })
-      return temp
+      return new RegExp(Array.from(temp).join('|'))
+      // return temp
     },
 
     reqModsNoModfiers: function () {
