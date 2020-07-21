@@ -17,6 +17,7 @@
             >
               <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
               <v-card-text class="text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
+              <v-icon v-if="warn" color="orange">mdi-alert</v-icon>
             </v-card>
           </template>
         </v-hover>
@@ -27,6 +28,7 @@
 
 <script>
 import Vue from 'vue'
+import '@mdi/font/css/materialdesignicons.css'
 // import axios from 'axios'
 
 export default {
@@ -49,7 +51,7 @@ export default {
       related: false
     }
   },
-  props: ['moduleID', 'nodeData', 'moduleData'],
+  props: ['moduleID', 'nodeData', 'moduleData', 'warn'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
