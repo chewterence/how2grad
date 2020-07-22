@@ -3,6 +3,7 @@
         <div class="semester-title">
           {{title}}
         </div>
+          <!-- {{plannedModules}} -->
         <div class="module-search" v-if="isHidden">
           <SearchBox v-on:minimize="isHidden = false" v-on:addModule="addModule"/>
         </div>
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import Module from '../components/Module.vue'
 import SearchBox from '../components/SearchBox/SearchBox.vue'
 import axios from 'axios'
@@ -43,20 +44,22 @@ export default {
     addModule (value) {
       this.isHidden = false
       this.modules.push(value)
-      Vue.prototype.$currentlyplannedModules.push(value)
+      this.$emit('addModule', value)
     },
     removeModule (value) {
       this.modules = this.modules.filter(mod => mod !== value)
-      Vue.prototype.$currentlyplannedModules = Vue.prototype.$currentlyplannedModules.filter(mod => mod !== value)
+      this.$emit('removeModule', value)
     }
   },
   props: ['title', 'modules', 'plannedModules'],
   created (modules) {
+    // if (!(this.plannedModules.length === 0)) {
     axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
       .then(response => (
         this.modules = response.data.filter(mod => this.plannedModules.includes(mod.moduleCode)))
       )
       .catch(err => console.log(err))
+    // }
   }
 }
 </script>
@@ -65,12 +68,12 @@ export default {
   .semester-title {
     font-size:26px;
     font-weight: bold;
-    margin: 5px;
+    margin: 1px;
   }
   .semester-box {
     border-radius: 25px;
     width:400px;
-    height:525px;
+    height:620px;
     background-color: rgb(114, 114, 114);
     border:1px solid #000;
     padding: 5px;

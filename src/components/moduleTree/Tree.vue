@@ -1,23 +1,16 @@
 <template>
   <div class="img-overlay-wrap">
-      <h1>Bachelor of Computing (Honours) in Computer Science</h1>
-        <Structure v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
-    <!-- <v-container
-      id="scroll-target"
-      style="max-height: 83vh"
-      class="overflow-y-auto">
-      <v-row justify=center>
-        <h1>Bachelor of Computing (Honours) in Computer Science</h1>
-      </v-row>
-      <v-row>
-        <Structure v-scroll:#scroll-target="onScroll" v-if="modulePrereqData.size > 0" v-bind:requiredModules='requiredModules' :modulePrereqData='modulePrereqData' :modulePrereqDataNoModifiers='reqModsNoModfiers' :moduleData='moduleData'/>
-      </v-row>
-    </v-container> -->
+        <Structure v-if="modulePrereqData.size > 0"
+          v-bind:requiredModules='requiredModules'
+          :modulePrereqData='modulePrereqData'
+          :modulePrereqDataNoModifiers='reqModsNoModfiers'
+          :moduleData='moduleData'
+          :missingMap='missingMap'/>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import Structure from './Structure.vue'
 import axios from 'axios'
 
@@ -28,18 +21,13 @@ export default {
   },
   data () {
     return {
-      requiredModules: [
-        'CS1010', 'CS1231', 'MA1521', 'MA1101R', 'ES1103', 'IS1103',
-        'CS2100', 'CS2030', 'CS2040S', 'ES2660', 'MA1301', 'ST2334',
-        'CS2106', 'CS3230', 'CS2103', 'CS2101', 'CS2105',
-        'CS6207', 'CS4248', 'CS3243'
-        // 'CS6216', 'CS3244'
-      ],
       moduleData: new Map(),
       modulePrereqData: new Map(),
+      missingMap: new Map(),
       test: 1
     }
   },
+  props: ['requiredModules'],
   methods: {
     initData () {
       const promises = []
@@ -67,18 +55,36 @@ export default {
     processPrereqPara (moduleCode) {
       let temp = []
       // FILTER 1: to filter out the other words leaving only the module
-      temp = this.moduleData.get(moduleCode).prerequisite.split(' ').filter(str => str.includes('CS' | 'ES' | 'MA'))
+      // temp = this.moduleData.get(moduleCode).prerequisite.split(' ').filter(str => this.modPrefixReq.test(str))
+      temp = this.moduleData.get(moduleCode).prerequisite.split(' ').filter(str => str.match(/.?\w+\d\d\d\d\w*.?/) !== null)
+      if (moduleCode === 'CS3233') {
+        console.log(temp)
+      }
       // FILTER 2: to fIlter out unwanted characters like brackets and stuff
+      const newList = []
       for (let i = 0; i < temp.length; i++) {
-        temp[i] = temp[i].replace(/[{()}]/g, '')
+        if (temp[i].match(/\w+\d\d\d\d\w*/) !== null) {
+          newList.push(temp[i].match(/\w+\d\d\d\d\w*/)[0])
+        }
+      }
+      if (moduleCode === 'CS3233') {
+        console.log(newList)
       }
       // FILTER 3: to filter out the modules that is not included in the list of modules taken
-      for (let i = 0; i < temp.length; i++) {
-        if (this.reqModsNoModfiers.includes(temp[i]) && moduleCode !== temp[i]) {
-          if (this.modulePrereqData.get(moduleCode) === undefined) {
-            this.modulePrereqData.set(moduleCode, new Set().add(temp[i]))
+      for (let i = 0; i < newList.length; i++) {
+        if (moduleCode !== newList[i]) {
+          if (this.reqModsNoModfiers.includes(newList[i])) {
+            if (this.modulePrereqData.get(moduleCode) === undefined) {
+              this.modulePrereqData.set(moduleCode, new Set().add(newList[i]))
+            } else {
+              this.modulePrereqData.get(moduleCode).add(newList[i])
+            }
           } else {
-            this.modulePrereqData.get(moduleCode).add(temp[i])
+            if (this.missingMap.get(moduleCode) === undefined) {
+              this.missingMap.set(moduleCode, new Set().add(newList[i]))
+            } else {
+              this.missingMap.get(moduleCode).add(newList[i])
+            }
           }
         }
       }
@@ -86,13 +92,28 @@ export default {
 
     processPrereqTree (moduleCode, arr) {
       if (typeof arr === 'string') {
-        if (this.reqModsNoModfiers.includes(arr) && moduleCode !== arr) {
-          if (this.modulePrereqData.get(moduleCode) === undefined) {
-            this.modulePrereqData.set(moduleCode, new Set().add(arr))
+        if (moduleCode !== arr) {
+          if (this.reqModsNoModfiers.includes(arr)) {
+            if (this.modulePrereqData.get(moduleCode) === undefined) {
+              this.modulePrereqData.set(moduleCode, new Set().add(arr))
+            } else {
+              this.modulePrereqData.get(moduleCode).add(arr)
+            }
           } else {
-            this.modulePrereqData.get(moduleCode).add(arr)
+            if (this.missingMap.get(moduleCode) === undefined) {
+              this.missingMap.set(moduleCode, new Set().add(arr))
+            } else {
+              this.missingMap.get(moduleCode).add(arr)
+            }
           }
         }
+        // if (this.reqModsNoModfiers.includes(arr) && moduleCode !== arr) {
+        //   if (this.modulePrereqData.get(moduleCode) === undefined) {
+        //     this.modulePrereqData.set(moduleCode, new Set().add(arr))
+        //   } else {
+        //     this.modulePrereqData.get(moduleCode).add(arr)
+        //   }
+        // }
       } else if (typeof arr === 'object') {
         for (let i = 0; i < Object.entries(arr)[0][1].length; i++) {
           this.processPrereqTree(moduleCode, Object.entries(arr)[0][1][i])
@@ -101,15 +122,14 @@ export default {
     }
   },
   computed: {
-    modPrefixReq: function () {
-      const temp = new Set()
-      this.requiredModules.forEach(modCode => {
-        const index = modCode.match(/\d/).index
-        temp.add(modCode.slice(0, index))
-      })
-      return temp
-    },
-
+    // modPrefixReq: function () {
+    //   const temp = new Set()
+    //   this.requiredModules.forEach(modCode => {
+    //     const index = modCode.match(/\d/).index
+    //     temp.add(modCode.slice(0, index))
+    //   })
+    //   return new RegExp(Array.from(temp).join('|'))
+    // },
     reqModsNoModfiers: function () {
       const temp = []
       this.requiredModules.forEach(modCode => temp.push(modCode.match(/\w+\d\d\d\d/)[0]))

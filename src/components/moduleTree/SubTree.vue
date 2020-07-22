@@ -1,16 +1,17 @@
 <template>
     <v-container fluid>
-      <v-row class="subTreeModules" justify="center" my-5 v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
+      <v-row class="subTreeModules pb-15" justify="center"  v-for="(hopList, hopIndex) in numHopsList" v-bind:key="hopIndex">
         <v-col v-for="mod in hopList" v-bind:key="mod.modCode">
           <SubTreeModule ref='subTreeMod'
-            v-if="numHopsList.length > 0"
             v-bind:moduleID='mod.modCode'
             v-on:pos-updated='updateEdges'
+            v-on:lock-toggled="lockToggled"
             @mouseover="colourEdges"
             @mouseleave="revertEdges"
             :id="'SubTreeModule' + mod.modCode"
             :nodeData:='mod'
-            :moduleData='moduleData'/>
+            :moduleData='moduleData'
+            :missingMap='missingMap'/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
@@ -30,7 +31,7 @@ export default {
     SubTreeModule,
     Edges
   },
-  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData'],
+  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'missingMap'],
   data () {
     return {
       stack: [],
@@ -38,7 +39,8 @@ export default {
       doneNodes: [],
       distanceMap: new Map(),
       edgeList: [],
-      componentKey: 0
+      componentKey: 0,
+      currLockedMod: ''
     }
   },
   methods: {
@@ -75,7 +77,7 @@ export default {
               numHops: currModNode.numHops + 1,
               childrenList: []
             }
-            this.edgeList.push([modCode, currModNode.modCode, 'defaultEdge'])
+            this.edgeList.push([modCode, currModNode.modCode, 'defaultEdge', false])
             const numHops = modNode.numHops
             // check if child has been visited before
             if (this.distanceMap.get(modCode) === undefined) {
@@ -112,23 +114,48 @@ export default {
       }
     },
     numHopsListOrdering () {
-      let upperList = []
-      let lowerList = []
       for (let hop = 1; hop < this.numHopsList.length; hop++) {
-        upperList = this.numHopsList[hop]
-        lowerList = this.numHopsList[hop - 1]
+        const upperList = this.numHopsList[hop]
+        const lowerList = this.numHopsList[hop - 1]
         let swapIndex = 0
         for (let LIndex = 0; LIndex < lowerList.length; LIndex++) {
           // bottom mod
+          // console.log('******LMod: ' + lowerList[LIndex].modCode + ' ******')
+          // console.log(lowerList[LIndex].childrenList)
+
           for (let UIndex = 0; UIndex < upperList.length; UIndex++) {
             // upper mod
-            if (lowerList[LIndex].childrenList.includes(upperList[UIndex].modCode)) {
-              swapIndex++
-            } else if (swapIndex !== UIndex) {
-              const temp = upperList[swapIndex]
-              upperList[swapIndex] = upperList[UIndex]
-              upperList[UIndex] = temp
+            let isLinked = false
+            lowerList[LIndex].childrenList.forEach(modNode => {
+              if (modNode.modCode === upperList[UIndex].modCode) {
+                console.log(modNode.modCode)
+                isLinked = true
+              }
+            })
+
+            if (isLinked) {
+              if (swapIndex !== UIndex) {
+                const temp = upperList[swapIndex]
+                upperList[swapIndex] = upperList[UIndex]
+                upperList[UIndex] = temp
+              }
+              if (swapIndex < upperList.length - 1) {
+                swapIndex += 1
+              }
             }
+            // if (isLinked) {
+            //   if (swapIndex < upperList.length - 1) {
+            //     swapIndex += 1
+            //   }
+            // } else if (swapIndex !== UIndex) {
+            //   console.log('swapped at swapIndex: ' + swapIndex + ' and UIndex:' + UIndex)
+            //   const temp = upperList[swapIndex]
+            //   upperList[swapIndex] = upperList[UIndex]
+            //   upperList[UIndex] = temp
+            //   console.log('--------newPos------' + hop)
+            //   console.log(upperList[swapIndex].modCode)
+            //   console.log(upperList[UIndex].modCode)
+            // }
           }
         }
       }
@@ -156,19 +183,25 @@ export default {
     onResize () {
       this.$refs.subTreeMod.forEach(subTreeMod => subTreeMod.updatePos())
       this.updateEdges()
-      console.log('resized')
     },
+    // can improve effeciency
     colourEdges (hoveredModCode) {
       this.edgeList.forEach(edge => {
         const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
         if (hoveredIndex !== -1) {
           const other = 1 - hoveredIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.related = true
           if (this.modulePrereqData.get(edge[hoveredIndex]) !== undefined && this.modulePrereqData.get(edge[hoveredIndex]).has(this.stripModifier(edge[other]))) {
-            console.log('red ' + edge[other])
             edge[2] = 'redEdge'
+            if (!otherModCard.frozen) {
+              otherModCard.changeColour('red')
+            }
           } else if (this.modulePrereqData.get(edge[other]) !== undefined && this.modulePrereqData.get(edge[other]).has(this.stripModifier(hoveredModCode))) {
-            console.log('green ' + edge[other])
             edge[2] = 'greenEdge'
+            if (!otherModCard.frozen) {
+              otherModCard.changeColour('green')
+            }
           }
         }
       })
@@ -179,6 +212,52 @@ export default {
         const hoveredIndex = edge.findIndex(v => v === hoveredModCode)
         if (hoveredIndex !== -1) {
           edge[2] = 'defaultEdge'
+          const other = 1 - hoveredIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.related = false
+          if (!document.getElementById('SubTreeModule' + edge[other]).__vue__.frozen) {
+            otherModCard.changeColour('default')
+          }
+        }
+      })
+      this.updateEdges()
+    },
+    lockToggled (lockedMod) {
+      if (this.currLockedMod !== '' && this.currLockedMod !== lockedMod) {
+        document.getElementById('SubTreeModule' + this.currLockedMod).__vue__.locked = false
+        this.unfreezeRelated(this.currLockedMod)
+      }
+      if (document.getElementById('SubTreeModule' + lockedMod).__vue__.locked) {
+        this.unfreezeRelated(lockedMod)
+        this.currLockedMod = ''
+      } else {
+        this.freezeRelated(lockedMod)
+        this.currLockedMod = lockedMod
+      }
+      document.getElementById('SubTreeModule' + lockedMod).__vue__.locked = !document.getElementById('SubTreeModule' + lockedMod).__vue__.locked
+    },
+    freezeRelated (lockedMod) {
+      this.colourEdges(lockedMod)
+      this.edgeList.forEach(edge => {
+        const lockedIndex = edge.findIndex(v => v === lockedMod)
+        if (lockedIndex !== -1) {
+          edge[3] = true
+          const other = 1 - lockedIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.frozen = true
+        }
+      })
+      this.updateEdges()
+    },
+    unfreezeRelated (lockedMod) {
+      this.edgeList.forEach(edge => {
+        const lockedIndex = edge.findIndex(v => v === lockedMod)
+        if (lockedIndex !== -1) {
+          edge[3] = false
+          const other = 1 - lockedIndex
+          const otherModCard = document.getElementById('SubTreeModule' + edge[other]).__vue__
+          otherModCard.frozen = false
+          otherModCard.changeColour('default')
         }
       })
       this.updateEdges()
