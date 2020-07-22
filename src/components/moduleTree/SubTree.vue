@@ -10,7 +10,8 @@
             @mouseleave="revertEdges"
             :id="'SubTreeModule' + mod.modCode"
             :nodeData:='mod'
-            :moduleData='moduleData'/>
+            :moduleData='moduleData'
+            :missingMap='missingMap'/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
@@ -30,7 +31,7 @@ export default {
     SubTreeModule,
     Edges
   },
-  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData'],
+  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'missingMap'],
   data () {
     return {
       stack: [],

@@ -1,20 +1,25 @@
 <template>
     <v-container fluid>
       <v-row justify="center">
-        <v-col class="text-xl-h2 pb-0">
+        <v-col class="text-h3 pb-0">
         Related Module Trees
         </v-col>
       </v-row>
       <v-row class="z-index 100px justify center mb-15" v-for="entry in treesMap" v-bind:key="entry[0]">
-        <SubTree v-bind:treeRoot='entry[0]' :treeData='entry[1]' :modulePrereqData='modulePrereqData' :modList='requiredModules' :moduleData='moduleData'/>
+        <SubTree v-bind:treeRoot='entry[0]'
+        :treeData='entry[1]'
+        :modulePrereqData='modulePrereqData'
+        :modList='requiredModules'
+        :moduleData='moduleData'
+        :missingMap='missingMap'/>
       </v-row>
       <v-row justify="center">
-        <v-col class="text-xl-h2">
+        <v-col class="text-h3">
         Standalone Modules
         </v-col>
       </v-row>
       <v-row>
-        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData"/>
+        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData" :missingMap='missingMap'/>
       </v-row>
     </v-container>
 </template>
@@ -142,7 +147,7 @@ export default {
       })
     }
   },
-  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData'],
+  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'missingMap'],
   mounted () {
     this.genSubTreeSets()
   }

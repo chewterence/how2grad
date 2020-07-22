@@ -10,10 +10,10 @@
                 default
                 :elevation="hover ? 24 : 3"
                 :color="hover ? hoverColour : defaultModColour"
-                key="componentKey"
               >
                 <v-card-title class="headline pb-0 justify-center">{{mod}}</v-card-title>
                 <v-card-text class="text-sm-subtitle-2">{{moduleData.get(mod).title}}</v-card-text>
+                <!-- <v-icon>mdi-alert</v-icon> -->
               </v-card>
             </template>
           </v-hover>
@@ -36,12 +36,9 @@ export default {
       hoverColour: 'blue lighten-3'
     }
   },
-  methods: {
-    // toggleLockState () {
-    //   this.$emit('lock-toggled', this.moduleID)
-    // }
+  computed: {
   },
-  props: ['unlinkedMods', 'moduleData']
+  props: ['unlinkedMods', 'moduleData', 'missingMap']
 }
 </script>
 
