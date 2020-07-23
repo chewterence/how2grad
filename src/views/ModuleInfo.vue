@@ -1,95 +1,95 @@
 <template>
-  <div class="moduleinfo">
-      <div id="app-instasearch">
-        <div class="input-container">
-          <input type="text" placeholder="Search for Modules by Module Code or Name..." v-model="NameSearchString" />
-        </div>
-          <ul style="list-style: none;">
-            <li v-for="mod in filteredmodules" v-bind:key="mod.moduleCode">
-              <p style="text-align: left; font-size:25px; font-family: Avenir;">
-                {{mod.moduleCode + " " + mod.title}}
-              </p>
-              <p style="text-align: left;">
-                {{'Modular Credits: ' + mod.moduleCredit}}
-                <br>
-                {{mod.description}}
-              </p>
-              <p style="text-align: left;">
-                {{'Prerequisites: ' + mod.prerequisite}}
-                <br>
-                {{'Preclusions: ' + mod.preclusion}}
-                <br>
-                {{'Corequisites: ' + mod.corequisite}}
-              </p>
-            </li>
-          </ul>
-      </div>
-  </div>
+  <v-card
+    color="grey lighten-2"
+  >
+    <v-card-text>
+      <v-autocomplete
+        v-model="model"
+        :items="modules"
+        :loading="isLoading"
+        :search-input.sync="search"
+        color="white"
+        hide-no-data
+        hide-selected
+        item-text="moduleCode"
+        item-value="moduleCode"
+        placeholder="Start typing to Search"
+        prepend-icon="mdi-database-search"
+        return-object
+      ></v-autocomplete>
+    </v-card-text>
+    <v-divider></v-divider>
+    <v-expand-transition>
+      <v-list v-if="model" class="grey lighten-2">
+        <v-list-item
+          v-for="(field, i) in fields"
+          :key="i"
+        >
+          <v-list-item-content>
+            <v-list-item-title v-text="field.value"></v-list-item-title>
+            <v-list-item-subtitle v-text="field.key"></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-expand-transition>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn
+        :disabled="!model"
+        color="red lighten-3"
+        @click="model = null"
+      >
+        Close
+        <v-icon right>mdi-close-circle</v-icon>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-// Live search bar credits from https://medium.com/better-programming/instant-search-with-vue-js-and-axios-5b78a3a59f01
 import axios from 'axios'
 
 export default {
-  name: 'ModuleInfo',
-  el: '#app-instasearch',
-  components: {
-  },
   data () {
     return {
+      isEditing: true,
+      model: null,
       NameSearchString: '',
-      modules: null
+      modules: [],
+      concatedModules: [],
+      descriptionLimit: 600,
+      entries: [],
+      isLoading: false,
+      search: null
     }
   },
   computed: {
-    filteredmodules: function () {
-      let mod = this.modules
-      const NameSearchString = this.NameSearchString
-      if (!NameSearchString) {
-        return mod
-      }
-      const SearchString = NameSearchString.trim().toLowerCase()
-      mod = mod.filter(function (item) {
-        if ((item.title.toLowerCase().indexOf(NameSearchString) !== -1) || (item.moduleCode.toLowerCase().indexOf(NameSearchString) !== -1)) {
-          return item
+    fields () {
+      if (!this.model) return []
+
+      return Object.keys(this.model).map(key => {
+        return {
+          key,
+          value: this.model[key] || 'n/a'
         }
       })
-      return mod
+    },
+    items () {
+      return this.entries.map(entry => {
+        const Description = entry.Description.length > this.descriptionLimit
+          ? entry.Description.slice(0, this.descriptionLimit) + '...'
+          : entry.Description
+        return Object.assign({}, entry, { Description })
+      })
     }
-  },
-  methods: {
   },
   created () {
     axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json')
       .then(response => (this.modules = response.data))
       .catch(err => console.log(err))
-      // .slice limits the display to 20 so it wont lag so much
   }
 }
 </script>
 
 <style scoped>
-  .input-container {
-    border-radius: 25px;
-    background: #c1c1c1;
-    padding: 10px;
-    text-align: left;
-  }
-
-  .input-container input {
-    border: none;
-    background: transparent;
-    color: rgb(58, 58, 58);
-    padding: 6px 10px;
-    font-size: 22px;
-    text-align: left;
-    width: 90%;
-  }
-
-  ::placeholder {
-    color: #545454;
-    opacity: 1;
-    text-align: left
-  }
 </style>
