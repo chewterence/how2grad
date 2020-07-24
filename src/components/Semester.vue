@@ -3,13 +3,7 @@
         <div class="semester-title">
           {{title}}
         </div>
-          <!-- {{plannedModules}} -->
-        <div class="module-search" v-if="isHidden">
-          <SearchBox v-on:minimize="isHidden = false" v-on:addModule="addModule"/>
-        </div>
-        <button id="add-module-button" v-if="!isHidden" v-on:click="isHidden = true">
-          + Add Module
-        </button>
+        <AddModuleButton class="mx-1" v-on:addModule="addModule"/>
         <ul style="list-style: none;">
           <li class="module-list" v-for="mod in modules" v-bind:key="mod.moduleCode">
             <div class="module-element">
@@ -21,20 +15,18 @@
 </template>
 
 <script>
-// import Vue from 'vue'
 import Module from '../components/Module.vue'
-import SearchBox from '../components/SearchBox/SearchBox.vue'
+import AddModuleButton from '../components/AddModuleButton.vue'
 import axios from 'axios'
 
 export default {
   name: 'Semester',
   components: {
     Module,
-    SearchBox
+    AddModuleButton
   },
   data () {
     return {
-      isHidden: false
     }
   },
   methods: {
