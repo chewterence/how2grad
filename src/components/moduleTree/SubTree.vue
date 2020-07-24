@@ -11,7 +11,7 @@
             :id="'SubTreeModule' + mod.modCode"
             :nodeData:='mod'
             :moduleData='moduleData'
-            :missingMap='missingMap'/>
+            :warnMap='warnMap'/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
@@ -31,7 +31,7 @@ export default {
     SubTreeModule,
     Edges
   },
-  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'missingMap'],
+  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'warnMap'],
   data () {
     return {
       stack: [],
@@ -120,15 +120,11 @@ export default {
         let swapIndex = 0
         for (let LIndex = 0; LIndex < lowerList.length; LIndex++) {
           // bottom mod
-          // console.log('******LMod: ' + lowerList[LIndex].modCode + ' ******')
-          // console.log(lowerList[LIndex].childrenList)
-
           for (let UIndex = 0; UIndex < upperList.length; UIndex++) {
             // upper mod
             let isLinked = false
             lowerList[LIndex].childrenList.forEach(modNode => {
               if (modNode.modCode === upperList[UIndex].modCode) {
-                console.log(modNode.modCode)
                 isLinked = true
               }
             })
@@ -143,19 +139,6 @@ export default {
                 swapIndex += 1
               }
             }
-            // if (isLinked) {
-            //   if (swapIndex < upperList.length - 1) {
-            //     swapIndex += 1
-            //   }
-            // } else if (swapIndex !== UIndex) {
-            //   console.log('swapped at swapIndex: ' + swapIndex + ' and UIndex:' + UIndex)
-            //   const temp = upperList[swapIndex]
-            //   upperList[swapIndex] = upperList[UIndex]
-            //   upperList[UIndex] = temp
-            //   console.log('--------newPos------' + hop)
-            //   console.log(upperList[swapIndex].modCode)
-            //   console.log(upperList[UIndex].modCode)
-            // }
           }
         }
       }

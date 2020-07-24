@@ -11,7 +11,7 @@
         :modulePrereqData='modulePrereqData'
         :modList='requiredModules'
         :moduleData='moduleData'
-        :missingMap='missingMap'/>
+        :warnMap='warnMap'/>
       </v-row>
       <v-row justify="center">
         <v-col class="text-h3">
@@ -19,7 +19,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData" :missingMap='missingMap'/>
+        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData" :warnMap='warnMap'/>
       </v-row>
     </v-container>
 </template>
@@ -147,7 +147,7 @@ export default {
       })
     }
   },
-  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'missingMap'],
+  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'warnMap'],
   mounted () {
     this.genSubTreeSets()
   }

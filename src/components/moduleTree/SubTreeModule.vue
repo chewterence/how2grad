@@ -17,7 +17,7 @@
             >
               <v-card-title offset-lg12 class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
               <v-card-text class="pt-0 text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
-              <v-btn icon v-if="warn" class="pa-0">
+              <v-btn icon v-if="warn" class="pa-0" @click="showMorePrereq">
                   <v-icon class="justify-center" color="orange">mdi-alert</v-icon>
               </v-btn>
             </v-card>
@@ -53,7 +53,7 @@ export default {
       related: false
     }
   },
-  props: ['moduleID', 'nodeData', 'moduleData', 'missingMap'],
+  props: ['moduleID', 'nodeData', 'moduleData', 'warnMap'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
@@ -112,6 +112,10 @@ export default {
       } else {
         return this.cachedColour
       }
+    },
+
+    showMorePrereq () {
+      this.toggleLockState()
     }
   },
   computed: {
@@ -124,7 +128,7 @@ export default {
     },
 
     warn: function () {
-      return this.missingMap.get(this.moduleID)
+      return this.warnMap.get(this.moduleID)
     }
   },
   mounted () {
@@ -138,11 +142,4 @@ export default {
 </script>
 
 <style scoped>
-  /* .defaultClass {
-    background: rgb(211, 211, 211);
-  }
-
-  .hoverClass {
-    background: rgb(171, 210, 223);
-  } */
 </style>

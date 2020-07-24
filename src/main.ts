@@ -1,3 +1,4 @@
+import './firebase'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
@@ -6,9 +7,11 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import '@mdi/font/css/materialdesignicons.css'
+import VueFire from 'vuefire'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
+// Vue.use(VueFire)
 
 export default new Vuetify({
   icons: {
