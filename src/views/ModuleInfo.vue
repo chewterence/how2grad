@@ -2,18 +2,20 @@
   <v-card
     color="grey lighten-2"
   >
-    <v-card-text class="text-right">
+    <v-card-text >
       <v-autocomplete
         v-model="model"
         :items="modules"
-        :loading="isLoading"
         :search-input.sync="search"
+        class="text-lg-h6 font-weight-regular"
+        flat
         color="grey lighten-3"
         hide-no-data
         hide-selected
         item-text="moduleCode"
         item-value="moduleCode"
-        placeholder="Start typing to Search"
+        placeholder="Search by module code (CS2030 or MA1521)..."
+        label="Search for a Module"
         prepend-icon="mdi-database-search"
         return-object
       ></v-autocomplete>
@@ -66,7 +68,6 @@ export default {
       NameSearchString: '',
       modules: [],
       entries: [],
-      isLoading: false,
       search: null
     }
   },
