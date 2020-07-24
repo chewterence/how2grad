@@ -16,7 +16,7 @@
         <div id="Semester Block">
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s1">
-              <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1"/>
+              <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1" v-on:removeModule="removey1s1"/>
             </div>
             <div id="y2s1">
               <Semester v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1"/>
