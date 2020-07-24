@@ -2,13 +2,13 @@
   <v-card
     color="grey lighten-2"
   >
-    <v-card-text>
+    <v-card-text class="text-right">
       <v-autocomplete
         v-model="model"
         :items="modules"
         :loading="isLoading"
         :search-input.sync="search"
-        color="white"
+        color="grey lighten-3"
         hide-no-data
         hide-selected
         item-text="moduleCode"
@@ -20,16 +20,25 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-expand-transition>
-      <v-list v-if="model" class="grey lighten-2">
-        <v-list-item
-          v-for="(field, i) in fields"
-          :key="i"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="field.value"></v-list-item-title>
-            <v-list-item-subtitle v-text="field.key"></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+      <v-list v-if="model" class="mx-5 grey lighten-2 text-lg-left">
+        <v-list-item-title class="text-lg-h6">{{"Module Code:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.moduleCode}}</v-list-item-subtitle>
+        <v-list-item-title class="text-lg-h6">{{"Module Title:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.title}}</v-list-item-subtitle>
+        <v-list-item-title class="text-lg-h6">{{"Description:"}}</v-list-item-title>
+        <p class="text--secondary text-lg-subtitle-1">{{model.description}}</p>
+        <v-list-item-title class="text-lg-h6">{{"Modular Credits:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.moduleCredit}}</v-list-item-subtitle>
+        <v-list-item-title class="text-lg-h6">{{"Department:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.department}}</v-list-item-subtitle>
+        <v-list-item-title class="text-lg-h6">{{"Faculty:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.faculty}}</v-list-item-subtitle>
+        <v-list-item-title class="text-lg-h6">{{"Workload:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.workload}}</v-list-item-subtitle>
+        <v-list-item-title class="text-lg-h6">{{"Prerequisites:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.prerequisite}}</v-list-item-subtitle>
+        <v-list-item-title class="text-lg-h6">{{"Preclusions:"}}</v-list-item-title>
+        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.preclusion}}</v-list-item-subtitle>
       </v-list>
     </v-expand-transition>
     <v-card-actions>
@@ -56,31 +65,9 @@ export default {
       model: null,
       NameSearchString: '',
       modules: [],
-      concatedModules: [],
-      descriptionLimit: 600,
       entries: [],
       isLoading: false,
       search: null
-    }
-  },
-  computed: {
-    fields () {
-      if (!this.model) return []
-
-      return Object.keys(this.model).map(key => {
-        return {
-          key,
-          value: this.model[key] || 'n/a'
-        }
-      })
-    },
-    items () {
-      return this.entries.map(entry => {
-        const Description = entry.Description.length > this.descriptionLimit
-          ? entry.Description.slice(0, this.descriptionLimit) + '...'
-          : entry.Description
-        return Object.assign({}, entry, { Description })
-      })
     }
   },
   created () {
