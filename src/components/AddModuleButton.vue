@@ -30,21 +30,35 @@
               </v-card-text>
         </v-card-text>
               <v-expand-transition>
-                <v-list v-if="model" class="mx-5 grey lighten-3 text-lg-left" rounded>
-                  <v-list-item-title class="text-lg-h6">{{"Module Code:"}}</v-list-item-title>
-                  <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.moduleCode}}</v-list-item-subtitle>
-                  <v-list-item-title class="text-lg-h6">{{"Module Title:"}}</v-list-item-title>
-                  <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.title}}</v-list-item-subtitle>
-                  <v-list-item-title class="text-lg-h6">{{"Modular Credits:"}}</v-list-item-title>
+                <v-card v-if="model" rounded class="mx-5 grey lighten-3 text-lg-left">
+                      <v-list-item three-line>
+                        <v-list-item-content>
+                          <div class="overline mb-4">{{model.faculty + ", " + "Department of " + model.department}}</div>
+                          <v-list-item-title class="headline mb-4">{{model.moduleCode + " " + model.title}}</v-list-item-title>
+                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + model.moduleCredit}}</v-list-item-subtitle>
+                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Prerequisites: " + model.prerequisite}}</v-list-item-subtitle>
+                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Preclusions: " + model.preclusion}}</v-list-item-subtitle>
+                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Workload: " + model.workload}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                  <v-btn v-if="model" color="black" outlined x-large rounded @click="dialog = false; addModule()" min-width="380px">
+                    Confirm
+                  </v-btn>
+                </v-card >
+                  <!-- <v-list>
+                      <v-card-text class="text-lg-h6">{{model.moduleCode + " " + model.title}}</v-card-text>
+                      <v-card-text class="text--secondary text-lg-h6">{{model.description}}</v-card-text>
+                  </v-list> -->
+                <!-- <v-list v-if="model" class="mx-5 grey lighten-3 text-lg-left" rounded>
+                  <v-list-item-subtitle class="text-lg-h6">{{model.moduleCode}}</v-list-item-subtitle>
+                  <v-list-item-subtitle class="text--secondary text-lg-h6">{{model.title}}</v-list-item-subtitle>
+                  <v-list-item-title class="text-md-h7">{{"Modular Credits:"}}</v-list-item-title>
                   <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.moduleCredit}}</v-list-item-subtitle>
                   <v-list-item-title class="text-lg-h6">{{"Workload:"}}</v-list-item-title>
                   <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.workload}}</v-list-item-subtitle>
                   <v-list-item-title class="text-lg-h6">{{"Prerequisites:"}}</v-list-item-title>
-                  <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.prerequisite}}</v-list-item-subtitle>
-                  <v-btn color="black" outlined x-large rounded @click="dialog = false; addModule()" min-width="380px">
-                    Confirm
-                  </v-btn>
-                </v-list>
+                  <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.prerequisite}}</v-list-item-subtitle> -->
+                <!-- </v-list> -->
               </v-expand-transition>
         <v-card-actions>
           <v-btn color="red darken-1" outlined text @click="dialog = false; model = null">Cancel</v-btn>

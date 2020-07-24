@@ -45,13 +45,11 @@ export default {
   },
   props: ['title', 'modules', 'plannedModules'],
   created (modules) {
-    // if (!(this.plannedModules.length === 0)) {
     axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
       .then(response => (
         this.modules = response.data.filter(mod => this.plannedModules.includes(mod.moduleCode)))
       )
       .catch(err => console.log(err))
-    // }
   }
 }
 </script>
