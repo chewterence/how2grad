@@ -2,7 +2,16 @@
     <div id="plan" scrollable>
       <ul style="list-style: none; display: inline-flex; float: left; margin: 3px 45px;">
         <SelectPlan v-on:slectedPlan="loadPlan" />
-        <UploadPlan />
+        <UploadPlan 
+          v-bind:y1s1Plan='y1s1Storage'
+          :y1s2Plan='y1s2Storage'
+          :y2s1Plan='y2s1Storage'
+          :y2s2Plan='y2s2Storage'
+          :y3s1Plan='y3s1Storage'
+          :y3s2Plan='y3s2Storage'
+          :y4s1Plan='y4s1Storage'
+          :y4s2Plan='y4s2Storage'
+        />
         <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
           Update Tree
         </v-btn>

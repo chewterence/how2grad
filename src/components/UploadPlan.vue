@@ -9,8 +9,10 @@
       <v-card>
         <v-card-title>Upload Study Plan</v-card-title>
         <v-divider></v-divider>
-        <v-card-text class="text-left" style="height: 500px;">
-            {{y4s2Plan}}
+        <v-card-text class="text-left" style="height: 200px;">
+            <v-btn class="mx-2" color="green darken-2" outlined x-large rounded @click="dialog = false; loadPlan()" min-width="280px">
+              Confirm
+            </v-btn>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
