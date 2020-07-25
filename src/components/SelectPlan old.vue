@@ -2,8 +2,8 @@
   <v-row>
     <v-dialog v-model="dialog" scrollable max-width="750px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="mr-8" color="grey lighten-1" x-large rounded v-bind="attrs" v-on="on">
-          Select Plan
+        <v-btn class="mr-4" color="grey lighten-1" x-large rounded v-bind="attrs" v-on="on">
+          Load Plan
         </v-btn>
       </template>
       <v-card>

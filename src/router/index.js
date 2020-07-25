@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import VueRouter from 'vue-router'
 import Plan from '../views/Plan.vue'
 
 Vue.use(VueRouter)
 
-const routes: Array<RouteConfig> = [
+  const routes = [
   {
     path: '/plan',
     name: 'Plan',
@@ -13,16 +13,12 @@ const routes: Array<RouteConfig> = [
   {
     path: '/moduleinfo',
     name: 'ModuleInfo',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/ModuleInfo.vue')
   },
   {
     path: '/moduletree',
     name: 'ModuleTree',
     component: () => import('../views/ModuleTree.vue')
-    // props: true
   }
 ]
 
