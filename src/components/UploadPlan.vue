@@ -11,12 +11,22 @@
         <v-divider></v-divider>
         <v-card-text class="text-left" max-height="850px">
           <v-list-item-content>
+            <v-list-item>
               <v-text-field
                 label="Name of Study Plan"
                 placeholder="Computer Science Major..."
                 v-model="uploadName"
                 outlined
               ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                label="Study Plan Description"
+                placeholder="Provide details here..."
+                v-model="details"
+                outlined
+              ></v-text-field>
+            </v-list-item>
             <v-list-item-title class="headline mb-2">{{"Study Plan Summary"}}</v-list-item-title>
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S1: " + y1s1Plan}}</v-list-item-subtitle>
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S2: " + y1s2Plan}}</v-list-item-subtitle>
@@ -48,7 +58,8 @@ export default {
     return {
       plan: '',
       dialog: false,
-      uploadName: ''
+      uploadName: '',
+      details: ''
     }
   },
   props: ['y1s1Plan', 'y1s2Plan', 'y2s1Plan', 'y2s2Plan', 'y3s1Plan', 'y3s2Plan', 'y4s1Plan', 'y4s2Plan'],
@@ -57,6 +68,7 @@ export default {
       this.$firestore.plans.add(
         {
           name: this.uploadName,
+          description: this.details,
           y1s1: this.y1s1Plan,
           y1s2: this.y1s2Plan,
           y2s1: this.y2s1Plan,
@@ -68,6 +80,7 @@ export default {
         }
       );
       this.uploadName = '';
+      this.details = '';
     }
   },
   firestore() {

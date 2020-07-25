@@ -34,9 +34,10 @@
       <v-list v-if="model" class="mx-5 grey lighten-2 text-lg-left">
         <v-list-item-content>
           <v-list-item-title class="headline mb-2">{{model.name}}</v-list-item-title>
-          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Total Modular Credits: (could be calculated in future plans) "}}</v-list-item-subtitle>
+          <p class="mb-5">{{model.description}}</p>
+          <!-- <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Total Modular Credits: (could be calculated in future plans) "}}</v-list-item-subtitle>
           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Number of Years to Complete: (could be calculated in future plans) "}}</v-list-item-subtitle>
-          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Difficulty Rating: (could be calculated in future plans) "}}</v-list-item-subtitle>
+          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Difficulty Rating: (could be calculated in future plans) "}}</v-list-item-subtitle> -->
         </v-list-item-content>
         <v-btn v-if="model" class="mx-2" color="green darken-2" outlined x-large rounded @click="dialog = false; loadPlan()" min-width="280px">
           Select

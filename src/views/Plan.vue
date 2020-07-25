@@ -12,12 +12,12 @@
           :y4s1Plan='y4s1Storage'
           :y4s2Plan='y4s2Storage'
         />
-        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
+        <!-- <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
           Update Tree
-        </v-btn>
-        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="saveAll">
+        </v-btn> -->
+        <!-- <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="saveAll">
           Save
-        </v-btn>
+        </v-btn> -->
         <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">
           Clear All
         </v-btn>
@@ -202,6 +202,7 @@ export default {
       this.savey2s2()
       this.savey3s2()
       this.savey4s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removeAll () {
@@ -246,11 +247,13 @@ export default {
     addy1s1 (value) {
       this.y1s1Storage.push(value.moduleCode)
       this.savey1s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey1s1 (value) {
       this.y1s1Storage = this.y1s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s1()
+      this.consolidateExports()
     },
     // =================================================================== Y2S1
     savey2s1 () {
@@ -260,11 +263,13 @@ export default {
     addy2s1 (value) {
       this.y2s1Storage.push(value.moduleCode)
       this.savey2s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey2s1 (value) {
       this.y2s1Storage = this.y2s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s1()
+      this.consolidateExports()
     },
     // =================================================================== Y3S1
     savey3s1 () {
@@ -274,11 +279,13 @@ export default {
     addy3s1 (value) {
       this.y3s1Storage.push(value.moduleCode)
       this.savey3s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey3s1 (value) {
       this.y3s1Storage = this.y3s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s1()
+      this.consolidateExports()
     },
     // =================================================================== Y4S1
     savey4s1 () {
@@ -288,11 +295,13 @@ export default {
     addy4s1 (value) {
       this.y4s1Storage.push(value.moduleCode)
       this.savey4s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey4s1 (value) {
       this.y4s1Storage = this.y4s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s1()
+      this.consolidateExports()
     },
     // ############################################################################### SEMESTER 2
     // =================================================================== Y1S2
@@ -303,11 +312,13 @@ export default {
     addy1s2 (value) {
       this.y1s2Storage.push(value.moduleCode)
       this.savey1s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey1s2 (value) {
       this.y1s2Storage = this.y1s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s2()
+      this.consolidateExports()
     },
     // =================================================================== Y2S2
     savey2s2 () {
@@ -317,11 +328,13 @@ export default {
     addy2s2 (value) {
       this.y2s2Storage.push(value.moduleCode)
       this.savey2s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey2s2 (value) {
       this.y2s2Storage = this.y2s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s2()
+      this.consolidateExports()
     },
     // =================================================================== Y3S2
     savey3s2 () {
@@ -331,11 +344,13 @@ export default {
     addy3s2 (value) {
       this.y3s2Storage.push(value.moduleCode)
       this.savey3s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey3s2 (value) {
       this.y3s2Storage = this.y3s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s2()
+      this.consolidateExports()
     },
     // =================================================================== Y4S2
     savey4s2 () {
@@ -345,20 +360,13 @@ export default {
     addy4s2 (value) {
       this.y4s2Storage.push(value.moduleCode)
       this.savey4s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey4s2 (value) {
       this.y4s2Storage = this.y4s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s2()
-    }
-  },
-  computed: {
-    numYears: function () {
-      if (this.inputNumYears < 1) {
-        return this.defaultNumYears
-      } else {
-        return this.inputNumYears
-      }
+      this.consolidateExports()
     }
   }
 }
