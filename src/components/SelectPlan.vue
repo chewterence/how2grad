@@ -18,7 +18,7 @@
         :search-input.sync="search"
         class="text-lg-h6 font-weight-regular"
         flat
-        color="grey lighten-3"
+        color="grey lighten-1"
         hide-no-data
         hide-selected
         item-text="name"
@@ -34,7 +34,6 @@
       <v-list v-if="model" class="mx-5 grey lighten-2 text-lg-left">
         <v-list-item-content>
           <v-list-item-title class="headline mb-2">{{model.name}}</v-list-item-title>
-          <p class="mb-5">{{model.description}}</p>
           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Total Modular Credits: (could be calculated in future plans) "}}</v-list-item-subtitle>
           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Number of Years to Complete: (could be calculated in future plans) "}}</v-list-item-subtitle>
           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Difficulty Rating: (could be calculated in future plans) "}}</v-list-item-subtitle>
