@@ -44,7 +44,7 @@ export default {
     }
   },
   props: ['title', 'modules', 'plannedModules'],
-  created (modules) {
+  created () {
     axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
       .then(response => (
         this.modules = response.data.filter(mod => this.plannedModules.includes(mod.moduleCode)))

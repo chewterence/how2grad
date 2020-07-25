@@ -22,7 +22,7 @@ export default {
     }
   },
   methods: {
-    removeModule (event) {
+    removeModule () {
       this.$emit('removeModule', this.module)
     }
   },

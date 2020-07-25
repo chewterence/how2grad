@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    addModule (event) {
+    addModule () {
       this.$emit('addModule', this.model)
     }
   },

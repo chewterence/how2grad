@@ -126,7 +126,6 @@ export default {
 
     changeColour (newState) {
       this.state = newState
-      const wtf = this.modColour
       if (!this.locked && !this.frozen) {
         this.forceRender()
       }
