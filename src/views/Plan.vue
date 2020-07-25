@@ -1,5 +1,5 @@
 <template>
-    <div id="plan">
+    <div id="plan" scrollable>
       <ul style="list-style: none; display: inline-flex; float: left; margin: 3px 45px;">
         <SelectPlan v-on:slectedPlan="loadPlan" />
         <UploadPlan />
