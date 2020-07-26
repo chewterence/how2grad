@@ -12,12 +12,6 @@
           v-bind:y4s1Plan='y4s1Storage'
           v-bind:y4s2Plan='y4s2Storage'
         />
-        <!-- <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
-          Update Tree
-        </v-btn> -->
-        <!-- <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="saveAll">
-          Save
-        </v-btn> -->
         <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">
           Clear All
         </v-btn>
@@ -26,31 +20,31 @@
         <div id="Semester Block">
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s1">
-              <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1"/>
+              <Semester class="mx-5 teal accent-3" v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1" v-if="renderComponent"/>
             </div>
             <div id="y2s1">
-              <Semester v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1"/>
+              <Semester class="mx-5 lime accent-3" v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1" v-if="renderComponent"/>
             </div>
             <div id="y3s1">
-              <Semester v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1"/>
+              <Semester class="mx-5 amber accent-3" v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1" v-if="renderComponent"/>
             </div>
             <div id="y4s1">
-              <Semester v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1"/>
+              <Semester class="mx-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1" v-if="renderComponent"/>
             </div>
           </ul>
           <br>
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s2">
-              <Semester v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2"/>
+              <Semester class="mx-5 teal accent-3" v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2" v-if="renderComponent"/>
             </div>
             <div id="y2s2">
-              <Semester v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2"/>
+              <Semester class="mx-5 lime accent-3" v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2" v-if="renderComponent"/>
             </div>
             <div id="y3s2">
-              <Semester v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2"/>
+              <Semester class="mx-5 amber accent-3" v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2" v-if="renderComponent"/>
             </div>
             <div id="y4s2">
-              <Semester v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2"/>
+              <Semester class="mx-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2" v-if="renderComponent"/>
             </div>
           </ul>
         </div>
@@ -62,7 +56,6 @@
 import Semester from '../components/Semester.vue'
 import SelectPlan from '../components/SelectPlan.vue'
 import UploadPlan from '../components/UploadPlan.vue'
-// import { db } from '../firebase.js'
 
 export default {
   name: 'Plan',
@@ -74,6 +67,7 @@ export default {
   data () {
     return {
       exportedModules: [],
+      renderComponent: true,
       // =============================================================== Empty semesters (Comment out if needed)
       y1s1: [],
       y1s2: [],
@@ -164,6 +158,15 @@ export default {
   },
   methods: {
     // =================================================================== General Methods
+    forceRerender() {
+      // Remove my-component from the DOM
+      this.renderComponent = false
+
+      this.$nextTick().then(() => {
+        // Add the component back in
+        this.renderComponent = true;
+      });
+    },
     consolidateExports () {
       this.exportedModules.push(this.y1s1Storage)
       this.exportedModules.push(this.y2s1Storage)
@@ -175,7 +178,6 @@ export default {
       this.exportedModules.push(this.y4s2Storage)
       this.exportedModules = this.exportedModules.flat()
       this.saveExports()
-      window.location.reload()
     },
     loadPlan (value1, value2, value3, value4, value5, value6, value7, value8) {
       // Semester 1
@@ -192,6 +194,7 @@ export default {
       this.y4s2Storage = value8
       this.saveAll()
       this.consolidateExports()
+      this.forceRerender()
     },
     saveAll () {
       this.savey1s1()
@@ -203,7 +206,6 @@ export default {
       this.savey3s2()
       this.savey4s2()
       this.consolidateExports()
-      window.location.reload()
     },
     removeAll () {
       this.y1s1Storage = []
@@ -223,7 +225,7 @@ export default {
       this.y4s1 = []
       this.y4s2 = []
       this.saveAll()
-      window.location.reload()
+      this.consolidateExports()
     },
     // Exported Modules
     saveExports () {
@@ -248,7 +250,7 @@ export default {
       this.y1s1Storage.push(value.moduleCode)
       this.savey1s1()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey1s1 (value) {
       this.y1s1Storage = this.y1s1Storage.filter(mod => mod !== value.moduleCode)
@@ -264,7 +266,7 @@ export default {
       this.y2s1Storage.push(value.moduleCode)
       this.savey2s1()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey2s1 (value) {
       this.y2s1Storage = this.y2s1Storage.filter(mod => mod !== value.moduleCode)
@@ -280,7 +282,7 @@ export default {
       this.y3s1Storage.push(value.moduleCode)
       this.savey3s1()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey3s1 (value) {
       this.y3s1Storage = this.y3s1Storage.filter(mod => mod !== value.moduleCode)
@@ -296,7 +298,7 @@ export default {
       this.y4s1Storage.push(value.moduleCode)
       this.savey4s1()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey4s1 (value) {
       this.y4s1Storage = this.y4s1Storage.filter(mod => mod !== value.moduleCode)
@@ -313,7 +315,7 @@ export default {
       this.y1s2Storage.push(value.moduleCode)
       this.savey1s2()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey1s2 (value) {
       this.y1s2Storage = this.y1s2Storage.filter(mod => mod !== value.moduleCode)
@@ -329,7 +331,7 @@ export default {
       this.y2s2Storage.push(value.moduleCode)
       this.savey2s2()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey2s2 (value) {
       this.y2s2Storage = this.y2s2Storage.filter(mod => mod !== value.moduleCode)
@@ -345,7 +347,7 @@ export default {
       this.y3s2Storage.push(value.moduleCode)
       this.savey3s2()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey3s2 (value) {
       this.y3s2Storage = this.y3s2Storage.filter(mod => mod !== value.moduleCode)
@@ -361,7 +363,7 @@ export default {
       this.y4s2Storage.push(value.moduleCode)
       this.savey4s2()
       this.consolidateExports()
-      window.location.reload()
+      // window.location.reload()
     },
     removey4s2 (value) {
       this.y4s2Storage = this.y4s2Storage.filter(mod => mod !== value.moduleCode)
