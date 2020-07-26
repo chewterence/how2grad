@@ -17,50 +17,11 @@
             >
               <v-card-title offset-lg12 class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
               <v-card-text class="pt-0 text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
-              <v-dialog
-                v-model="dialog"
-                width="500"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-if="warn" class="pa-0" @click="overlay = !overlay" v-bind="attrs"
-                    v-on="on">
-                    <v-icon class="justify-center" color="orange">mdi-alert</v-icon>
-                  </v-btn>
-                </template>
-
-                <v-card>
-                  <v-card-title class="headline pb-0 justify-center">
-                    Module Prerequisites
-                  </v-card-title>
-
-                  <v-card-text class="pt-0 text-sm-subtitle-2">
-                    {{moduleData.get(moduleID).prerequisite}}
-                  </v-card-text>
-
-                  <v-divider></v-divider>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="primary"
-                      text
-                      class = "text-sm-subtitle-2"
-                      @click="dialog = false"
-                    >
-                      <router-link to="/plan">
-                        go to plan
-                      </router-link>
-                    </v-btn>
-                    <v-btn
-                      color="primary"
-                      text
-                      class = "text-sm-subtitle-2"
-                      @click="dialog = false">
-                      close
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <v-row>
+                <v-col ref='btn-moduleCode' class='pa-0'>
+                  <WarningButton v-if='warn' :msg='moduleData.get(moduleID).prerequisite' v-on:pos-updated='updatePos'/>
+                </v-col>
+              </v-row>
             </v-card>
           </template>
         </v-hover>
@@ -71,10 +32,12 @@
 
 <script>
 import Vue from 'vue'
+import WarningButton from './WarningButton.vue'
 
 export default {
   name: 'SubTreeModule',
   components: {
+    WarningButton
   },
   data () {
     return {
@@ -90,7 +53,8 @@ export default {
       locked: false,
       frozen: false,
       related: false,
-      dialog: false
+      dialog: false,
+      warn: this.warnMap.get(this.moduleID)
     }
   },
   props: ['moduleID', 'nodeData', 'moduleData', 'warnMap'],
@@ -99,9 +63,22 @@ export default {
       // calculate middle coordinate of element for constructing edges
       this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
+      
+      // if (this.warnMap.get(this.moduleID)) {
+      //   console.log(this.moduleID)
+      //   // console.log(this.$refs)
+      //   const test = this.$refs['btn-moduleCode'].getBoundingClientRect().bottom - this.$refs['btn-moduleCode'].getBoundingClientRect().top
+      //   console.log('%s btn update y-value: %s', this.moduleID, test)
+      //   // this.ythis += test
+      // }
+      
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
       Vue.prototype.$modcoordinates.push(this.moduleID)
+      if (this.moduleID === 'MA1521') {
+        console.log('x: %s, y: %s', this.xthis, this.ythis)
+        console.log(this.warnMap.get(this.moduleID))
+      }
     },
 
     updatePos () {
@@ -118,6 +95,7 @@ export default {
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
       Vue.prototype.$xcoordinates[index] = this.xthis
       Vue.prototype.$ycoordinates[index] = this.ythis
+      this.$emit('pos-updated')
     },
 
     toggleLockState () {
@@ -160,18 +138,24 @@ export default {
 
     modColour: function () {
       return this.getColour()
-    },
-
-    warn: function () {
-      return this.warnMap.get(this.moduleID)
     }
   },
   mounted () {
     this.calcPosition()
   },
-  updated: function () {
-    this.updatePos()
-    this.$emit('pos-updated')
+  // updated: function () {
+  //   this.updatePos()
+  //   // this.$emit('pos-updated')
+  // },
+  watch: {
+    // xthis: function (val, oldVal) {
+    //   // console.log('X-value Module: %s, new: %s, old: %s', this.moduleID, val, oldVal)
+    //   this.updatePos()
+    // },
+    ythis: function (val, oldVal) {
+      console.log('Module: %s, new: %s, old: %s', this.moduleID, val, oldVal)
+      this.updatePos()
+    }
   }
 }
 </script>

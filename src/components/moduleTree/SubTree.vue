@@ -158,7 +158,6 @@ export default {
       }
     },
     updateEdges () {
-      // this.componentKey += 1
       if (this.edgeList.length > 0) {
         this.$refs.edgeRef.forEach(edge => edge.updateEdge())
       }
