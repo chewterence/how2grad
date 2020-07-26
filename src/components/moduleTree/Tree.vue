@@ -111,7 +111,6 @@ export default {
       }
     },
     checkWarn (moduleCode, arr) {
-      console.log('checkWarn: ' + moduleCode)
       if (typeof arr === 'string') {
         if (this.reqModsNoModfiers.includes(arr)) {
           return false
@@ -126,8 +125,8 @@ export default {
       } else {
         if (arr.or !== undefined) { // or array
           let warn = true
-          for (let i = 0; i <= arr.length; i++) {
-            if (this.checkWarn(moduleCode, arr[i])) {
+          for (let i = 0; i < arr.or.length; i++) {
+            if (this.checkWarn(moduleCode, arr.or[i])) {
               warn = false
               break
             }
@@ -135,10 +134,10 @@ export default {
           return warn
         } else if (arr.and !== undefined) { // and array
           let warn = false
-          for (let i = 0; i <= arr.length; i++) {
-            if (!this.checkWarn(moduleCode, arr[i])) {
+          for (let i = 0; i < arr.and.length; i++) {
+            if (this.checkWarn(moduleCode, arr.and[i])) {
               warn = true
-              break
+              // break
             }
           }
           return warn

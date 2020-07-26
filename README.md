@@ -1,4 +1,4 @@
-# how2grad
+# how3grad
 
 ## Project setup
 ```

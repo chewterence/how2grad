@@ -20,8 +20,7 @@
       </div>
         <hr>
       <router-view/>
-      <!-- <img alt="Logo" src="./assets/mainpage.png" style="width:100%; height:100%;" v-if="!isHidden"> -->
-    </div>
+      </div>
   </v-app>
 </template>
 

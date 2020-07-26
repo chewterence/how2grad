@@ -1,15 +1,15 @@
-import { initializeApp } from 'firebase'
+import { firebase } from "@firebase/app";
+import "@firebase/firestore";
 
-const app = initializeApp({
-  apiKey: 'AIzaSyAq2VkgOys7IRFvmfAI0U2PYHydfTgPggI',
-  authDomain: 'how2grad.firebaseapp.com',
-  databaseURL: 'https://how2grad.firebaseio.com',
-  projectId: 'how2grad',
-  storageBucket: 'how2grad.appspot.com',
-  messagingSenderId: '99538454955',
-  appId: '1:99538454955:web:548284ff5b7dda5069aaee',
-  measurementId: 'G-FC92VPDBQ7'
-})
+const firebaseApp = firebase.initializeApp({
+    apiKey: "AIzaSyBZpowipEBlj62B3tQjpPrgkG4axhtcx0Y",
+    authDomain: "how2grad-4203b.firebaseapp.com",
+    databaseURL: "https://how2grad-4203b.firebaseio.com",
+    projectId: "how2grad-4203b",
+    storageBucket: "how2grad-4203b.appspot.com",
+    messagingSenderId: "767995742435",
+    appId: "1:767995742435:web:496fccc95ed5095d135dd6",
+    measurementId: "G-9RX39V179P"
+});
 
-export const db = app.database()
-export const namesRef = db.ref('names')
+export const db = firebaseApp.firestore();

@@ -23,24 +23,15 @@
     <v-divider></v-divider>
     <v-expand-transition>
       <v-list v-if="model" class="mx-5 grey lighten-2 text-lg-left">
-        <v-list-item-title class="text-lg-h6">{{"Module Code:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.moduleCode}}</v-list-item-subtitle>
-        <v-list-item-title class="text-lg-h6">{{"Module Title:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.title}}</v-list-item-subtitle>
-        <v-list-item-title class="text-lg-h6">{{"Description:"}}</v-list-item-title>
-        <p class="text--secondary text-lg-subtitle-1">{{model.description}}</p>
-        <v-list-item-title class="text-lg-h6">{{"Modular Credits:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.moduleCredit}}</v-list-item-subtitle>
-        <v-list-item-title class="text-lg-h6">{{"Department:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.department}}</v-list-item-subtitle>
-        <v-list-item-title class="text-lg-h6">{{"Faculty:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.faculty}}</v-list-item-subtitle>
-        <v-list-item-title class="text-lg-h6">{{"Workload:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.workload}}</v-list-item-subtitle>
-        <v-list-item-title class="text-lg-h6">{{"Prerequisites:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.prerequisite}}</v-list-item-subtitle>
-        <v-list-item-title class="text-lg-h6">{{"Preclusions:"}}</v-list-item-title>
-        <v-list-item-subtitle class="text--secondary text-lg-subtitle-1">{{model.preclusion}}</v-list-item-subtitle>
+        <v-list-item-content>
+          <div class="overline mb-4">{{model.faculty + ", " + "Department of " + model.department}}</div>
+          <v-list-item-title class="headline mb-2">{{model.moduleCode + " " + model.title}}</v-list-item-title>
+          <p class="mb-5">{{model.description}}</p>
+          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + model.moduleCredit}}</v-list-item-subtitle>
+          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Prerequisites: " + model.prerequisite}}</v-list-item-subtitle>
+          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Preclusions: " + model.preclusion}}</v-list-item-subtitle>
+          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Workload: " + model.workload}}</v-list-item-subtitle>
+        </v-list-item-content>
       </v-list>
     </v-expand-transition>
     <v-card-actions>

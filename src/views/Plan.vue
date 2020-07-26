@@ -1,13 +1,23 @@
 <template>
-    <div id="plan">
+    <div id="plan" scrollable>
       <ul style="list-style: none; display: inline-flex; float: left; margin: 3px 45px;">
         <SelectPlan v-on:slectedPlan="loadPlan" />
-        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
+        <UploadPlan 
+          v-bind:y1s1Plan='y1s1Storage'
+          v-bind:y1s2Plan='y1s2Storage'
+          v-bind:y2s1Plan='y2s1Storage'
+          v-bind:y2s2Plan='y2s2Storage'
+          v-bind:y3s1Plan='y3s1Storage'
+          v-bind:y3s2Plan='y3s2Storage'
+          v-bind:y4s1Plan='y4s1Storage'
+          v-bind:y4s2Plan='y4s2Storage'
+        />
+        <!-- <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
           Update Tree
-        </v-btn>
-        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="saveAll">
+        </v-btn> -->
+        <!-- <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="saveAll">
           Save
-        </v-btn>
+        </v-btn> -->
         <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">
           Clear All
         </v-btn>
@@ -16,7 +26,7 @@
         <div id="Semester Block">
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s1">
-              <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1" v-on:removeModule="removey1s1"/>
+              <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1"/>
             </div>
             <div id="y2s1">
               <Semester v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1"/>
@@ -51,31 +61,19 @@
 <script>
 import Semester from '../components/Semester.vue'
 import SelectPlan from '../components/SelectPlan.vue'
+import UploadPlan from '../components/UploadPlan.vue'
+// import { db } from '../firebase.js'
 
 export default {
   name: 'Plan',
   components: {
     Semester,
-    SelectPlan
+    SelectPlan,
+    UploadPlan
   },
   data () {
     return {
-      // inputNumYears: -1,
-      // defaultNumYears: 4,
       exportedModules: [],
-      // Testing preloaded planned data (COMMENT THESE OUT FOR CLEAN SLATE)
-      // // Semester 1
-      // y1s1: ['CS1231S', 'CS1010', 'ES1103', 'UTC1117', 'MA1521'],
-      // y1s2: ['CS2030', 'CS2100', 'CS2040S', 'UTW1001Z', 'UTC2101'],
-      // // Semester 2
-      // y2s1: ['MA1101R', 'CS2103T', 'CS2106', 'CS2101', 'UTC2105'],
-      // y2s2: ['ST2334', 'ES2660', 'CS3230', 'UTW2001Q', 'CS2105'],
-      // // Semester 3
-      // y3s1: ['CS2104', 'CS2107', 'CS3210', 'CS3220', 'CS3223'],
-      // y3s2: ['CS3233', 'CS3234', 'CS3244', 'CS3241', 'CS3236'],
-      // // Semester 4
-      // y4s1: ['CS4212', 'CS4226', 'CS5224', 'CS5223', 'CS6207'],
-      // y4s2: ['CS4225', 'CS4234', 'CS6270', 'CS6285', 'CS6234']
       // =============================================================== Empty semesters (Comment out if needed)
       y1s1: [],
       y1s2: [],
@@ -204,6 +202,7 @@ export default {
       this.savey2s2()
       this.savey3s2()
       this.savey4s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removeAll () {
@@ -248,11 +247,13 @@ export default {
     addy1s1 (value) {
       this.y1s1Storage.push(value.moduleCode)
       this.savey1s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey1s1 (value) {
       this.y1s1Storage = this.y1s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s1()
+      this.consolidateExports()
     },
     // =================================================================== Y2S1
     savey2s1 () {
@@ -262,11 +263,13 @@ export default {
     addy2s1 (value) {
       this.y2s1Storage.push(value.moduleCode)
       this.savey2s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey2s1 (value) {
       this.y2s1Storage = this.y2s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s1()
+      this.consolidateExports()
     },
     // =================================================================== Y3S1
     savey3s1 () {
@@ -276,11 +279,13 @@ export default {
     addy3s1 (value) {
       this.y3s1Storage.push(value.moduleCode)
       this.savey3s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey3s1 (value) {
       this.y3s1Storage = this.y3s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s1()
+      this.consolidateExports()
     },
     // =================================================================== Y4S1
     savey4s1 () {
@@ -290,11 +295,13 @@ export default {
     addy4s1 (value) {
       this.y4s1Storage.push(value.moduleCode)
       this.savey4s1()
+      this.consolidateExports()
       window.location.reload()
     },
     removey4s1 (value) {
       this.y4s1Storage = this.y4s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s1()
+      this.consolidateExports()
     },
     // ############################################################################### SEMESTER 2
     // =================================================================== Y1S2
@@ -305,11 +312,13 @@ export default {
     addy1s2 (value) {
       this.y1s2Storage.push(value.moduleCode)
       this.savey1s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey1s2 (value) {
       this.y1s2Storage = this.y1s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s2()
+      this.consolidateExports()
     },
     // =================================================================== Y2S2
     savey2s2 () {
@@ -319,11 +328,13 @@ export default {
     addy2s2 (value) {
       this.y2s2Storage.push(value.moduleCode)
       this.savey2s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey2s2 (value) {
       this.y2s2Storage = this.y2s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s2()
+      this.consolidateExports()
     },
     // =================================================================== Y3S2
     savey3s2 () {
@@ -333,11 +344,13 @@ export default {
     addy3s2 (value) {
       this.y3s2Storage.push(value.moduleCode)
       this.savey3s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey3s2 (value) {
       this.y3s2Storage = this.y3s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s2()
+      this.consolidateExports()
     },
     // =================================================================== Y4S2
     savey4s2 () {
@@ -347,20 +360,13 @@ export default {
     addy4s2 (value) {
       this.y4s2Storage.push(value.moduleCode)
       this.savey4s2()
+      this.consolidateExports()
       window.location.reload()
     },
     removey4s2 (value) {
       this.y4s2Storage = this.y4s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s2()
-    }
-  },
-  computed: {
-    numYears: function () {
-      if (this.inputNumYears < 1) {
-        return this.defaultNumYears
-      } else {
-        return this.inputNumYears
-      }
+      this.consolidateExports()
     }
   }
 }
