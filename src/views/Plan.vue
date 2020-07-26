@@ -1,56 +1,51 @@
 <template>
     <div id="plan" scrollable>
-      <ul style="list-style: none; display: inline-flex; float: left; margin: 3px 45px;">
+      <ul style="list-style: none; display: inline-flex; float: left; margin: 5px 45px;">
         <SelectPlan v-on:slectedPlan="loadPlan" />
         <UploadPlan 
           v-bind:y1s1Plan='y1s1Storage'
-          :y1s2Plan='y1s2Storage'
-          :y2s1Plan='y2s1Storage'
-          :y2s2Plan='y2s2Storage'
-          :y3s1Plan='y3s1Storage'
-          :y3s2Plan='y3s2Storage'
-          :y4s1Plan='y4s1Storage'
-          :y4s2Plan='y4s2Storage'
+          v-bind:y1s2Plan='y1s2Storage'
+          v-bind:y2s1Plan='y2s1Storage'
+          v-bind:y2s2Plan='y2s2Storage'
+          v-bind:y3s1Plan='y3s1Storage'
+          v-bind:y3s2Plan='y3s2Storage'
+          v-bind:y4s1Plan='y4s1Storage'
+          v-bind:y4s2Plan='y4s2Storage'
         />
-        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="consolidateExports">
-          Update Tree
-        </v-btn>
-        <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="saveAll">
-          Save
-        </v-btn>
         <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">
+          <v-icon large class="mr-2">mdi-delete-sweep</v-icon>
           Clear All
         </v-btn>
       </ul>
       <ul style="list-style: none; display: inline-flex; float: left;">
-        <div id="Semester Block">
+        <div id="Semester Block" >
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s1">
-              <Semester v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1"/>
+              <Semester class="ma-5 teal accent-3" v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1" v-if="renderComponent"/>
             </div>
             <div id="y2s1">
-              <Semester v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1"/>
+              <Semester class="ma-5 lime accent-3" v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1" v-if="renderComponent"/>
             </div>
             <div id="y3s1">
-              <Semester v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1"/>
+              <Semester class="ma-5 amber accent-3" v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1" v-if="renderComponent"/>
             </div>
             <div id="y4s1">
-              <Semester v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1"/>
+              <Semester class="ma-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1" v-if="renderComponent"/>
             </div>
           </ul>
           <br>
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s2">
-              <Semester v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2"/>
+              <Semester class="ma-5 teal accent-3" v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2" v-if="renderComponent"/>
             </div>
             <div id="y2s2">
-              <Semester v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2"/>
+              <Semester class="ma-5 lime accent-3" v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2" v-if="renderComponent"/>
             </div>
             <div id="y3s2">
-              <Semester v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2"/>
+              <Semester class="ma-5 amber accent-3" v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2" v-if="renderComponent"/>
             </div>
             <div id="y4s2">
-              <Semester v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2"/>
+              <Semester class="ma-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2" v-if="renderComponent"/>
             </div>
           </ul>
         </div>
@@ -62,7 +57,6 @@
 import Semester from '../components/Semester.vue'
 import SelectPlan from '../components/SelectPlan.vue'
 import UploadPlan from '../components/UploadPlan.vue'
-// import { db } from '../firebase.js'
 
 export default {
   name: 'Plan',
@@ -74,6 +68,7 @@ export default {
   data () {
     return {
       exportedModules: [],
+      renderComponent: true,
       // =============================================================== Empty semesters (Comment out if needed)
       y1s1: [],
       y1s2: [],
@@ -164,6 +159,15 @@ export default {
   },
   methods: {
     // =================================================================== General Methods
+    forceRerender() {
+      // Remove my-component from the DOM
+      this.renderComponent = false
+
+      this.$nextTick().then(() => {
+        // Add the component back in
+        this.renderComponent = true;
+      });
+    },
     consolidateExports () {
       this.exportedModules.push(this.y1s1Storage)
       this.exportedModules.push(this.y2s1Storage)
@@ -202,7 +206,7 @@ export default {
       this.savey2s2()
       this.savey3s2()
       this.savey4s2()
-      window.location.reload()
+      this.consolidateExports()
     },
     removeAll () {
       this.y1s1Storage = []
@@ -222,7 +226,7 @@ export default {
       this.y4s1 = []
       this.y4s2 = []
       this.saveAll()
-      window.location.reload()
+      this.consolidateExports()
     },
     // Exported Modules
     saveExports () {
@@ -246,11 +250,13 @@ export default {
     addy1s1 (value) {
       this.y1s1Storage.push(value.moduleCode)
       this.savey1s1()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey1s1 (value) {
       this.y1s1Storage = this.y1s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s1()
+      this.consolidateExports()
     },
     // =================================================================== Y2S1
     savey2s1 () {
@@ -260,11 +266,13 @@ export default {
     addy2s1 (value) {
       this.y2s1Storage.push(value.moduleCode)
       this.savey2s1()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey2s1 (value) {
       this.y2s1Storage = this.y2s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s1()
+      this.consolidateExports()
     },
     // =================================================================== Y3S1
     savey3s1 () {
@@ -274,11 +282,13 @@ export default {
     addy3s1 (value) {
       this.y3s1Storage.push(value.moduleCode)
       this.savey3s1()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey3s1 (value) {
       this.y3s1Storage = this.y3s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s1()
+      this.consolidateExports()
     },
     // =================================================================== Y4S1
     savey4s1 () {
@@ -288,11 +298,13 @@ export default {
     addy4s1 (value) {
       this.y4s1Storage.push(value.moduleCode)
       this.savey4s1()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey4s1 (value) {
       this.y4s1Storage = this.y4s1Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s1()
+      this.consolidateExports()
     },
     // ############################################################################### SEMESTER 2
     // =================================================================== Y1S2
@@ -303,11 +315,13 @@ export default {
     addy1s2 (value) {
       this.y1s2Storage.push(value.moduleCode)
       this.savey1s2()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey1s2 (value) {
       this.y1s2Storage = this.y1s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey1s2()
+      this.consolidateExports()
     },
     // =================================================================== Y2S2
     savey2s2 () {
@@ -317,11 +331,13 @@ export default {
     addy2s2 (value) {
       this.y2s2Storage.push(value.moduleCode)
       this.savey2s2()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey2s2 (value) {
       this.y2s2Storage = this.y2s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey2s2()
+      this.consolidateExports()
     },
     // =================================================================== Y3S2
     savey3s2 () {
@@ -331,11 +347,13 @@ export default {
     addy3s2 (value) {
       this.y3s2Storage.push(value.moduleCode)
       this.savey3s2()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey3s2 (value) {
       this.y3s2Storage = this.y3s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey3s2()
+      this.consolidateExports()
     },
     // =================================================================== Y4S2
     savey4s2 () {
@@ -345,20 +363,13 @@ export default {
     addy4s2 (value) {
       this.y4s2Storage.push(value.moduleCode)
       this.savey4s2()
-      window.location.reload()
+      this.consolidateExports()
+      // window.location.reload()
     },
     removey4s2 (value) {
       this.y4s2Storage = this.y4s2Storage.filter(mod => mod !== value.moduleCode)
       this.savey4s2()
-    }
-  },
-  computed: {
-    numYears: function () {
-      if (this.inputNumYears < 1) {
-        return this.defaultNumYears
-      } else {
-        return this.inputNumYears
-      }
+      this.consolidateExports()
     }
   }
 }
