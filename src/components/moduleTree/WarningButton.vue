@@ -1,5 +1,5 @@
 <template>
-  <v-container class="text-center pa-0">
+  <v-container class="text-center pa-0" ref='btn-moduleCode'>
     <v-dialog
         v-model="dialog"
         width="500"
@@ -59,8 +59,8 @@ export default {
   },
   mounted () {
     // this.calcPosition()
-    console.log('test')
-    this.$emit('pos-updated')
+    console.log(this.$refs['btn-moduleCode'])
+    this.$emit('btn-generated', 90)
   }
 }
 </script>

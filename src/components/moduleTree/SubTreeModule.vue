@@ -19,7 +19,7 @@
               <v-card-text class="pt-0 text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
               <v-row>
                 <v-col ref='btn-moduleCode' class='pa-0'>
-                  <WarningButton v-if='warn' :msg='moduleData.get(moduleID).prerequisite' v-on:pos-updated='updatePos'/>
+                  <WarningButton v-if='warn' :msg='moduleData.get(moduleID).prerequisite'/>
                 </v-col>
               </v-row>
             </v-card>
@@ -64,21 +64,13 @@ export default {
       this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
       
-      // if (this.warnMap.get(this.moduleID)) {
-      //   console.log(this.moduleID)
-      //   // console.log(this.$refs)
-      //   const test = this.$refs['btn-moduleCode'].getBoundingClientRect().bottom - this.$refs['btn-moduleCode'].getBoundingClientRect().top
-      //   console.log('%s btn update y-value: %s', this.moduleID, test)
-      //   // this.ythis += test
-      // }
-      
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
       Vue.prototype.$modcoordinates.push(this.moduleID)
-      if (this.moduleID === 'MA1521') {
-        console.log('x: %s, y: %s', this.xthis, this.ythis)
-        console.log(this.warnMap.get(this.moduleID))
-      }
+      // if (this.moduleID === 'MA1521') {
+      //   console.log('x: %s, y: %s', this.xthis, this.ythis)
+      //   console.log(this.warnMap.get(this.moduleID))
+      // }
     },
 
     updatePos () {
@@ -130,6 +122,24 @@ export default {
         return this.cachedColour
       }
     }
+
+    // addToY (value) {
+    //   // console.log('yadded %s', value)
+
+    //   let index
+
+    //   for (let i = 0; i < Vue.prototype.$modcoordinates.length; i++) {
+    //     if (this.moduleID === Vue.prototype.$modcoordinates[i]) {
+    //       index = i
+    //       break
+    //     }
+    //   }
+
+    //   console.log(this.ythis)
+    //   this.ythis += value
+    //   Vue.prototype.$ycoordinates[index] = this.ythis
+    //   console.log(this.ythis)
+    // }
   },
   computed: {
     moduleTitle: function () {

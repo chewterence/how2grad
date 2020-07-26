@@ -112,6 +112,7 @@ export default {
     },
     checkWarn (moduleCode, arr) {
       if (typeof arr === 'string') {
+        arr = arr.match(/\w+\d\d\d\d/)[0]
         if (this.reqModsNoModfiers.includes(arr)) {
           return false
         } else {
@@ -126,9 +127,9 @@ export default {
         if (arr.or !== undefined) { // or array
           let warn = true
           for (let i = 0; i < arr.or.length; i++) {
-            if (this.checkWarn(moduleCode, arr.or[i])) {
+            if (!this.checkWarn(moduleCode, arr.or[i])) {
               warn = false
-              break
+              // break
             }
           }
           return warn
