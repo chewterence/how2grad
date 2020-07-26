@@ -1,6 +1,6 @@
 <template>
     <div id="plan" scrollable>
-      <ul style="list-style: none; display: inline-flex; float: left; margin: 3px 45px;">
+      <ul style="list-style: none; display: inline-flex; float: left; margin: 5px 45px;">
         <SelectPlan v-on:slectedPlan="loadPlan" />
         <UploadPlan 
           v-bind:y1s1Plan='y1s1Storage'
@@ -13,38 +13,39 @@
           v-bind:y4s2Plan='y4s2Storage'
         />
         <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">
+          <v-icon large class="mr-2">mdi-delete-sweep</v-icon>
           Clear All
         </v-btn>
       </ul>
       <ul style="list-style: none; display: inline-flex; float: left;">
-        <div id="Semester Block">
+        <div id="Semester Block" >
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s1">
-              <Semester class="mx-5 teal accent-3" v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1" v-if="renderComponent"/>
+              <Semester class="ma-5 teal accent-3" v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1" v-if="renderComponent"/>
             </div>
             <div id="y2s1">
-              <Semester class="mx-5 lime accent-3" v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1" v-if="renderComponent"/>
+              <Semester class="ma-5 lime accent-3" v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1" v-if="renderComponent"/>
             </div>
             <div id="y3s1">
-              <Semester class="mx-5 amber accent-3" v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1" v-if="renderComponent"/>
+              <Semester class="ma-5 amber accent-3" v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1" v-if="renderComponent"/>
             </div>
             <div id="y4s1">
-              <Semester class="mx-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1" v-if="renderComponent"/>
+              <Semester class="ma-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1" v-if="renderComponent"/>
             </div>
           </ul>
           <br>
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s2">
-              <Semester class="mx-5 teal accent-3" v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2" v-if="renderComponent"/>
+              <Semester class="ma-5 teal accent-3" v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2" v-if="renderComponent"/>
             </div>
             <div id="y2s2">
-              <Semester class="mx-5 lime accent-3" v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2" v-if="renderComponent"/>
+              <Semester class="ma-5 lime accent-3" v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2" v-if="renderComponent"/>
             </div>
             <div id="y3s2">
-              <Semester class="mx-5 amber accent-3" v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2" v-if="renderComponent"/>
+              <Semester class="ma-5 amber accent-3" v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2" v-if="renderComponent"/>
             </div>
             <div id="y4s2">
-              <Semester class="mx-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2" v-if="renderComponent"/>
+              <Semester class="ma-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2" v-if="renderComponent"/>
             </div>
           </ul>
         </div>
@@ -178,6 +179,7 @@ export default {
       this.exportedModules.push(this.y4s2Storage)
       this.exportedModules = this.exportedModules.flat()
       this.saveExports()
+      window.location.reload()
     },
     loadPlan (value1, value2, value3, value4, value5, value6, value7, value8) {
       // Semester 1
@@ -195,6 +197,7 @@ export default {
       this.saveAll()
       this.consolidateExports()
       this.forceRerender()
+      window.location.reload()
     },
     saveAll () {
       this.savey1s1()

@@ -24,7 +24,7 @@
                   item-value="moduleCode"
                   placeholder="Search by module code (CS2030 or MA1521)..."
                   label="Search for a Module"
-                  prepend-icon="mdi-database-search"
+                  prepend-icon="mdi-book"
                   return-object
                 ></v-autocomplete>
               </v-card-text>

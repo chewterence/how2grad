@@ -1,13 +1,13 @@
 <template>
   <v-card
-    class="mx-auto"
-    max-width="420"
-    height="600px"
-    rounded
+    class="mx-1 my-1"
+    width="420"
+    min-height="500px"
     color="transparent"
+    rounded
   >
     <v-list color="transparent" rounded>
-      <v-list-item-title class="headline mb-3">{{title}}</v-list-item-title>
+      <v-list-item-title class="text-lg-h5 font-weight-bold mb-3">{{title}}</v-list-item-title>
       <AddModuleButton class="mx-1 mb-3" v-on:addModule="addModule"/>
       <v-list-item-group v-model="item" color="primary">
         <v-list-item
@@ -16,10 +16,10 @@
           :key="i"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="module.moduleCode"></v-list-item-title>
-            <v-list-item-title v-text="module.title"></v-list-item-title>
+            <v-list-item-title v-text="module.moduleCode" class="text-lg-h6" ></v-list-item-title>
+            <v-list-item-title v-text="module.title" class="text-lg-subtitle-1"></v-list-item-title>
           </v-list-item-content>
-          <v-btn rounded class="red lighten-3" @click="removeModule(module)">x</v-btn>
+            <v-icon large @click="removeModule(module)" color="red lighten-1">mdi-close</v-icon>
         </v-list-item>
       </v-list-item-group>
     </v-list>
