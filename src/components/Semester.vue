@@ -2,7 +2,7 @@
   <v-card
     class="mx-1 my-1"
     width="420"
-    min-height="500px"
+    min-height="580px"
     color="transparent"
     rounded
   >
@@ -19,7 +19,7 @@
             <v-list-item-title v-text="module.moduleCode" class="text-lg-h6" ></v-list-item-title>
             <v-list-item-title v-text="module.title" class="text-lg-subtitle-1"></v-list-item-title>
           </v-list-item-content>
-            <v-icon large @click="removeModule(module)" color="red lighten-1">mdi-close</v-icon>
+            <v-icon @click="removeModule(module)" color="red lighten-1">mdi-close</v-icon>
         </v-list-item>
       </v-list-item-group>
     </v-list>

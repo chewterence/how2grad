@@ -196,8 +196,6 @@ export default {
       this.y4s2Storage = value8
       this.saveAll()
       this.consolidateExports()
-      this.forceRerender()
-      window.location.reload()
     },
     saveAll () {
       this.savey1s1()
