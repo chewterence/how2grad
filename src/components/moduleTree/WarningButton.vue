@@ -1,7 +1,6 @@
 <template>
   <v-container class="text-center pa-0" ref='btn-moduleCode'>
-    <v-btn icon v-bind="attrs"
-    v-on="on"
+    <v-btn icon
     @click.stop="dialog = true">
       <v-icon class="justify-center" color="orange">mdi-alert</v-icon>
     </v-btn>
