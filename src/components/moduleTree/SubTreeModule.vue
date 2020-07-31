@@ -1,7 +1,7 @@
 <template>
-  <v-container class="text-center">
+  <v-container class="text-center" ref='pos-moduleCode'>
     <v-row justify="center">
-      <v-col ref='pos-moduleCode'>
+      <v-col>
         <v-hover>
           <template v-slot="{ hover }">
             <v-card class="mx-auto"
@@ -18,8 +18,8 @@
               <v-card-title offset-lg12 class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
               <v-card-text class="pt-0 text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
               <v-row>
-                <v-col ref='btn-moduleCode' class='pa-0'>
-                  <WarningButton v-if='warn' :msg='moduleData.get(moduleID).prerequisite' v-on:pos-updated='updatePos'/>
+                <v-col class='pa-0'>
+                  <WarningButton v-if='warn' :msg='moduleData.get(moduleID).prerequisite' v-on:pos-updated-button='testUpdate'/>
                 </v-col>
               </v-row>
             </v-card>
@@ -67,18 +67,14 @@ export default {
       // if (this.warnMap.get(this.moduleID)) {
       //   console.log(this.moduleID)
       //   // console.log(this.$refs)
-      //   const test = this.$refs['btn-moduleCode'].getBoundingClientRect().bottom - this.$refs['btn-moduleCode'].getBoundingClientRect().top
-      //   console.log('%s btn update y-value: %s', this.moduleID, test)
-      //   // this.ythis += test
+      //   // const test = this.$refs['btn-moduleCode'].getBoundingClientRect().bottom - this.$refs['btn-moduleCode'].getBoundingClientRect().top
+      //   // console.log('%s btn update y-value: %s', this.moduleID, test)
+      //   this.ythis += test
       // }
       
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
       Vue.prototype.$modcoordinates.push(this.moduleID)
-      if (this.moduleID === 'MA1521') {
-        console.log('x: %s, y: %s', this.xthis, this.ythis)
-        console.log(this.warnMap.get(this.moduleID))
-      }
     },
 
     updatePos () {
@@ -96,6 +92,11 @@ export default {
       Vue.prototype.$xcoordinates[index] = this.xthis
       Vue.prototype.$ycoordinates[index] = this.ythis
       this.$emit('pos-updated')
+    },
+
+    testUpdate() {
+      Vue.nextTick(this.updatePos())
+      console.log("y: %s", this.ythis)
     },
 
     toggleLockState () {
@@ -148,10 +149,10 @@ export default {
   //   // this.$emit('pos-updated')
   // },
   watch: {
-    // xthis: function (val, oldVal) {
-    //   // console.log('X-value Module: %s, new: %s, old: %s', this.moduleID, val, oldVal)
-    //   this.updatePos()
-    // },
+    xthis: function () {
+      // console.log('X-value Module: %s, new: %s, old: %s', this.moduleID, val, oldVal)
+      this.updatePos()
+    },
     ythis: function (val, oldVal) {
       console.log('Module: %s, new: %s, old: %s', this.moduleID, val, oldVal)
       this.updatePos()
