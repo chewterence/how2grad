@@ -18,8 +18,13 @@
               <v-card-title offset-lg12 class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
               <v-card-text class="pt-0 text-sm-subtitle-2">{{moduleTitle}}</v-card-text>
               <v-row>
+<<<<<<< HEAD
+                <v-col ref='btn-moduleCode' class='pa-0'>
+                  <WarningButton v-if='warn' :msg='moduleData.get(moduleID).prerequisite'/>
+=======
                 <v-col class='pa-0'>
                   <WarningButton v-if='warn' :msg='moduleData.get(moduleID).prerequisite' v-on:pos-updated-button='testUpdate'/>
+>>>>>>> 3c150d664ff71d1a595f458de5c20ef143fe6dd4
                 </v-col>
               </v-row>
             </v-card>
@@ -131,6 +136,24 @@ export default {
         return this.cachedColour
       }
     }
+
+    // addToY (value) {
+    //   // console.log('yadded %s', value)
+
+    //   let index
+
+    //   for (let i = 0; i < Vue.prototype.$modcoordinates.length; i++) {
+    //     if (this.moduleID === Vue.prototype.$modcoordinates[i]) {
+    //       index = i
+    //       break
+    //     }
+    //   }
+
+    //   console.log(this.ythis)
+    //   this.ythis += value
+    //   Vue.prototype.$ycoordinates[index] = this.ythis
+    //   console.log(this.ythis)
+    // }
   },
   computed: {
     moduleTitle: function () {

@@ -61,7 +61,7 @@ export default {
   text-decoration: none;
   text-align: left;
   font-size:25px;
-  font-family: Avenir;
+  font-family: 'Roboto Condensed', sans-serif;
   /* margin-left: 1px; */
 }
 

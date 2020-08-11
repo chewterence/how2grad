@@ -62,8 +62,8 @@ export default {
   },
   mounted () {
     // this.calcPosition()
-    console.log('test-warningbutton')
-    Vue.nextTick(this.testMethod())
+    console.log(this.$refs['btn-moduleCode'])
+    this.$emit('btn-generated', 90)
   }
 }
 </script>

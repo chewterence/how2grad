@@ -107,6 +107,7 @@ export default {
     },
     checkWarn (moduleCode, arr) {
       if (typeof arr === 'string') {
+        arr = arr.match(/\w+\d\d\d\d/)[0]
         if (this.reqModsNoModfiers.includes(arr)) {
           return false
         } else {
