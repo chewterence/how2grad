@@ -29,14 +29,14 @@
               ></v-text-field>
             </v-list-item>
             <v-list-item>
-              <v-text-field
-                label="Study Plan Description"
-                placeholder="Provide details here..."
-                v-model="details"
-                outlined
-              ></v-text-field>
+            <v-textarea
+              v-model="details"
+              outlined
+              label="Description"
+              value=""
+            ></v-textarea>
             </v-list-item>
-            <v-list-item-title class="headline mb-2">{{"Study Plan Summary"}}</v-list-item-title>
+            <v-list-item-title class="headline mb-2">{{"Your Study Plan Summary"}}</v-list-item-title>
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S1: " + y1s1Plan}}</v-list-item-subtitle>
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S2: " + y1s2Plan}}</v-list-item-subtitle>
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S1: " + y2s1Plan}}</v-list-item-subtitle>
@@ -45,15 +45,37 @@
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S2: " + y3s2Plan}}</v-list-item-subtitle>
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S1: " + y4s1Plan}}</v-list-item-subtitle>
             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S2: " + y4s2Plan}}</v-list-item-subtitle>
-            <v-btn class="mx-2" color="green darken-2" outlined x-large rounded @click="dialog = false; uploadPlan()" max-width="380px">
+            <v-dialog v-model="dialogconfirm" persistent max-width="400">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  class="mt-5"
+                  color="green darken-2"
+                  v-bind="attrs"
+                  v-on="on"
+                  max-width="380px"
+                  outlined
+                  x-large
+                  rounded
+                >
               <v-icon class="mr-2">mdi-cloud-upload</v-icon>
               Confirm Upload
             </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline">Confirm Upload?</v-card-title>
+                <v-card-text class="text-left">By clicking on "Confirm", you hereby consent to uploading the following plan onto How2Grad's database to be made available for the general public. In the case that you wish to remove the plan that you have submitted from the database, do contact the site developers and provide more information for verification.</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialogconfirm = false; dialog = false; uploadPlan()">Confirm</v-btn>
+                  <v-btn color="red darken-1" text @click="dialogconfirm = false">Cancel</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-list-item-content>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+          <v-btn color="red darken-1" text @click="dialog = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -68,6 +90,7 @@ export default {
     return {
       plan: '',
       dialog: false,
+      dialogconfirm: false,
       uploadName: '',
       details: '',
       authorName: ''

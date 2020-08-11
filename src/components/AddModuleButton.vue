@@ -2,7 +2,7 @@
   <v-row>
     <v-dialog v-model="dialog" rounded scrollable max-width="900px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="black" outlined x-large rounded v-bind="attrs" v-on="on" min-width="380px">
+        <v-btn color="black" outlined x-large rounded v-bind="attrs" v-on="on" min-width="400px">
           + Add Module
         </v-btn>
       </template>

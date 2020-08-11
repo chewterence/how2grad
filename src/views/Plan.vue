@@ -21,31 +21,31 @@
         <div id="Semester Block" >
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s1">
-              <Semester class="ma-5 teal accent-3" v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1" v-if="renderComponent"/>
+              <Semester class="ma-5 teal accent-4" color: #1b3e70 v-bind:title='"Year 1 Semester 1"' :plannedModules='y1s1'  v-on:addModule="addy1s1;" v-on:removeModule="removey1s1" v-if="renderComponent"/>
             </div>
             <div id="y2s1">
-              <Semester class="ma-5 lime accent-3" v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1" v-if="renderComponent"/>
+              <Semester class="ma-5 lime accent-4" v-bind:title='"Year 2 Semester 1"' :plannedModules='y2s1'  v-on:addModule="addy2s1" v-on:removeModule="removey2s1" v-if="renderComponent"/>
             </div>
             <div id="y3s1">
-              <Semester class="ma-5 amber accent-3" v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1" v-if="renderComponent"/>
+              <Semester class="ma-5 amber accent-4" v-bind:title='"Year 3 Semester 1"' :plannedModules='y3s1'  v-on:addModule="addy3s1" v-on:removeModule="removey3s1" v-if="renderComponent"/>
             </div>
             <div id="y4s1">
-              <Semester class="ma-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1" v-if="renderComponent"/>
+              <Semester class="ma-5 orange accent-4" v-bind:title='"Year 4 Semester 1"' :plannedModules='y4s1'  v-on:addModule="addy4s1" v-on:removeModule="removey4s1" v-if="renderComponent"/>
             </div>
           </ul>
           <br>
           <ul style="list-style: none; display: inline-flex;">
             <div id="y1s2">
-              <Semester class="ma-5 teal accent-3" v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2" v-if="renderComponent"/>
+              <Semester class="ma-5 teal accent-4" v-bind:title='"Year 1 Semester 2"' :plannedModules='y1s2' v-on:addModule="addy1s2" v-on:removeModule="removey1s2" v-if="renderComponent"/>
             </div>
             <div id="y2s2">
-              <Semester class="ma-5 lime accent-3" v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2" v-if="renderComponent"/>
+              <Semester class="ma-5 lime accent-4" v-bind:title='"Year 2 Semester 2"' :plannedModules='y2s2' v-on:addModule="addy2s2" v-on:removeModule="removey2s2" v-if="renderComponent"/>
             </div>
             <div id="y3s2">
-              <Semester class="ma-5 amber accent-3" v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2" v-if="renderComponent"/>
+              <Semester class="ma-5 amber accent-4" v-bind:title='"Year 3 Semester 2"' :plannedModules='y3s2' v-on:addModule="addy3s2" v-on:removeModule="removey3s2" v-if="renderComponent"/>
             </div>
             <div id="y4s2">
-              <Semester class="ma-5 deep-orange accent-2" v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2" v-if="renderComponent"/>
+              <Semester class="ma-5 orange accent-4" v-bind:title='"Year 4 Semester 2"' :plannedModules='y4s2' v-on:addModule="addy4s2" v-on:removeModule="removey4s2" v-if="renderComponent"/>
             </div>
           </ul>
         </div>

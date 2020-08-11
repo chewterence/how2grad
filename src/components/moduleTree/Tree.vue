@@ -1,11 +1,11 @@
 <template>
   <div class="img-overlay-wrap">
-        <Structure v-if="modulePrereqData.size > 0"
-          v-bind:requiredModules='requiredModules'
-          :modulePrereqData='modulePrereqData'
-          :modulePrereqDataNoModifiers='reqModsNoModfiers'
-          :moduleData='moduleData'
-          :warnMap='warnMap'/>
+    <Structure v-if="modulePrereqData.size > 0"
+      v-bind:requiredModules='requiredModules'
+      :modulePrereqData='modulePrereqData'
+      :modulePrereqDataNoModifiers='reqModsNoModfiers'
+      :moduleData='moduleData'
+      :warnMap='warnMap'/>
   </div>
 </template>
 
@@ -31,7 +31,9 @@ export default {
     initData () {
       const promises = []
       for (let i = 0; i < this.requiredModules.length; i++) {
-        promises.push(axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json'))
+        if (this.requiredModules[i].match('/\w+\d\d\d\d\w+/')) {
+          promises.push(axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json'))
+        }
       }
       axios.all(promises).then(promise => promise.forEach(response => this.moduleData.set(response.data.moduleCode, response.data)))
         .then(() => { this.genPrereqData() })
@@ -75,11 +77,6 @@ export default {
             }
             this.warnMap.set(moduleCode, false)
           } else {
-            // if (this.warnMap.get(moduleCode) === undefined) {
-            //   this.warnMap.set(moduleCode, new Set().add(newList[i]))
-            // } else {
-            //   this.warnMap.get(moduleCode).add(newList[i])
-            // }
             this.warnMap.set(moduleCode, true)
           }
         }
@@ -116,11 +113,6 @@ export default {
         if (this.reqModsNoModfiers.includes(arr)) {
           return false
         } else {
-          if (this.warnMap.get(moduleCode) === undefined) {
-            this.warnMap.set(moduleCode, new Set().add(arr))
-          } else {
-            this.warnMap.get(moduleCode).add(arr)
-          }
           return true
         }
       } else {
@@ -148,14 +140,6 @@ export default {
   },
 
   computed: {
-    // modPrefixReq: function () {
-    //   const temp = new Set()
-    //   this.requiredModules.forEach(modCode => {
-    //     const index = modCode.match(/\d/).index
-    //     temp.add(modCode.slice(0, index))
-    //   })
-    //   return new RegExp(Array.from(temp).join('|'))
-    // },
     reqModsNoModfiers: function () {
       const temp = []
       this.requiredModules.forEach(modCode => temp.push(modCode.match(/\w+\d\d\d\d/)[0]))
