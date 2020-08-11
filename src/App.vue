@@ -41,10 +41,10 @@ export default {
 </script>>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+@import url('https://fonts.googleapis.com/css2?family=Arimo&display=swap');
 
 #app {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Arimo', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -63,7 +63,7 @@ export default {
   text-decoration: none;
   text-align: left;
   font-size:25px;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Arimo', sans-serif;
   /* margin-left: 1px; */
 }
 
