@@ -31,7 +31,9 @@ export default {
     initData () {
       const promises = []
       for (let i = 0; i < this.requiredModules.length; i++) {
-        promises.push(axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json'))
+        if (this.requiredModules[i].match('/\w+\d\d\d\d\w+/')) {
+          promises.push(axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + this.requiredModules[i] + '.json'))
+        }
       }
       axios.all(promises).then(promise => promise.forEach(response => this.moduleData.set(response.data.moduleCode, response.data)))
         .then(() => { this.genPrereqData() })
