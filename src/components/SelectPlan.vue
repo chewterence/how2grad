@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     emitData () {
-      this.$emit('slectedPlan', this.y1s1Plan, this.y1s2Plan, this.y2s1Plan, this.y2s2Plan, this.y3s1Plan, this.y3s2Plan, this.y4s1Plan, this.y4s2Plan)
+      this.$emit('selectedPlan', this.y1s1Plan, this.y1s2Plan, this.y2s1Plan, this.y2s2Plan, this.y3s1Plan, this.y3s2Plan, this.y4s1Plan, this.y4s2Plan)
     },
     loadPlan () {
       this.y1s1Plan = this.model.y1s1
