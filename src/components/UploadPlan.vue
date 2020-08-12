@@ -37,14 +37,14 @@
             ></v-textarea>
             </v-list-item>
             <v-list-item-title class="headline mb-2">{{"Your Study Plan Summary"}}</v-list-item-title>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S1: " + y1s1Plan}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S2: " + y1s2Plan}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S1: " + y2s1Plan}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S2: " + y2s2Plan}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S1: " + y3s1Plan}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S2: " + y3s2Plan}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S1: " + y4s1Plan}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S2: " + y4s2Plan}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S1: " + plannedModules[0][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S2: " + plannedModules[0][1]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S1: " + plannedModules[1][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S2: " + plannedModules[1][1]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S1: " + plannedModules[2][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S2: " + plannedModules[2][1]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S1: " + plannedModules[3][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S2: " + plannedModules[3][1]}}</v-list-item-subtitle>
             <v-dialog v-model="dialogconfirm" persistent max-width="400">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -96,7 +96,7 @@ export default {
       authorName: ''
     }
   },
-  props: ['y1s1Plan', 'y1s2Plan', 'y2s1Plan', 'y2s2Plan', 'y3s1Plan', 'y3s2Plan', 'y4s1Plan', 'y4s2Plan'],
+  props: ['plannedModules'],
   methods: {
     uploadPlan: function() {
       if (this.authorName === '') {
@@ -107,14 +107,14 @@ export default {
           name: this.uploadName,
           description: this.details,
           author: this.authorName,
-          y1s1: this.y1s1Plan,
-          y1s2: this.y1s2Plan,
-          y2s1: this.y2s1Plan,
-          y2s2: this.y2s2Plan,
-          y3s1: this.y3s1Plan,
-          y3s2: this.y3s2Plan,
-          y4s1: this.y4s1Plan,
-          y4s2: this.y4s2Plan,
+          y1s1: this.plannedModules[0][0],
+          y1s2: this.plannedModules[0][1],
+          y2s1: this.plannedModules[1][0],
+          y2s2: this.plannedModules[1][1],
+          y3s1: this.plannedModules[2][0],
+          y3s2: this.plannedModules[2][1],
+          y4s1: this.plannedModules[3][0],
+          y4s2: this.plannedModules[3][1],
         }
       );
       this.uploadName = '';
@@ -125,6 +125,18 @@ export default {
   firestore() {
     return {
       plans: db.collection('plans'),
+    }
+  }, 
+
+  getModuleCodeListStr (arr) {
+    try {
+      let modCodes = []
+      for (let i = 0; i < arr.length; i++) {
+        modCodes.push(arr[i].moduleCode)
+      }
+      return modCodes.join(', ')
+    } catch {
+      return ''
     }
   }
 }

@@ -34,37 +34,4 @@ export default {
 </script>
 
 <style scoped>
-/* Semester Component Style */
-  #y1s1 .semester-box {
-    background: #2a9d8f;
-    margin: 5px 5px;
-  }
-  #y1s2 .semester-box {
-    background: #2a9d8f;
-    margin: 5px 5px;
-  }
-  #y2s1 .semester-box {
-    background: #e9c46a;
-    margin: 5px 5px;
-  }
-  #y2s2 .semester-box {
-    background: #e9c46a;
-    margin: 5px 5px;
-  }
-  #y3s1 .semester-box {
-    background: #f4a261;
-    margin: 5px 5px;
-  }
-  #y3s2 .semester-box {
-    background: #f4a261;
-    margin: 5px 5px;
-  }
-  #y4s1 .semester-box {
-    background: #e76f51;
-    margin: 5px 5px;
-  }
-  #y4s2 .semester-box {
-    background: #e76f51;
-    margin: 5px 5px;
-  }
 </style>
