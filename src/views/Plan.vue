@@ -32,15 +32,12 @@ export default {
   },
   data () {
     return {
-      exportedModules: [],
-      // renderComponent: true,
       numYears: [0, 1, 2, 3],
       numSem: [2, 2, 2, 2],
       plannedModules: [[[],[]],[[],[]],[[],[]],[[],[]]],
     }
   },
   mounted () {
-    
     if (localStorage.getItem('plannedModules')) {
       console.log('EXISTS')
       console.log(localStorage.getItem('plannedModules'))

@@ -18,26 +18,21 @@ export default {
     }
   },
   methods: {
-    saveMods () {
-      const parsed = JSON.stringify(this.exportedModules)
-      localStorage.setItem('exportedModules', parsed)
-    },
-    addMods (value) {
-      this.exportedModules.push(value.moduleCode)
-      this.saveMods()
-    },
-    removeMods (value) {
-      this.exportedModules = this.exportedModules.filter(mod => mod !== value.moduleCode)
-      this.saveMods()
-    }
   },
   created () {
-    if (localStorage.getItem('exportedModules')) {
+    if (localStorage.getItem('plannedModules')) {
+      console.log('EXISTS')
+      console.log(localStorage.getItem('plannedModules'))
       try {
-        this.requiredModules = JSON.parse(localStorage.getItem('exportedModules'))
+        this.requiredModules = JSON.parse(localStorage.getItem('plannedModules')).flat(2)
+        console.log(this.plannedModules)
       } catch (e) {
-        localStorage.removeItem('exportedModules')
+        localStorage.removeItem('plannedModules')
       }
+    }
+    // Process local storage for the module tree
+    for(let i=0; i < this.requiredModules.length; i++) {
+      this.requiredModules[i] = this.requiredModules[i].moduleCode
     }
   }
 }
