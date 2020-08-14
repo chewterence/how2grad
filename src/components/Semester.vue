@@ -6,6 +6,7 @@
     :color="semColour"
     rounded
   >
+  <!-- {{semModuleData}} -->
     <v-list :color="semColour" rounded>
       <v-list-item-title class="text-lg-h5 font-weight-bold mb-3">{{titleMsg}}</v-list-item-title>
       <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + totalMCs}}</v-list-item-subtitle>
@@ -65,6 +66,18 @@ export default {
       this.eventData[1] = this.semModuleCodes
       console.log('removed')
       this.$emit('removeModule', this.eventData)
+    },
+    calculateTotalMCs () {
+      console.log('calculate')
+      console.log(this.semModuleData)
+      for(let i=0; i < this.semModuleData.length; i++) {
+        this.totalMCs += parseInt(this.semModuleData[i].moduleCredit, 10)
+      }
+    }
+  },
+  watch: {
+    semModuleData: function() {
+      this.calculateTotalMCs()
     }
   },
   props: ['year', 'semester', 'semModuleCodes'],
@@ -74,6 +87,15 @@ export default {
         this.semModuleData = response.data.filter(mod => this.semModuleCodes.includes(mod.moduleCode)))
       )
       .catch(err => console.log(err))
+      // .finally(function() { 
+      //   for(let i=0; i < this.semModuleData.length; i++) {
+      //     this.totalMCs += parseInt(this.semModuleData[i].moduleCredit, 10)
+      //     }
+      //   }
+      // )
+    // for(let i=0; i < this.semModuleData.length; i++) {
+    //   this.totalMCs += parseInt(this.semModuleData[i].moduleCredit, 10)
+    // }
   },
   computed: {
     titleMsg: function () {
