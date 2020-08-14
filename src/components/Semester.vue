@@ -6,6 +6,7 @@
     :color="semColour"
     rounded
   >
+  <!-- {{semModuleData}} -->
     <v-list :color="semColour" rounded>
       <v-list-item-title class="text-lg-h5 font-weight-bold mb-3">{{titleMsg}}</v-list-item-title>
       <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + totalMCs}}</v-list-item-subtitle>
@@ -56,15 +57,25 @@ export default {
       this.semModuleData.push(value)
       this.semModuleCodes.push(value.moduleCode)
       this.eventData[1] = this.semModuleCodes
-      console.log('added')
       this.$emit('addModule', this.eventData)
     },
     removeModule (value) {
       this.semModuleData = this.semModuleData.filter(mod => mod !== value)
       this.semModuleCodes = this.semModuleCodes.filter(mod => mod !== value.moduleCode)
       this.eventData[1] = this.semModuleCodes
-      console.log('removed')
       this.$emit('removeModule', this.eventData)
+    },
+    calculateTotalMCs () {
+      let temp = 0
+      for(let i=0; i < this.semModuleData.length; i++) {
+        temp += parseInt(this.semModuleData[i].moduleCredit, 10)
+      }
+      this.totalMCs = temp
+    }
+  },
+  watch: {
+    semModuleData: function() {
+      this.calculateTotalMCs()
     }
   },
   props: ['year', 'semester', 'semModuleCodes'],
