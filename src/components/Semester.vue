@@ -8,6 +8,7 @@
   >
     <v-list :color="semColour" rounded>
       <v-list-item-title class="text-lg-h5 font-weight-bold mb-3">{{titleMsg}}</v-list-item-title>
+      {{totalMCs}}
       <AddModuleButton class="mx-1 mb-3" v-on:addModule="addModule"/>
       <v-list-item-group color="primary">
         <v-list-item
@@ -41,7 +42,8 @@ export default {
       semColourArr: ['teal accent-4', 'lime accent-4', 
       'amber accent-4', 'orange accent-4',
       'lime accent-4', 'lime accent-4',
-      'amber accent-4', 'orange accent-4']
+      'amber accent-4', 'orange accent-4'],
+      totalMCs: 0
     }
   },
   methods: {
@@ -52,12 +54,14 @@ export default {
       this.isHidden = false
       this.semModules.push(value)
       this.eventData[1] = this.semModules
+      this.totalMCs += parseInt(value.moduleCredit, 10);
       console.log('added')
       this.$emit('addModule', this.eventData)
     },
     removeModule (value) {
       this.semModules = this.semModules.filter(mod => mod !== value)
       this.eventData[1] = this.semModules
+      this.totalMCs -= parseInt(value.moduleCredit, 10);
       console.log('removed')
       this.$emit('removeModule', this.eventData)
     }
