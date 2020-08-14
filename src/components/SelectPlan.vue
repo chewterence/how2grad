@@ -33,11 +33,11 @@
     <v-expand-transition>
       <v-list v-if="model" class="mx-5 grey lighten-2 text-lg-left">
         <v-list-item-content>
-          <v-list-item-title class="headline">{{model.name}}</v-list-item-title>
-          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Author: " + model.author}}</v-list-item-subtitle>
+          <v-list-item-title class="headline pl-2">{{model.name}}</v-list-item-title>
+          <v-list-item-subtitle class="font-weight-regular text-lg-body-1 pl-2">{{"Author: " + model.author}}</v-list-item-subtitle>
           <p class="ma-5 mx-2">{{model.description}}</p>
           <!-- <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Total Modular Credits: (future plans) "}}</v-list-item-subtitle> -->
-          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Number of Years to Complete: (future plans) "}}</v-list-item-subtitle>
+          <!-- <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Number of Years to Complete: (future plans) "}}</v-list-item-subtitle> -->
           <!-- <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Difficulty Rating: (future plans) "}}</v-list-item-subtitle> -->
         </v-list-item-content>
         <v-btn v-if="model" class="mx-2" color="green darken-2" outlined x-large rounded @click="dialog = false; loadPlan()" min-width="280px">

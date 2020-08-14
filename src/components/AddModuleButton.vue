@@ -25,7 +25,8 @@
                   label="Search for a Module"
                   prepend-icon="mdi-book"
                   return-object
-                ></v-autocomplete>
+                >
+              </v-autocomplete>
               </v-card-text>
         </v-card-text>
               <v-expand-transition>

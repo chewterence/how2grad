@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
       <v-row>
-        <ul style="list-style: none; display: inline-flex; float: left; margin: 5px 20px;">
+        <ul style="list-style: none; display: inline-flex; float: left; margin: 5px 7px;">
           <SelectPlan v-on:selectedPlan="loadPlan" />
           <UploadPlan v-bind:plannedModules="plannedModules" :key="UploadPlanKey"/>
           <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">

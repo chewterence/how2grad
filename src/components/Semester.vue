@@ -6,10 +6,9 @@
     :color="semColour"
     rounded
   >
-  <!-- {{semModuleData}} -->
     <v-list :color="semColour" rounded>
-      <v-list-item-title class="text-lg-h5 font-weight-bold mb-3">{{titleMsg}}</v-list-item-title>
-      <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + totalMCs}}</v-list-item-subtitle>
+      <v-list-item-title class="text-lg-h5 font-weight-bold mb-0">{{titleMsg}}</v-list-item-title>
+      <v-list-item-subtitle class="font-weight-regular text-lg-body-1 mb-2">{{"Modular Credits: " + totalMCs}}</v-list-item-subtitle>
       <AddModuleButton class="mx-1 mb-3" v-on:addModule="addModule"/>
       <v-list-item-group color="primary">
         <v-list-item
