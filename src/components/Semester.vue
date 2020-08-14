@@ -85,6 +85,8 @@ export default {
   mounted: function () {
     this.eventData.push([this.year, this.semester])
     this.eventData.push([])
+    // for(let i=0; i < this.modules.length; i++) {
+    // }
   }
 }
 </script>
