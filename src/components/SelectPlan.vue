@@ -80,7 +80,7 @@ export default {
       y3s2Plan: [],
       y4s1Plan: [],
       y4s2Plan: [],
-      plannedModules: []
+      plannedModules: [[[],[]], [[],[]], [[],[]], [[],[]]]
     }
   },
   firestore() {
@@ -89,20 +89,16 @@ export default {
     }
   },
   methods: {
-    emitData () {
-      this.$emit('selectedPlan', this.y1s1Plan, this.y1s2Plan, this.y2s1Plan, this.y2s2Plan, this.y3s1Plan, this.y3s2Plan, this.y4s1Plan, this.y4s2Plan)
-    },
     loadPlan () {
-      this.y1s1Plan = this.model.y1s1
-      this.y1s2Plan = this.model.y1s2
-      this.y2s1Plan = this.model.y2s1
-      this.y2s2Plan = this.model.y2s2
-      this.y3s1Plan = this.model.y3s1
-      this.y3s2Plan = this.model.y3s2
-      this.y4s1Plan = this.model.y4s1
-      this.y4s2Plan = this.model.y4s2
-      // this.plannedModules[][]
-      this.emitData()
+      this.plannedModules[0][0] = this.model.y1s1
+      this.plannedModules[0][1] = this.model.y1s2
+      this.plannedModules[1][0] = this.model.y2s1
+      this.plannedModules[1][1] = this.model.y2s2
+      this.plannedModules[2][0] = this.model.y3s1
+      this.plannedModules[2][1] = this.model.y3s2
+      this.plannedModules[3][0] = this.model.y4s1
+      this.plannedModules[3][1] = this.model.y4s2
+      this.$emit('selectedPlan', this.plannedModules)
     }
   }
 }

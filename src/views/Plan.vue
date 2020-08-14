@@ -12,13 +12,14 @@
       </v-row>
       <v-row>
         <v-col v-for="year in numYears" :key="year" justify="center" class="px-0 mx-0">
-          <Year :year="year" :numSem="numSem[year]" :yearModules="plannedModules[year]" v-on:changeModuleList="changeModuleList"/>
+          <Year :year="year" :numSem="numSem[year]" :yearModules="plannedModules[year]" v-on:changeModuleList="changeModuleList" :moduleData="moduleData" :key="componentKey"/>
         </v-col>
       </v-row>
   </v-container>
 </template>
 
 <script>
+import axios from 'axios'
 import Year from '../components/Year.vue'
 import SelectPlan from '../components/SelectPlan.vue'
 import UploadPlan from '../components/UploadPlan.vue'
@@ -36,25 +37,27 @@ export default {
       numYears: [0, 1, 2, 3],
       numSem: [2, 2, 2, 2],
       plannedModules: [[[],[]],[[],[]],[[],[]],[[],[]]],
+      moduleData: new Map(),
+      componentKey: 0
     }
   },
   mounted () {
-    
     if (localStorage.getItem('plannedModules')) {
       console.log('EXISTS')
-      console.log(localStorage.getItem('plannedModules'))
+      // console.log(localStorage.getItem('plannedModules'))
       try {
         this.plannedModules = JSON.parse(localStorage.getItem('plannedModules'))
-        console.log(this.plannedModules)
+        // console.log(this.plannedModules)
       } catch (e) {
         localStorage.removeItem('plannedModules')
       }
-    } 
+      this.initData()
+    }
   },
   methods: {
 
-    loadPlan () {
-      console.log('loadplan placeholder')
+    loadPlan (plannedModules) {
+      this.plannedModules = plannedModules
     },
 
     removeAll () {
@@ -66,7 +69,7 @@ export default {
       const yEdited = eventData[0][0] - 1
       const sEdited = eventData[0][1] - 1
       const newModuleCodesList = eventData[1]
-      console.log(newModuleCodesList)
+      // console.log(newModuleCodesList)
       this.plannedModules[yEdited][sEdited] = newModuleCodesList
       this.saveModuleList()
     },
@@ -76,6 +79,18 @@ export default {
       const parsed = JSON.stringify(this.plannedModules);
       localStorage.setItem('plannedModules', parsed);
       console.log(localStorage.getItem('plannedModules'))
+    },
+    
+    initData () {
+    const promises = []
+    let flattenedArr = this.plannedModules.flat().flat()
+    console.log(flattenedArr)
+    for (let i = 0; i < flattenedArr.length; i++) {
+      promises.push(axios.get('https://api.nusmods.com/v2/2019-2020/modules/' + flattenedArr[i] + '.json'))
+    }
+    
+    axios.all(promises).then(promise => promise.forEach(response => this.moduleData.set(response.data.moduleCode, response.data))).then(() => { this.componentKey++ })
+    
     }
   }
 }

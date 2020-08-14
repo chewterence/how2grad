@@ -28,7 +28,7 @@
 
 <script>
 import AddModuleButton from '../components/AddModuleButton.vue'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'Semester',
@@ -65,13 +65,8 @@ export default {
       this.$emit('removeModule', this.eventData)
     }
   },
-  props: ['year', 'semester', 'semModuleCodes'],
+  props: ['year', 'semester', 'semModuleCodes', 'moduleData'],
   created () {
-    axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
-      .then(response => (
-        this.semModuleData = response.data.filter(mod => this.semModuleCodes.includes(mod.moduleCode)))
-      )
-      .catch(err => console.log(err))
   },
   computed: {
     titleMsg: function () {
@@ -84,7 +79,26 @@ export default {
   mounted: function () {
     this.eventData.push([this.year, this.semester])
     this.eventData.push([])
+
+    console.log('mounted')
+    console.log(this.moduleData)
+    console.log(this.semModuleCodes[0])
+    console.log(this.year + ' ' + this.semester + ' ' + this.moduleData.get(this.semModuleCodes[0]))
+    for (let i = 0; i < this.semModuleCodes.length; i++) {
+      this.semModuleData.push(this.moduleData.get(this.semModuleCodes[i]))
+    }
   }
+  // ,
+  // watch: {
+  //   semModuleCodes: function () {
+  //     console.log('watch')
+  //     console.log(this.moduleData)
+  //     console.log(this.year + ' ' + this.semester + ' ' + this.moduleData.get(this.semModuleCodes[0]))
+  //     for (let i = 0; i < this.semModuleCodes.length; i++) {
+  //       this.semModuleData.push(this.moduleData.get(this.semModuleCodes[i]))
+  //     }
+  //   }
+  // }
 }
 </script>
 

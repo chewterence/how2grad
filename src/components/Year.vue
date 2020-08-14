@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row v-for="(n, sem) in numSem" :key="sem" justify="center">
-      <Semester :year='year + 1' :semester='sem + 1' :semModuleCodes='yearModules[sem]'  v-on:addModule="changeModuleList" v-on:removeModule="changeModuleList"  />
+      <Semester :year='year + 1' :semester='sem + 1' :semModuleCodes='yearModules[sem]'  v-on:addModule="changeModuleList" v-on:removeModule="changeModuleList"  :moduleData="moduleData"/>
     </v-row>
   </v-container>
 </template>
@@ -23,7 +23,7 @@ export default {
       this.$emit('changeModuleList', eventData)
     }
   },
-  props: ['year', 'numSem', 'yearModules'],
+  props: ['year', 'numSem', 'yearModules', 'moduleData'],
   created () {
   },
   computed: {
