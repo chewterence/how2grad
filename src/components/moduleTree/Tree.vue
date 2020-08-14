@@ -83,12 +83,13 @@ export default {
 
     processPrereqTree (moduleCode, arr) {
       if (typeof arr === 'string') {
-        if (moduleCode !== arr) {
-          if (this.reqModsNoModfiers.includes(arr)) {
+        let arrNoModifiers = arr.match(/\w+\d\d\d\d/)[0]
+        if (moduleCode !== arrNoModifiers) {
+          if (this.reqModsNoModfiers.includes(arrNoModifiers)) {
             if (this.modulePrereqData.get(moduleCode) === undefined) {
-              this.modulePrereqData.set(moduleCode, new Set().add(arr))
+              this.modulePrereqData.set(moduleCode, new Set().add(arrNoModifiers))
             } else {
-              this.modulePrereqData.get(moduleCode).add(arr)
+              this.modulePrereqData.get(moduleCode).add(arrNoModifiers)
             }
           }
           // else {
