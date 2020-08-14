@@ -57,22 +57,20 @@ export default {
       this.semModuleData.push(value)
       this.semModuleCodes.push(value.moduleCode)
       this.eventData[1] = this.semModuleCodes
-      console.log('added')
       this.$emit('addModule', this.eventData)
     },
     removeModule (value) {
       this.semModuleData = this.semModuleData.filter(mod => mod !== value)
       this.semModuleCodes = this.semModuleCodes.filter(mod => mod !== value.moduleCode)
       this.eventData[1] = this.semModuleCodes
-      console.log('removed')
       this.$emit('removeModule', this.eventData)
     },
     calculateTotalMCs () {
-      console.log('calculate')
-      console.log(this.semModuleData)
+      let temp = 0
       for(let i=0; i < this.semModuleData.length; i++) {
-        this.totalMCs += parseInt(this.semModuleData[i].moduleCredit, 10)
+        temp += parseInt(this.semModuleData[i].moduleCredit, 10)
       }
+      this.totalMCs = temp
     }
   },
   watch: {
@@ -87,15 +85,6 @@ export default {
         this.semModuleData = response.data.filter(mod => this.semModuleCodes.includes(mod.moduleCode)))
       )
       .catch(err => console.log(err))
-      // .finally(function() { 
-      //   for(let i=0; i < this.semModuleData.length; i++) {
-      //     this.totalMCs += parseInt(this.semModuleData[i].moduleCredit, 10)
-      //     }
-      //   }
-      // )
-    // for(let i=0; i < this.semModuleData.length; i++) {
-    //   this.totalMCs += parseInt(this.semModuleData[i].moduleCredit, 10)
-    // }
   },
   computed: {
     titleMsg: function () {
