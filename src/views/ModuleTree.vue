@@ -30,10 +30,6 @@ export default {
         localStorage.removeItem('plannedModules')
       }
     }
-    // Process local storage for the module tree
-    for(let i=0; i < this.requiredModules.length; i++) {
-      this.requiredModules[i] = this.requiredModules[i].moduleCode
-    }
   }
 }
 </script>

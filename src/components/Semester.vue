@@ -8,7 +8,7 @@
   >
     <v-list :color="semColour" rounded>
       <v-list-item-title class="text-lg-h5 font-weight-bold mb-3">{{titleMsg}}</v-list-item-title>
-      {{totalMCs}}
+      <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + totalMCs}}</v-list-item-subtitle>
       <AddModuleButton class="mx-1 mb-3" v-on:addModule="addModule"/>
       <v-list-item-group color="primary">
         <v-list-item
@@ -86,8 +86,6 @@ export default {
   mounted: function () {
     this.eventData.push([this.year, this.semester])
     this.eventData.push([])
-    // for(let i=0; i < this.modules.length; i++) {
-    // }
   }
 }
 </script>

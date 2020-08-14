@@ -2,7 +2,6 @@
   <v-card
     color="grey lighten-2"
   >
-  <!-- {{modules}} -->
     <v-card-text >
       <v-autocomplete
         v-model="model"
@@ -14,7 +13,7 @@
         hide-no-data
         hide-selected
         item-text="moduleCode"
-        placeholder="Search by module code (CS2030 or MA1521)..."
+        placeholder="Search by module code or module name..."
         label="Search for a Module"
         prepend-icon="mdi-database-search"
         return-object

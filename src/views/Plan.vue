@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <!-- {{loadedModules}} -->
       <v-row>
         <ul style="list-style: none; display: inline-flex; float: left; margin: 5px 45px;">
           <SelectPlan v-on:selectedPlan="loadPlan" />
@@ -12,7 +13,7 @@
       </v-row>
       <v-row>
         <v-col v-for="year in numYears" :key="year" justify="center" class="px-0 mx-0">
-          <Year :year="year" :numSem="numSem[year]" :yearModules="plannedModules[year]" v-on:changeModuleList="changeModuleList"/>
+          <Year :year="year" :numSem="numSem[year]" :yearModules="plannedModules[year]" v-on:changeModuleList="changeModuleList" :key="componentKey"/>
         </v-col>
       </v-row>
   </v-container>
@@ -36,6 +37,7 @@ export default {
       numYears: [0, 1, 2, 3],
       numSem: [2, 2, 2, 2],
       plannedModules: [[[],[]],[[],[]],[[],[]],[[],[]]],
+      componentKey: 0
     }
   },
   mounted () {
@@ -52,11 +54,24 @@ export default {
   },
   methods: {
 
-    loadPlan () {
+    loadPlan (value1, value2, value3, value4, value5, value6, value7, value8) {
+      this.plannedModules[0][0] = value1
+      this.plannedModules[0][1] = value2
+      this.plannedModules[1][0] = value3
+      this.plannedModules[1][1] = value4
+      this.plannedModules[2][0] = value5
+      this.plannedModules[2][1] = value6
+      this.plannedModules[3][0] = value7
+      this.plannedModules[3][1] = value8
+      this.saveModuleList ()
+      this.componentKey++
       console.log('loadplan placeholder')
     },
 
     removeAll () {
+      this.plannedModules = [[[],[]],[[],[]],[[],[]],[[],[]]]
+      this.saveModuleList ()
+      this.componentKey++
       console.log('removeAll placeholder')
     },
 

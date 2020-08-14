@@ -23,7 +23,6 @@
         hide-no-data
         hide-selected
         item-text="name"
-        item-value="name"
         placeholder="Search for degree keywords ('Computer Science' or 'UTCP')"
         label="Search for an existing plan"
         prepend-icon="mdi-database-search"
@@ -85,7 +84,7 @@ export default {
   },
   firestore() {
     return {
-      plans: db.collection('plans'),
+      plans: db.collection('plans').orderBy("name"),
     }
   },
   methods: {
@@ -101,7 +100,6 @@ export default {
       this.y3s2Plan = this.model.y3s2
       this.y4s1Plan = this.model.y4s1
       this.y4s2Plan = this.model.y4s2
-      // this.plannedModules[][]
       this.emitData()
     }
   }
