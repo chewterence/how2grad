@@ -79,7 +79,8 @@ export default {
       y3s1Plan: [],
       y3s2Plan: [],
       y4s1Plan: [],
-      y4s2Plan: []
+      y4s2Plan: [],
+      plannedModules: []
     }
   },
   firestore() {
@@ -100,6 +101,7 @@ export default {
       this.y3s2Plan = this.model.y3s2
       this.y4s1Plan = this.model.y4s1
       this.y4s2Plan = this.model.y4s2
+      // this.plannedModules[][]
       this.emitData()
     }
   }
