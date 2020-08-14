@@ -17,7 +17,7 @@
                   :search-input.sync="search"
                   class="text-lg-h6 font-weight-regular"
                   flat
-                  color="grey lighten-3"
+                  color="grey lighten"
                   hide-no-data
                   hide-selected
                   item-text="moduleCode"

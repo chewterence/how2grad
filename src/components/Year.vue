@@ -23,13 +23,7 @@ export default {
       this.$emit('changeModuleList', eventData)
     }
   },
-  props: ['year', 'numSem', 'yearModules'],
-  created () {
-  },
-  computed: {
-  },
-  mounted: function () {
-  }
+  props: ['year', 'numSem', 'yearModules']
 }
 </script>
 

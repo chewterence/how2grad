@@ -37,14 +37,14 @@
             ></v-textarea>
             </v-list-item>
             <v-list-item-title class="headline mb-2">{{"Your Study Plan Summary"}}</v-list-item-title>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S1: " + plannedModules[0][0]}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S2: " + plannedModules[0][1]}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S1: " + plannedModules[1][0]}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S2: " + plannedModules[1][1]}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S1: " + plannedModules[2][0]}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S2: " + plannedModules[2][1]}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S1: " + plannedModules[3][0]}}</v-list-item-subtitle>
-            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S2: " + plannedModules[3][1]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S1: " + modListStrArr[0][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y1S2: " + modListStrArr[0][1]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S1: " + modListStrArr[1][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y2S2: " + modListStrArr[1][1]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S1: " + modListStrArr[2][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y3S2: " + modListStrArr[2][1]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S1: " + modListStrArr[3][0]}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Y4S2: " + modListStrArr[3][1]}}</v-list-item-subtitle>
             <v-dialog v-model="dialogconfirm" persistent max-width="400">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -94,6 +94,8 @@ export default {
       uploadName: '',
       details: '',
       authorName: ''
+      // ,
+      // modListStrArr: [[[''],['']], [[''],['']], [[''],['']], [[''],['']]]
     }
   },
   props: ['plannedModules'],
@@ -120,6 +122,18 @@ export default {
       this.uploadName = '';
       this.details = '';
       this.authorName = '';
+    },
+
+    getModuleCodeListStr (arr) {
+      try {
+        let modCodes = []
+        for (let i = 0; i < arr.length; i++) {
+          modCodes.push(arr[i])
+        }
+        return modCodes.join(', ')
+      } catch {
+        return ''
+      }
     }
   },
   firestore() {
@@ -127,16 +141,17 @@ export default {
       plans: db.collection('plans'),
     }
   }, 
-
-  getModuleCodeListStr (arr) {
-    try {
-      let modCodes = []
-      for (let i = 0; i < arr.length; i++) {
-        modCodes.push(arr[i].moduleCode)
+  computed: {
+    modListStrArr: function () {
+      let returnArr = [[[],[]], [[],[]], [[],[]], [[],[]]]
+      for (let i = 0; i < this.plannedModules.length; i++) {
+        for (let j = 0; j < this.plannedModules[i].length; j++) {
+          console.log(this.plannedModules[i][j])
+          returnArr[i][j] = this.getModuleCodeListStr(this.plannedModules[i][j])
+          console.log(returnArr[i][j])
+        }
       }
-      return modCodes.join(', ')
-    } catch {
-      return ''
+      return returnArr
     }
   }
 }

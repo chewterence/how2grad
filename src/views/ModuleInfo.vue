@@ -9,7 +9,7 @@
         :search-input.sync="search"
         class="text-lg-h6 font-weight-regular"
         flat
-        color="grey lighten-3"
+        color="grey"
         hide-no-data
         hide-selected
         item-text="moduleCode"
@@ -24,7 +24,7 @@
       <v-list v-if="model" class="mx-5 grey lighten-2 text-lg-left">
         <v-list-item-content>
           <div class="overline mb-4">{{model.faculty + ", " + "Department of " + model.department}}</div>
-          <v-list-item-title class="headline mb-2">{{model.moduleCode}}</v-list-item-title>
+          <v-list-item-title class="text-lg-h1 mb-2">{{model.moduleCode}}</v-list-item-title>
           <p class="mb-5">{{model.description}}</p>
           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + model.moduleCredit}}</v-list-item-subtitle>
           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Prerequisites: " + model.prerequisite}}</v-list-item-subtitle>

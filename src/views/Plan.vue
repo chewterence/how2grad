@@ -1,10 +1,9 @@
 <template>
   <v-container fluid>
-    <!-- {{loadedModules}} -->
       <v-row>
-        <ul style="list-style: none; display: inline-flex; float: left; margin: 5px 45px;">
+        <ul style="list-style: none; display: inline-flex; float: left; margin: 5px 20px;">
           <SelectPlan v-on:selectedPlan="loadPlan" />
-          <UploadPlan v-bind:plannedModules="plannedModules"/>
+          <UploadPlan v-bind:plannedModules="plannedModules" :key="UploadPlanKey"/>
           <v-btn class="mx-1" color="grey lighten-1" x-large rounded v-on:click="removeAll">
             <v-icon large class="mr-2">mdi-delete-sweep</v-icon>
             Clear All
@@ -37,7 +36,8 @@ export default {
       numYears: [0, 1, 2, 3],
       numSem: [2, 2, 2, 2],
       plannedModules: [[[],[]],[[],[]],[[],[]],[[],[]]],
-      componentKey: 0
+      componentKey: 0,
+      UploadPlanKey: 0
     }
   },
   mounted () {
@@ -83,6 +83,7 @@ export default {
       console.log(newModuleCodesList)
       this.plannedModules[yEdited][sEdited] = newModuleCodesList
       this.saveModuleList()
+      this.UploadPlanKey++
     },
 
     saveModuleList () {
