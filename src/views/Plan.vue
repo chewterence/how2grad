@@ -32,6 +32,7 @@ export default {
   },
   data () {
     return {
+      exportedModules: [],
       numYears: [0, 1, 2, 3],
       numSem: [2, 2, 2, 2],
       plannedModules: [[[],[]],[[],[]],[[],[]],[[],[]]],
@@ -63,9 +64,9 @@ export default {
       console.log('MODULELISTCHANGED')
       const yEdited = eventData[0][0] - 1
       const sEdited = eventData[0][1] - 1
-      const newModuleList = eventData[1]
-
-      this.plannedModules[yEdited][sEdited] = newModuleList
+      const newModuleCodesList = eventData[1]
+      console.log(newModuleCodesList)
+      this.plannedModules[yEdited][sEdited] = newModuleCodesList
       this.saveModuleList()
     },
 
@@ -78,6 +79,5 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 </style>

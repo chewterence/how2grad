@@ -13,7 +13,7 @@
       <v-list-item-group color="primary">
         <v-list-item
           class="grey lighten-3"
-          v-for="(module, i) in semModules"
+          v-for="(module, i) in semModuleData"
           :key="i"
         >
           <v-list-item-content>
@@ -39,6 +39,7 @@ export default {
   data () {
     return {
       eventData: [],
+      semModuleData: [],
       semColourArr: ['teal accent-4', 'lime accent-4', 
       'amber accent-4', 'orange accent-4',
       'lime accent-4', 'lime accent-4',
@@ -52,25 +53,25 @@ export default {
     },
     addModule (value) {
       this.isHidden = false
-      this.semModules.push(value)
-      this.eventData[1] = this.semModules
-      this.totalMCs += parseInt(value.moduleCredit, 10);
+      this.semModuleData.push(value)
+      this.semModuleCodes.push(value.moduleCode)
+      this.eventData[1] = this.semModuleCodes
       console.log('added')
       this.$emit('addModule', this.eventData)
     },
     removeModule (value) {
-      this.semModules = this.semModules.filter(mod => mod !== value)
-      this.eventData[1] = this.semModules
-      this.totalMCs -= parseInt(value.moduleCredit, 10);
+      this.semModuleData = this.semModuleData.filter(mod => mod !== value)
+      this.semModuleCodes = this.semModuleCodes.filter(mod => mod !== value.moduleCode)
+      this.eventData[1] = this.semModuleCodes
       console.log('removed')
       this.$emit('removeModule', this.eventData)
     }
   },
-  props: ['year', 'semester', 'semModules'],
+  props: ['year', 'semester', 'semModuleCodes'],
   created () {
     axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
       .then(response => (
-        this.modules = response.data.filter(mod => this.semModules.includes(mod.moduleCode)))
+        this.semModuleData = response.data.filter(mod => this.semModuleCodes.includes(mod.moduleCode)))
       )
       .catch(err => console.log(err))
   },
