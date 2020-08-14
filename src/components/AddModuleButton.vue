@@ -21,7 +21,6 @@
                   hide-no-data
                   hide-selected
                   item-text="moduleCode"
-                  item-value="moduleCode"
                   placeholder="Search by module code (CS2030 or MA1521)..."
                   label="Search for a Module"
                   prepend-icon="mdi-book"
@@ -34,7 +33,7 @@
                       <v-list-item three-line>
                         <v-list-item-content>
                           <div class="overline mb-4">{{model.faculty + ", " + "Department of " + model.department}}</div>
-                          <v-list-item-title class="headline mb-4">{{model.moduleCode + " " + model.title}}</v-list-item-title>
+                          <v-list-item-title class="headline mb-4">{{model.moduleCode}}</v-list-item-title>
                           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + model.moduleCredit}}</v-list-item-subtitle>
                           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Prerequisites: " + model.prerequisite}}</v-list-item-subtitle>
                           <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Preclusions: " + model.preclusion}}</v-list-item-subtitle>
@@ -75,13 +74,21 @@ export default {
   },
   methods: {
     addModule () {
+      this.model.moduleCode = this.model.moduleCode.split(" ")[0]
       this.$emit('addModule', this.model)
     }
   },
-  created () {
-    axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json')
-      .then(response => (this.modules = response.data))
-      .catch(err => console.log(err))
+  async created () {
+    try{
+      let response = await axios.get('https://api.nusmods.com/v2/2018-2019/moduleInfo.json')
+      this.modules = response.data
+    } catch(err){
+      console.log(err)
+    }
+    // Concatenate moduleCode with title
+    for(let i=0; i < this.modules.length; i++) {
+      this.modules[i].moduleCode = this.modules[i].moduleCode + " " + this.modules[i].title
+    }
   }
 }
 </script>
