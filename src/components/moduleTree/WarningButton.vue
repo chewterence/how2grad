@@ -1,9 +1,17 @@
 <template>
   <v-container class="text-center pa-0" ref='btn-moduleCode'>
-    <v-btn icon
-    @click.stop="dialog = true">
-      <v-icon class="justify-center" color="orange">mdi-alert</v-icon>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">    
+        <v-btn icon
+        @click.stop="dialog = true"
+        v-bind="attrs"
+        v-on="on">
+          <v-icon class="justify-center" color="orange">mdi-alert</v-icon>
+        </v-btn>
+      </template>
+      <span>This module has prequisites that you may not have fulfilled</span>
+    </v-tooltip>
+
     <v-dialog
         v-model="dialog"
         width="500"

@@ -17,11 +17,23 @@
           v-for="(module, i) in semModuleData"
           :key="i"
         >
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon align="start"
+                small
+                v-if="suAble(i)"
+                color="blue accent 4"
+                v-bind="attrs"
+                v-on="on">mdi-sticker-check</v-icon>
+            </template>
+            <span>This module has S/U options</span>
+          </v-tooltip>
           <v-list-item-content>
             <v-list-item-title v-text="module.moduleCode" class="text-lg-h6" ></v-list-item-title>
             <v-list-item-title v-text="module.title" class="text-lg-subtitle-1"></v-list-item-title>
           </v-list-item-content>
-            <v-icon @click="removeModule(module)" color="red lighten-1">mdi-close</v-icon>
+          <v-icon @click="removeModule(module)" color="red lighten-1">mdi-close</v-icon>
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -71,6 +83,9 @@ export default {
         temp += parseInt(this.semModuleData[i].moduleCredit, 10)
       }
       this.totalMCs = temp
+    },
+    suAble (index) {
+      return this.semModuleData[index].attributes !== undefined && this.semModuleData[index].attributes.su !== undefined && this.semModuleData[index].attributes.su === true
     }
   },
   watch: {
