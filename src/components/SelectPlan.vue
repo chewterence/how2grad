@@ -27,7 +27,8 @@
         label="Search for an existing plan"
         prepend-icon="mdi-database-search"
         return-object
-      ></v-autocomplete>
+      >
+      </v-autocomplete>
     </v-card-text>
     <v-divider></v-divider>
     <v-expand-transition>
@@ -79,7 +80,8 @@ export default {
       y3s2Plan: [],
       y4s1Plan: [],
       y4s2Plan: [],
-      plannedModules: []
+      plannedModules: [],
+      allMods: []
     }
   },
   firestore() {
@@ -101,6 +103,22 @@ export default {
       this.y4s1Plan = this.model.y4s1
       this.y4s2Plan = this.model.y4s2
       this.emitData()
+    },
+    calculateTotalMCs () {
+      this.allMods.push(this.model.y1s1)
+      this.allMods.push(this.model.y1s2)
+      this.allMods.push(this.model.y2s1)
+      this.allMods.push(this.model.y2s2)
+      this.allMods.push(this.model.y3s1)
+      this.allMods.push(this.model.y3s2)
+      this.allMods.push(this.model.y4s1)
+      this.allMods.push(this.model.y4s2)
+
+      // axios.get('https://api.nusmods.com/v2/2019-2020/moduleInfo.json')
+      // .then(response => (
+      //   this.semModuleData = response.data.filter(mod => this.allMods.includes(mod.moduleCode)))
+      // )
+      // .catch(err => console.log(err))
     }
   }
 }

@@ -7,40 +7,75 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>Select a module</v-card-title>
+        <v-card-title>
+          Add Modules
+          <!-- <v-btn color="red darken-1" outlined text @click="dialog = false; selectedModules = []" class="mr-4">Close</v-btn> -->
+        </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="text-left">
               <v-card-text >
                 <v-autocomplete
-                  v-model="model"
+                  v-model="selectedModules"
                   :items="modules"
                   :search-input.sync="search"
                   class="text-lg-h6 font-weight-regular"
                   flat
+                  chips
+                  multiple
                   color="grey lighten"
                   hide-no-data
                   hide-selected
                   item-text="moduleCode"
+                  item-value="moduleCode"
                   placeholder="Search by module code or module name..."
                   label="Search for a Module"
                   prepend-icon="mdi-book"
                   return-object
                 >
+                                      <template v-slot:selection="data">
+                                        <v-chip
+                                          v-bind="data.attrs"
+                                          :input-value="data.selected"
+                                          close
+                                          @click="data.select"
+                                          @click:close="remove(data.item)"
+                                        >
+                                          {{ data.item.moduleCode }}
+                                        </v-chip>
+                                      </template>
+                                      <template v-slot:item="data">
+                                        <template v-if="typeof data.item !== 'object'">
+                                          <v-list-item-content v-text="data.item"></v-list-item-content>
+                                        </template>
+                                        <template v-else>
+                                          <v-list-item-content>
+                                            <v-list-item-title v-html="data.item.moduleCode"></v-list-item-title>
+                                          </v-list-item-content>
+                                        </template>
+                                      </template>
               </v-autocomplete>
               </v-card-text>
         </v-card-text>
-              <v-expand-transition>
-                <v-card v-if="model" rounded class="mx-5 grey lighten-3 text-lg-left">
-                      <v-list-item three-line>
-                        <v-list-item-content>
-                          <div class="overline mb-4">{{model.faculty + ", " + "Department of " + model.department}}</div>
-                          <v-list-item-title class="headline mb-4">{{model.moduleCode}}</v-list-item-title>
-                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + model.moduleCredit}}</v-list-item-subtitle>
-                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Prerequisites: " + model.prerequisite}}</v-list-item-subtitle>
-                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Preclusions: " + model.preclusion}}</v-list-item-subtitle>
-                          <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Workload: " + model.workload}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                      </v-list-item>
+                <v-card rounded class="mx-5 grey lighten-3 text-lg-left overflow-y-auto" min-height="470px" max-height="470px">
+                      <v-list-item-group color="primary">
+                        <v-list-item
+                          class="grey lighten-3"
+                          v-for="(module, i) in selectedModules"
+                          :key="i"
+                          overflow-y:auto
+                        >
+                          <v-list-item-content>
+                            <div class="overline mb-4">{{module.faculty + ", " + "Department of " + module.department}}</div>
+                            <v-list-item-title v-text="module.moduleCode" class="text-lg-h6" ></v-list-item-title>
+                            <v-list-item-title v-text="module.title" class="text-lg-subtitle-1"></v-list-item-title>
+                            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Modular Credits: " + module.moduleCredit}}</v-list-item-subtitle>
+                            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Prerequisites: " + module.prerequisite}}</v-list-item-subtitle>
+                            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Preclusions: " + module.preclusion}}</v-list-item-subtitle>
+                            <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Workload: " + module.workload}}</v-list-item-subtitle>
+                          </v-list-item-content>
+                          <!-- <v-icon @click="removeModule(module)" color="red lighten-1">mdi-close</v-icon> -->
+                        </v-list-item>
+                      </v-list-item-group>
                   <v-btn v-if="model" class="mx-2" color="green darken-2" outlined x-large rounded @click="dialog = false; addModule()" min-width="280px">
                     Confirm
                   </v-btn>
@@ -48,9 +83,13 @@
                     Clear
                   </v-btn>
                 </v-card >
-              </v-expand-transition>
         <v-card-actions>
-          <v-btn color="red darken-1" outlined text @click="dialog = false; model = null">Cancel</v-btn>
+                <v-btn class="mx-2" color="green darken-2" outlined x-large rounded @click="dialog = false; confirmModules()" min-width="280px">
+                  Confirm
+                </v-btn>
+                <v-btn color="red darken-2" outlined x-large rounded @click="selectedModules = []" min-width="280px">
+                  Clear All
+                </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -68,15 +107,23 @@ export default {
     return {
       NameSearchString: '',
       modules: [],
-      model: null,
+      // model: null,
       dialog: false,
-      module: null
+      module: null,
+      selectedModules: [],
+      test: null
     }
   },
   methods: {
     addModule () {
       this.model.moduleCode = this.model.moduleCode.split(" ")[0]
       this.$emit('addModule', this.model)
+    },
+    confirmModules () {
+      this.$emit('addModule', this.selectedModules)
+    },
+    remove (value) {
+      this.selectedModules = this.selectedModules.filter(mod => mod !== value)
     }
   },
   async created () {

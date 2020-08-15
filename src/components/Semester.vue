@@ -2,7 +2,7 @@
   <v-card
     class="mx-0 my-1"
     width="420"
-    min-height="580px"
+    min-height="605px"
     :color="semColour"
     rounded
   >
@@ -63,10 +63,19 @@ export default {
     minimizeSearch (value) {
       this.isHidden = value
     },
-    addModule (value) {
+    // addModule (value) {
+    //   this.isHidden = false
+    //   this.semModuleData.push(value)
+    //   this.semModuleCodes.push(value.moduleCode)
+    //   this.eventData[1] = this.semModuleCodes
+    //   this.$emit('addModule', this.eventData)
+    // },
+    addModule (selectedModules) {
       this.isHidden = false
-      this.semModuleData.push(value)
-      this.semModuleCodes.push(value.moduleCode)
+      for(let i=0; i<selectedModules.length; i++) {
+        this.semModuleData.push(selectedModules[i])
+        this.semModuleCodes.push(selectedModules[i].moduleCode)
+      }
       this.eventData[1] = this.semModuleCodes
       this.$emit('addModule', this.eventData)
     },
