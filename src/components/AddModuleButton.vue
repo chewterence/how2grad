@@ -28,7 +28,7 @@
                   item-text="moduleCode"
                   item-value="moduleCode"
                   placeholder="Search by module code or module name..."
-                  label="Search for a Module"
+                  label="Search for Modules"
                   prepend-icon="mdi-book"
                   return-object
                 >
@@ -55,9 +55,11 @@
                                       </template>
               </v-autocomplete>
               </v-card-text>
+        <h2 class="mx-1">Selected Modules</h2>
         </v-card-text>
                 <v-card rounded class="mx-5 grey lighten-3 text-lg-left overflow-y-auto" min-height="470px" max-height="470px">
-                      <v-list-item-group color="primary">
+                      <v-list-item-group color="black">
+                        <h3 class="text-lg-center my-15 grey--text" v-if="isEmpty">There are currently no selected modules</h3>
                         <v-list-item
                           class="grey lighten-3"
                           v-for="(module, i) in selectedModules"
@@ -73,7 +75,6 @@
                             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Preclusions: " + module.preclusion}}</v-list-item-subtitle>
                             <v-list-item-subtitle class="font-weight-regular text-lg-body-1">{{"Workload: " + module.workload}}</v-list-item-subtitle>
                           </v-list-item-content>
-                          <!-- <v-icon @click="removeModule(module)" color="red lighten-1">mdi-close</v-icon> -->
                         </v-list-item>
                       </v-list-item-group>
                   <v-btn v-if="model" class="mx-2" color="green darken-2" outlined x-large rounded @click="dialog = false; addModule()" min-width="280px">
@@ -107,23 +108,33 @@ export default {
     return {
       NameSearchString: '',
       modules: [],
-      // model: null,
       dialog: false,
       module: null,
       selectedModules: [],
-      test: null
+      test: null,
+      isEmpty: true
     }
   },
   methods: {
-    addModule () {
-      this.model.moduleCode = this.model.moduleCode.split(" ")[0]
-      this.$emit('addModule', this.model)
-    },
     confirmModules () {
+      for(let i=0; i<this.selectedModules.length; i++) {
+        this.selectedModules[i].moduleCode = this.selectedModules[i].moduleCode.split(" ")[0]
+      }
       this.$emit('addModule', this.selectedModules)
     },
     remove (value) {
       this.selectedModules = this.selectedModules.filter(mod => mod !== value)
+    }
+  },
+  watch: {
+    selectedModules: function () {
+      if(this.selectedModules.length == 0) {
+        this.isEmpty = true
+      }
+      else {
+        this.isEmpty = false
+      }
+      
     }
   },
   async created () {

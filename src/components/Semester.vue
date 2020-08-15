@@ -63,13 +63,6 @@ export default {
     minimizeSearch (value) {
       this.isHidden = value
     },
-    // addModule (value) {
-    //   this.isHidden = false
-    //   this.semModuleData.push(value)
-    //   this.semModuleCodes.push(value.moduleCode)
-    //   this.eventData[1] = this.semModuleCodes
-    //   this.$emit('addModule', this.eventData)
-    // },
     addModule (selectedModules) {
       this.isHidden = false
       for(let i=0; i<selectedModules.length; i++) {
