@@ -8,7 +8,7 @@
       :moduleData='moduleData'
       :warnMap='warnMap'/>
     <template v-else>
-      <div class="text-lg-h2">
+      <div class="text-lg-h3">
         No modules selected
       </div>
     </template>

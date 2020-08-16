@@ -4,9 +4,10 @@
         <div class="float-left">
           <v-switch
             class="pl-10"
+            inset
             style="position:absolute;"
             v-model="viewSemColours"
-            :label="`View Semester Colours: ${viewSemColours ? 'on' : 'off'}`"
+            :label="`View Year Colours: ${viewSemColours ? 'on' : 'off'}`"
           ></v-switch>
         </div>
         <v-col class="text-h3 pb-0">
@@ -60,7 +61,7 @@ export default {
       setMap: new Map(),
       treesMap: new Map(),
       unlinkedModsList: [],
-      viewSemColours: false
+      viewSemColours: true
     }
   },
   methods: {
