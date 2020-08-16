@@ -55,14 +55,6 @@ export default {
   methods: {
 
     loadPlan (emitData) {
-      // this.plannedModules[0][0] = value1
-      // this.plannedModules[0][1] = value2
-      // this.plannedModules[1][0] = value3
-      // this.plannedModules[1][1] = value4
-      // this.plannedModules[2][0] = value5
-      // this.plannedModules[2][1] = value6
-      // this.plannedModules[3][0] = value7
-      // this.plannedModules[3][1] = value8
       this.plannedModules = emitData
       this.saveModuleList ()
       this.componentKey++

@@ -1,6 +1,6 @@
 <template>
   <div class="tree-title">
-    <Tree v-bind:requiredModules='requiredModules'/>
+    <Tree v-bind:requiredModules='requiredModules' :modulePlan="modulePlan"/>
   </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
   },
   data () {
     return {
-      requiredModules: []
+      requiredModules: [],
+      modulePlan: []
     }
   },
   methods: {
@@ -24,7 +25,8 @@ export default {
       console.log('EXISTS')
       console.log(localStorage.getItem('plannedModules'))
       try {
-        this.requiredModules = JSON.parse(localStorage.getItem('plannedModules')).flat(2)
+        this.modulePlan = JSON.parse(localStorage.getItem('plannedModules'))
+        this.requiredModules = this.modulePlan.flat(2)
         console.log(this.plannedModules)
       } catch (e) {
         localStorage.removeItem('plannedModules')

@@ -11,6 +11,7 @@
             :id="'SubTreeModule' + mod.modCode"
             :nodeData:='mod'
             :moduleData='moduleData'
+            :modulePlan='modulePlan'
             :warnMap='warnMap'/>
         </v-col>
       </v-row>
@@ -31,7 +32,7 @@ export default {
     SubTreeModule,
     Edges
   },
-  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'warnMap'],
+  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'modulePlan', 'warnMap'],
   data () {
     return {
       stack: [],

@@ -45,7 +45,6 @@ export default {
       ythis: 0,
       greenModColour: 'green lighten-2',
       redModColour: 'red lighten-2',
-      defaultModColour: 'grey lighten-2',
       hoverColour: 'blue lighten-3',
       cachedColour: '',
       state: 'default',
@@ -57,20 +56,12 @@ export default {
       warn: this.warnMap.get(this.moduleID)
     }
   },
-  props: ['moduleID', 'nodeData', 'moduleData', 'warnMap'],
+  props: ['moduleID', 'nodeData', 'moduleData', 'modulePlan', 'warnMap'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
       this.xthis = (this.$refs['pos-moduleCode'].getBoundingClientRect().left + this.$refs['pos-moduleCode'].getBoundingClientRect().right) / 2.0
       this.ythis = (this.$refs['pos-moduleCode'].getBoundingClientRect().top + this.$refs['pos-moduleCode'].getBoundingClientRect().bottom) / 2.0 + window.scrollY
-      
-      // if (this.warnMap.get(this.moduleID)) {
-      //   console.log(this.moduleID)
-      //   // console.log(this.$refs)
-      //   // const test = this.$refs['btn-moduleCode'].getBoundingClientRect().bottom - this.$refs['btn-moduleCode'].getBoundingClientRect().top
-      //   // console.log('%s btn update y-value: %s', this.moduleID, test)
-      //   this.ythis += test
-      // }
       
       Vue.prototype.$xcoordinates.push(this.xthis)
       Vue.prototype.$ycoordinates.push(this.ythis)
@@ -131,24 +122,6 @@ export default {
         return this.cachedColour
       }
     }
-
-    // addToY (value) {
-    //   // console.log('yadded %s', value)
-
-    //   let index
-
-    //   for (let i = 0; i < Vue.prototype.$modcoordinates.length; i++) {
-    //     if (this.moduleID === Vue.prototype.$modcoordinates[i]) {
-    //       index = i
-    //       break
-    //     }
-    //   }
-
-    //   console.log(this.ythis)
-    //   this.ythis += value
-    //   Vue.prototype.$ycoordinates[index] = this.ythis
-    //   console.log(this.ythis)
-    // }
   },
   computed: {
     moduleTitle: function () {
@@ -157,6 +130,22 @@ export default {
 
     modColour: function () {
       return this.getColour()
+    },
+
+    defaultModColour: function () {
+      let semColourArr = ['teal accent-4', 'lime accent-4', 
+      'amber accent-4', 'orange accent-4']
+      // 'teal accent-4', 'lime accent-4',
+      // 'amber accent-4', 'orange accent-4']
+
+      for(let i = 0; i < this.modulePlan.length; i++) {
+        for(let j = 0; j < this.modulePlan[i].length; j++) {
+          if(this.modulePlan[i][j].includes(this.moduleID)) {
+            return semColourArr[i]
+          }
+        }
+      }
+      return 'grey lighten-2'
     }
   },
   mounted () {
@@ -168,11 +157,9 @@ export default {
   // },
   watch: {
     xthis: function () {
-      // console.log('X-value Module: %s, new: %s, old: %s', this.moduleID, val, oldVal)
       this.updatePos()
     },
-    ythis: function (val, oldVal) {
-      console.log('Module: %s, new: %s, old: %s', this.moduleID, val, oldVal)
+    ythis: function () {
       this.updatePos()
     }
   }

@@ -2,10 +2,16 @@
   <div class="img-overlay-wrap">
     <Structure v-if="modulePrereqData.size > 0"
       v-bind:requiredModules='requiredModules'
+      :modulePlan="modulePlan"
       :modulePrereqData='modulePrereqData'
       :modulePrereqDataNoModifiers='reqModsNoModfiers'
       :moduleData='moduleData'
       :warnMap='warnMap'/>
+    <template v-else>
+      <div class="text-lg-h2">
+        No modules selected
+      </div>
+    </template>
   </div>
 </template>
 
@@ -26,7 +32,7 @@ export default {
       warnMap: new Map()
     }
   },
-  props: ['requiredModules'],
+  props: ['requiredModules', 'modulePlan'],
   methods: {
     initData () {
       const promises = []
@@ -92,13 +98,6 @@ export default {
               this.modulePrereqData.get(moduleCode).add(arrNoModifiers)
             }
           }
-          // else {
-          //   if (this.warnMap.get(moduleCode) === undefined) {
-          //     this.warnMap.set(moduleCode, new Set().add(arr))
-          //   } else {
-          //     this.warnMap.get(moduleCode).add(arr)
-          //   }
-          // }
         }
       } else if (typeof arr === 'object') {
         for (let i = 0; i < Object.entries(arr)[0][1].length; i++) {
@@ -120,7 +119,6 @@ export default {
           for (let i = 0; i < arr.or.length; i++) {
             if (!this.checkWarn(moduleCode, arr.or[i])) {
               warn = false
-              // break
             }
           }
           return warn
@@ -129,7 +127,6 @@ export default {
           for (let i = 0; i < arr.and.length; i++) {
             if (this.checkWarn(moduleCode, arr.and[i])) {
               warn = true
-              // break
             }
           }
           return warn

@@ -10,6 +10,7 @@
         :treeData='entry[1]'
         :modulePrereqData='modulePrereqData'
         :modList='requiredModules'
+        :modulePlan='modulePlan'
         :moduleData='moduleData'
         :warnMap='warnMap'/>
       </v-row>
@@ -19,7 +20,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData" :warnMap='warnMap'/>
+        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData" :modulePlan="modulePlan" :warnMap='warnMap'/>
       </v-row>
     </v-container>
 </template>
@@ -147,7 +148,7 @@ export default {
       })
     }
   },
-  props: ['requiredModules', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'warnMap'],
+  props: ['requiredModules', 'modulePlan', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'warnMap'],
   mounted () {
     this.genSubTreeSets()
   }
