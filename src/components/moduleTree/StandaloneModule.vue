@@ -37,15 +37,15 @@ export default {
   computed: {
     defaultModColour: function () {
       if (this.viewSemColours) {
-        let semColourArr = ['teal accent-4', 'lime accent-4', 
-        'amber accent-4', 'orange accent-4']
-        // 'teal accent-4', 'lime accent-4',
-        // 'amber accent-4', 'orange accent-4']
+        let semColourArr= [['teal accent-3', 'teal accent-4'],
+                           ['lime accent-3', 'lime accent-4'],
+                           ['yellow accent-3', 'yellow accent-4'],
+                           ['amber accent-3', 'amber accent-4']]
 
         for(let i = 0; i < this.modulePlan.length; i++) {
           for(let j = 0; j < this.modulePlan[i].length; j++) {
             if(this.modulePlan[i][j].includes(this.moduleID)) {
-              return semColourArr[i]
+              return semColourArr[i][j]
             }
           }
         }

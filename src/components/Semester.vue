@@ -52,10 +52,10 @@ export default {
     return {
       eventData: [],
       semModuleData: [],
-      semColourArr: ['teal accent-4', 'lime accent-4', 
-      'amber accent-4', 'orange accent-4',
-      'teal accent-4', 'lime accent-4',
-      'amber accent-4', 'orange accent-4'],
+      semColourArr: [['teal accent-3', 'teal accent-4'],
+      ['lime accent-3', 'lime accent-4'],
+      ['yellow accent-3', 'yellow accent-4'],
+      ['amber accent-3', 'amber accent-4']],
       // semColourArr: ['teal lighten-3', 'teal accent-3', 
       // 'lime', 'amber',
       // 'teal accent-4', 'lime accent-4',
@@ -111,7 +111,7 @@ export default {
       return 'Year ' + this.year + ' Semester ' + this.semester
     },
     semColour: function () {
-      return this.semColourArr[this.year - 1]
+      return this.semColourArr[(this.year - 1)][(this.semester - 1)]
     }
   },
   mounted: function () {
