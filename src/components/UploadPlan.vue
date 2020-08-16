@@ -146,9 +146,9 @@ export default {
       let returnArr = [[[],[]], [[],[]], [[],[]], [[],[]]]
       for (let i = 0; i < this.plannedModules.length; i++) {
         for (let j = 0; j < this.plannedModules[i].length; j++) {
-          console.log(this.plannedModules[i][j])
+          // console.log(this.plannedModules[i][j])
           returnArr[i][j] = this.getModuleCodeListStr(this.plannedModules[i][j])
-          console.log(returnArr[i][j])
+          // console.log(returnArr[i][j])
         }
       }
       return returnArr

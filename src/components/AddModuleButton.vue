@@ -44,10 +44,10 @@
                                         </v-chip>
                                       </template>
                                       <template v-slot:item="data">
-                                        <template v-if="typeof data.item !== 'object'">
+                                        <!-- <template v-if="typeof data.item !== 'object'">
                                           <v-list-item-content v-text="data.item"></v-list-item-content>
-                                        </template>
-                                        <template v-else>
+                                        </template> -->
+                                        <template>
                                           <v-list-item-content>
                                             <v-list-item-title v-html="data.item.moduleCode"></v-list-item-title>
                                           </v-list-item-content>
