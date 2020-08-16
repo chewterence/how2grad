@@ -43,8 +43,8 @@ export default {
     return {
       xthis: 0,
       ythis: 0,
-      greenModColour: 'green lighten-2',
-      redModColour: 'red lighten-2',
+      greenModColour: 'green accent-4',
+      redModColour: 'red accent-2',
       hoverColour: 'blue lighten-3',
       cachedColour: '',
       state: 'default',
@@ -56,7 +56,7 @@ export default {
       warn: this.warnMap.get(this.moduleID)
     }
   },
-  props: ['moduleID', 'nodeData', 'moduleData', 'modulePlan', 'warnMap'],
+  props: ['moduleID', 'nodeData', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges
@@ -133,19 +133,23 @@ export default {
     },
 
     defaultModColour: function () {
-      let semColourArr = ['teal accent-4', 'lime accent-4', 
-      'amber accent-4', 'orange accent-4']
-      // 'teal accent-4', 'lime accent-4',
-      // 'amber accent-4', 'orange accent-4']
+      if (this.viewSemColours) {
+        let semColourArr = ['teal accent-4', 'lime accent-4', 
+        'amber accent-4', 'orange accent-4']
+        // 'teal accent-4', 'lime accent-4',
+        // 'amber accent-4', 'orange accent-4']
 
-      for(let i = 0; i < this.modulePlan.length; i++) {
-        for(let j = 0; j < this.modulePlan[i].length; j++) {
-          if(this.modulePlan[i][j].includes(this.moduleID)) {
-            return semColourArr[i]
+        for(let i = 0; i < this.modulePlan.length; i++) {
+          for(let j = 0; j < this.modulePlan[i].length; j++) {
+            if(this.modulePlan[i][j].includes(this.moduleID)) {
+              return semColourArr[i]
+            }
           }
         }
+        return 'grey lighten-2'
+      } else {
+        return 'grey lighten-2'
       }
-      return 'grey lighten-2'
     }
   },
   mounted () {

@@ -36,22 +36,26 @@ export default {
   },
   computed: {
     defaultModColour: function () {
-      let semColourArr = ['teal accent-4', 'lime accent-4', 
-      'amber accent-4', 'orange accent-4']
-      // 'teal accent-4', 'lime accent-4',
-      // 'amber accent-4', 'orange accent-4']
+      if (this.viewSemColours) {
+        let semColourArr = ['teal accent-4', 'lime accent-4', 
+        'amber accent-4', 'orange accent-4']
+        // 'teal accent-4', 'lime accent-4',
+        // 'amber accent-4', 'orange accent-4']
 
-      for(let i = 0; i < this.modulePlan.length; i++) {
-        for(let j = 0; j < this.modulePlan[i].length; j++) {
-          if(this.modulePlan[i][j].includes(this.moduleID)) {
-            return semColourArr[i]
+        for(let i = 0; i < this.modulePlan.length; i++) {
+          for(let j = 0; j < this.modulePlan[i].length; j++) {
+            if(this.modulePlan[i][j].includes(this.moduleID)) {
+              return semColourArr[i]
+            }
           }
         }
+        return 'grey lighten-2'
+      } else {
+        return 'grey lighten-2'
       }
-      return 'grey lighten-2'
     }
   },
-  props: ['moduleID', 'moduleData', 'modulePlan', 'warnMap']
+  props: ['moduleID', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours']
 }
 </script>
 

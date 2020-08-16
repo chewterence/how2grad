@@ -2,7 +2,7 @@
     <v-container fluid>
       <v-row>
         <v-col v-for="mod in unlinkedMods" v-bind:key="mod" justify="center">
-          <StandaloneModule :moduleID='mod' :moduleData='moduleData' :modulePlan="modulePlan" :warnMap='warnMap' />
+          <StandaloneModule :moduleID='mod' :moduleData='moduleData' :modulePlan="modulePlan" :warnMap='warnMap' :viewSemColours="viewSemColours"/>
         </v-col>
       </v-row>
     </v-container>
@@ -24,7 +24,7 @@ export default {
   },
   computed: {
   },
-  props: ['unlinkedMods', 'moduleData', 'modulePlan', 'warnMap', ]
+  props: ['unlinkedMods', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours']
 }
 </script>
 

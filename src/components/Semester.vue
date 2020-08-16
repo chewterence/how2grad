@@ -56,6 +56,10 @@ export default {
       'amber accent-4', 'orange accent-4',
       'teal accent-4', 'lime accent-4',
       'amber accent-4', 'orange accent-4'],
+      // semColourArr: ['teal lighten-3', 'teal accent-3', 
+      // 'lime', 'amber',
+      // 'teal accent-4', 'lime accent-4',
+      // 'amber accent-4', 'orange accent-4'],
       totalMCs: 0
     }
   },

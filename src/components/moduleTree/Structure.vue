@@ -1,6 +1,14 @@
 <template>
     <v-container fluid>
       <v-row justify="center">
+        <div class="float-left">
+          <v-switch
+            class="pl-10"
+            style="position:absolute;"
+            v-model="viewSemColours"
+            :label="`View Semester Colours: ${viewSemColours ? 'on' : 'off'}`"
+          ></v-switch>
+        </div>
         <v-col class="text-h3 pb-0">
         Related Module Trees
         </v-col>
@@ -12,7 +20,8 @@
         :modList='requiredModules'
         :modulePlan='modulePlan'
         :moduleData='moduleData'
-        :warnMap='warnMap'/>
+        :warnMap='warnMap'
+        :viewSemColours="viewSemColours"/>
       </v-row>
       <v-row justify="center">
         <v-col class="text-h3">
@@ -20,7 +29,11 @@
         </v-col>
       </v-row>
       <v-row>
-        <SingleMods v-bind:unlinkedMods="unlinkedModsList" :moduleData="moduleData" :modulePlan="modulePlan" :warnMap='warnMap'/>
+        <SingleMods v-bind:unlinkedMods="unlinkedModsList"
+        :moduleData="moduleData"
+        :modulePlan="modulePlan"
+        :warnMap='warnMap'
+        :viewSemColours="viewSemColours"/>
       </v-row>
     </v-container>
 </template>
@@ -46,7 +59,8 @@ export default {
       sizeMap: new Map(),
       setMap: new Map(),
       treesMap: new Map(),
-      unlinkedModsList: []
+      unlinkedModsList: [],
+      viewSemColours: false
     }
   },
   methods: {
@@ -156,13 +170,11 @@ export default {
 </script>
 
 <style scoped>
-    .tree-structure {
-    }
+    
     #inner-struct ul{
         display: inline-flex;
     }
-    #outer-struct ul{
-    }
+
     .leaf-style {
         padding: 0px;
         position: relative;

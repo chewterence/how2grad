@@ -12,7 +12,8 @@
             :nodeData:='mod'
             :moduleData='moduleData'
             :modulePlan='modulePlan'
-            :warnMap='warnMap'/>
+            :warnMap='warnMap'
+            :viewSemColours="viewSemColours"/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
@@ -32,7 +33,7 @@ export default {
     SubTreeModule,
     Edges
   },
-  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'modulePlan', 'warnMap'],
+  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours'],
   data () {
     return {
       stack: [],
