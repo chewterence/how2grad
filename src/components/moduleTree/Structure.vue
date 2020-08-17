@@ -44,6 +44,7 @@
         :warnMap='warnMap'
         :viewSemColours="viewSemColours"
         :highlightedSem="highlightedSem"
+        :key="treeKey"
         v-on:mouseOverMod="highlightSemBadge"
         v-on:mouseLeaveMod="revertSemBadge"/>
       </v-row>
@@ -86,11 +87,12 @@ export default {
       treesMap: new Map(),
       unlinkedModsList: [],
       buttonComponentKey: 0,
-      buttonPressed: [false, false, false, false, false, false, false, false, false],
+      buttonPressed: [false, false, false, false, false, false, false, false],
       semNameArr: ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'],
       elevationArr: [[0, 0], [0, 0], [0, 0], [0, 0]],
-      viewSemColours: true,
-      highlightedSem: [-1,-1]
+      viewSemColours: false,
+      highlightedSem: [false, false, false, false, false, false, false, false],
+      treeKey: 0
     }
   },
   methods: {
@@ -197,14 +199,14 @@ export default {
       ['yellow accent-2', 'yellow accent-3'],
       ['amber accent-3', 'amber accent-4']]
       const temp = semColourArr.flat(2)
-      if (this.buttonPressed[i]) {
+      if (!this.buttonPressed[i] && !this.viewSemColours) {
         return 'grey lighten-3'
       } else {
         return temp[i]
       }
     },
     getElevation(i) {
-      console.log('%s, %s %s: %s',i, ~~(i/2), i%2, this.elevationArr[~~(i/2)][i%2])
+      // console.log('%s, %s %s: %s',i, ~~(i/2), i%2, this.elevationArr[~~(i/2)][i%2])
       // console.log('%s: %s',~~(i/4),i%4)
       return this.elevationArr[~~(i/2)][i%2]
     },
@@ -214,7 +216,6 @@ export default {
           if (this.modulePlan[i][j].includes(hoveredModCode)) {
             this.elevationArr[i][j] = 24
             this.buttonComponentKey++
-            console.log('mouseOver: ' + this.elevationArr[i][j])
           }
         }
       }
@@ -226,25 +227,28 @@ export default {
           if (this.modulePlan[i][j].includes(hoveredModCode)) {
             this.elevationArr[i][j] = 0
             this.buttonComponentKey++
-            console.log('mouseLeave: ' + this.elevationArr[i][j])
           }
         }
       }
     },
     highlightSemMods(i) {
-      console.log('test: %s', this.highlightedSem[0]*2 + this.highlightedSem[1])
-      if (this.highlightedSem[0] == ~~(i/2) && this.highlightedSem[1] == i%2) {
-        this.highlightedSem = [-1, -1]
-        this.buttonPressed[i] = false
-      } else {
-        this.buttonPressed[parseInt(this.highlightedSem[0]*2) + parseInt(this.highlightedSem[1])] = false
-        this.highlightedSem = [[~~(i/2)],[i%2]]
-        this.buttonPressed[i] = true
-      }
-      console.log('test: %s', this.highlightedSem[0]*2 + this.highlightedSem[1])
+      this.highlightedSem[i] = !this.highlightedSem[i]
+      this.buttonPressed[i] = !this.buttonPressed[i] 
+      this.buttonComponentKey++
+      this.treeKey++
     },
   },
   props: ['requiredModules', 'modulePlan', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'warnMap'],
+  watch:{
+    viewSemColours: function () {
+      for (let i = 0; i < this.buttonPressed.length; i++) {
+        this.buttonPressed[i] = this.viewSemColours
+        this.highlightedSem[i] = this.viewSemColours
+      }
+      this.buttonComponentKey++
+      this.treeKey++
+    }
+  },
   mounted () {
     this.genSubTreeSets()
   }

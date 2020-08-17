@@ -134,7 +134,7 @@ export default {
     },
 
     defaultModColour: function () {
-      if (this.viewSemColours) {
+      if (this.viewSemColours || this.inHighlightedSem) {
         let semColourArr= [['teal accent-3', 'teal accent-4'],
                            ['lime accent-3', 'lime accent-4'],
                            ['yellow accent-2', 'yellow accent-3'],
@@ -143,6 +143,8 @@ export default {
         for(let i = 0; i < this.modulePlan.length; i++) {
           for(let j = 0; j < this.modulePlan[i].length; j++) {
             if(this.modulePlan[i][j].includes(this.moduleID)) {
+              // console.log(this.inHighlightedSem)
+              // console.log(this.moduleID)
               return semColourArr[i][j]
             }
           }
