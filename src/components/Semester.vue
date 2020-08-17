@@ -54,7 +54,7 @@ export default {
       semModuleData: [],
       semColourArr: [['teal accent-3', 'teal accent-4'],
       ['lime accent-3', 'lime accent-4'],
-      ['yellow accent-3', 'yellow accent-4'],
+      ['yellow accent-2', 'yellow accent-3'],
       ['amber accent-3', 'amber accent-4']],
       // semColourArr: ['teal lighten-3', 'teal accent-3', 
       // 'lime', 'amber',
