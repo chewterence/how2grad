@@ -52,10 +52,10 @@ export default {
     return {
       eventData: [],
       semModuleData: [],
-      semColourArr: [['teal accent-3', 'teal accent-4'],
-      ['lime accent-3', 'lime accent-4'],
-      ['yellow accent-2', 'yellow accent-3'],
-      ['amber accent-3', 'amber accent-4']],
+      semColourArr: [['#2A9DAF', '#027878'],
+      ['#E9C46A', '#fdb632'],
+      ['#F4A261', '#f37338'],
+      ['#E76F51', '#c22326']],
       // semColourArr: ['teal lighten-3', 'teal accent-3', 
       // 'lime', 'amber',
       // 'teal accent-4', 'lime accent-4',
@@ -122,4 +122,7 @@ export default {
 </script>
 
 <style scoped>
+  /* .text {
+    colour: #c25e45
+  } */
 </style>
