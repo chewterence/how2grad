@@ -37,10 +37,10 @@ export default {
   computed: {
     defaultModColour: function () {
       if (this.viewSemColours) {
-        let semColourArr= [['teal accent-3', 'teal accent-4'],
-                           ['lime accent-3', 'lime accent-4'],
-                           ['yellow accent-2', 'yellow accent-3'],
-                           ['amber accent-3', 'amber accent-4']]
+        let semColourArr= [['#2A9DAF', '#1D8986'],
+                           ['#E9C46A', '#CE9E48'],
+                           ['#F4A261', '#DD884E'],
+                           ['#E76F51', '#C65A44']]
 
         for(let i = 0; i < this.modulePlan.length; i++) {
           for(let j = 0; j < this.modulePlan[i].length; j++) {
