@@ -6,14 +6,15 @@
             v-bind:moduleID='mod.modCode'
             v-on:pos-updated='updateEdges'
             v-on:lock-toggled="lockToggled"
-            @mouseover="colourEdges"
-            @mouseleave="revertEdges"
+            @mouseover="mouseOverEvents"
+            @mouseleave="mouseLeaveEvents"
             :id="'SubTreeModule' + mod.modCode"
             :nodeData:='mod'
             :moduleData='moduleData'
             :modulePlan='modulePlan'
             :warnMap='warnMap'
-            :viewSemColours="viewSemColours"/>
+            :viewSemColours="viewSemColours"
+            :inHighlightedSem="checkHighlighted(mod.modCode)"/>
         </v-col>
       </v-row>
       <div v-for="edge in edgeList" v-bind:key="edge.index">
@@ -33,7 +34,7 @@ export default {
     SubTreeModule,
     Edges
   },
-  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours'],
+  props: ['treeRoot', 'treeData', 'modulePrereqData', 'modList', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours', 'highlightedSem'],
   data () {
     return {
       stack: [],
@@ -168,6 +169,14 @@ export default {
       this.$refs.subTreeMod.forEach(subTreeMod => subTreeMod.updatePos())
       this.updateEdges()
     },
+    mouseOverEvents (hoveredModCode) {
+      this.$emit('mouseOverMod', hoveredModCode)
+      this.colourEdges(hoveredModCode)
+    },
+    mouseLeaveEvents (hoveredModCode) {
+      this.$emit('mouseLeaveMod', hoveredModCode)
+      this.revertEdges(hoveredModCode)
+    },
     // can improve effeciency
     colourEdges (hoveredModCode) {
       this.edgeList.forEach(edge => {
@@ -245,6 +254,13 @@ export default {
         }
       })
       this.updateEdges()
+    },
+    checkHighlighted (modCode) {
+      if (this.highlightedSem[0] != -1 && this.highlightedSem[1] != -1) {
+        return this.modulePlan[this.highlightedSem[0]][this.highlightedSem[1]].includes(modCode)
+      } else {
+        return false
+      }
     }
   },
   mounted () {

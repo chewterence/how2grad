@@ -5,7 +5,7 @@
             min-width="200"
             max-width="300"
             default
-            :elevation="hover ? 24 : 3"
+            :elevation="hover || inHighlightedSem ? 24 : 1"
             :color="hover ? hoverColour : defaultModColour"
             >
             <v-card-title class="headline pb-0 justify-center">{{moduleID}}</v-card-title>
@@ -55,7 +55,7 @@ export default {
       }
     }
   },
-  props: ['moduleID', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours']
+  props: ['moduleID', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours', 'inHighlightedSem']
 }
 </script>
 

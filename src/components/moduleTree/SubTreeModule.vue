@@ -8,7 +8,7 @@
               min-width="125"
               max-width="300"
               default
-              :elevation="hover || related ? 24 : 3"
+              :elevation="hover || related || inHighlightedSem ? 24 : 1"
               :color="hover || locked ? hoverColour : modColour"
               @click="toggleLockState"
               @mouseover="$emit('mouseover', moduleID)"
@@ -52,11 +52,12 @@ export default {
       locked: false,
       frozen: false,
       related: false,
+      highlighted: false,
       dialog: false,
       warn: this.warnMap.get(this.moduleID)
     }
   },
-  props: ['moduleID', 'nodeData', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours'],
+  props: ['moduleID', 'nodeData', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours', 'inHighlightedSem'],
   methods: {
     calcPosition () {
       // calculate middle coordinate of element for constructing edges

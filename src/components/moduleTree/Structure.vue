@@ -1,15 +1,35 @@
 <template>
     <v-container fluid>
-      <v-row justify="center">
+      <v-row justify="space-between" align="center">
         <div class="float-left">
           <v-switch
-            class="pl-10"
+            class="pl-7"
             inset
-            style="position:absolute;"
             v-model="viewSemColours"
             :label="`View Year Colours: ${viewSemColours ? 'on' : 'off'}`"
           ></v-switch>
         </div>
+        <div class="float-right">
+          <v-row class="pr-7">
+            <v-col
+              v-for="(sem, i) in modulePlan.flat()"
+              :key="i"
+              class="pa-1"
+            >
+             <v-btn 
+              :color="getBadgeColour(i)"
+              :elevation="getElevation(i)"
+              :key="buttonComponentKey"
+              rounded
+              @click="highlightSemMods(i)"
+             >
+             {{semNameArr[i]}}
+             </v-btn>
+            </v-col>
+          </v-row>
+        </div>
+      </v-row>
+      <v-row>
         <v-col class="text-h3 pb-0">
         Related Module Trees
         </v-col>
@@ -22,7 +42,10 @@
         :modulePlan='modulePlan'
         :moduleData='moduleData'
         :warnMap='warnMap'
-        :viewSemColours="viewSemColours"/>
+        :viewSemColours="viewSemColours"
+        :highlightedSem="highlightedSem"
+        v-on:mouseOverMod="highlightSemBadge"
+        v-on:mouseLeaveMod="revertSemBadge"/>
       </v-row>
       <v-row justify="center">
         <v-col class="text-h3">
@@ -34,7 +57,8 @@
         :moduleData="moduleData"
         :modulePlan="modulePlan"
         :warnMap='warnMap'
-        :viewSemColours="viewSemColours"/>
+        :viewSemColours="viewSemColours"
+        :highlightedSem="highlightedSem"/>
       </v-row>
     </v-container>
 </template>
@@ -61,7 +85,12 @@ export default {
       setMap: new Map(),
       treesMap: new Map(),
       unlinkedModsList: [],
-      viewSemColours: true
+      buttonComponentKey: 0,
+      buttonPressed: [false, false, false, false, false, false, false, false, false],
+      semNameArr: ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'],
+      elevationArr: [[0, 0], [0, 0], [0, 0], [0, 0]],
+      viewSemColours: true,
+      highlightedSem: [-1,-1]
     }
   },
   methods: {
@@ -161,7 +190,59 @@ export default {
           this.unlinkedModsList.push(key)
         }
       })
-    }
+    },
+    getBadgeColour(i) {
+      const semColourArr = [['teal accent-3', 'teal accent-4'],
+      ['lime accent-3', 'lime accent-4'],
+      ['yellow accent-3', 'yellow accent-4'],
+      ['amber accent-3', 'amber accent-4']]
+      const temp = semColourArr.flat(2)
+      if (this.buttonPressed[i]) {
+        return 'grey lighten-3'
+      } else {
+        return temp[i]
+      }
+    },
+    getElevation(i) {
+      console.log('%s, %s %s: %s',i, ~~(i/2), i%2, this.elevationArr[~~(i/2)][i%2])
+      // console.log('%s: %s',~~(i/4),i%4)
+      return this.elevationArr[~~(i/2)][i%2]
+    },
+    highlightSemBadge(hoveredModCode) {
+      for (let i = 0; i < this.modulePlan.length; i++) {
+        for (let j = 0; j < this.modulePlan[i].length; j++) {
+          if (this.modulePlan[i][j].includes(hoveredModCode)) {
+            this.elevationArr[i][j] = 24
+            this.buttonComponentKey++
+            console.log('mouseOver: ' + this.elevationArr[i][j])
+          }
+        }
+      }
+
+    },
+    revertSemBadge(hoveredModCode) {
+      for (let i = 0; i < this.modulePlan.length; i++) {
+        for (let j = 0; j < this.modulePlan[i].length; j++) {
+          if (this.modulePlan[i][j].includes(hoveredModCode)) {
+            this.elevationArr[i][j] = 0
+            this.buttonComponentKey++
+            console.log('mouseLeave: ' + this.elevationArr[i][j])
+          }
+        }
+      }
+    },
+    highlightSemMods(i) {
+      console.log('test: %s', this.highlightedSem[0]*2 + this.highlightedSem[1])
+      if (this.highlightedSem[0] == ~~(i/2) && this.highlightedSem[1] == i%2) {
+        this.highlightedSem = [-1, -1]
+        this.buttonPressed[i] = false
+      } else {
+        this.buttonPressed[parseInt(this.highlightedSem[0]*2) + parseInt(this.highlightedSem[1])] = false
+        this.highlightedSem = [[~~(i/2)],[i%2]]
+        this.buttonPressed[i] = true
+      }
+      console.log('test: %s', this.highlightedSem[0]*2 + this.highlightedSem[1])
+    },
   },
   props: ['requiredModules', 'modulePlan', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'warnMap'],
   mounted () {
