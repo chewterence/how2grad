@@ -1,26 +1,26 @@
 <template>
   <v-app>
-    <div id="app">
-      <Header />
-      <div id="nav">
-        <ul id="nav-list">
-        <router-link to="/plan" id="nav-element">
-            <img alt="Logo" src="./assets/planLogo.png" style="width:40px;height:40px;">
-            Plan
-        </router-link>
-        <router-link to="/moduleTree" id="nav-element">
-            <img alt="Logo" src="./assets/treeLogo.png" style="width:40px;height:40px;">
-            Module Tree
-        </router-link>
-        <router-link to="/moduleinfo" id="nav-element">
-            <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
-            Module Information
-        </router-link>
-        </ul>
-      </div>
-        <hr>
-      <router-view/>
-      </div>
+    <Header />
+    
+    <div id="nav">
+      <ul id="nav-list">
+      <router-link to="/plan" id="nav-element">
+          <img alt="Logo" src="./assets/planLogo.png" style="width:40px;height:40px;">
+          Plan
+      </router-link>
+      <router-link to="/moduleTree" id="nav-element">
+          <img alt="Logo" src="./assets/treeLogo.png" style="width:40px;height:40px;">
+          Module Tree
+      </router-link>
+      <router-link to="/moduleinfo" id="nav-element">
+          <img alt="Logo" src="./assets/moduleinfoLogo.png" style="width:40px;height:40px;">
+          Module Information
+      </router-link>
+      </ul>
+    </div>
+      <hr>
+    <router-view/>
+    
   </v-app>
 </template>
 

@@ -1,7 +1,5 @@
 <template>
-  <div class="tree-title">
-    <Tree v-bind:requiredModules='requiredModules' :modulePlan="modulePlan"/>
-  </div>
+  <Tree v-bind:requiredModules='requiredModules' :modulePlan="modulePlan"/>
 </template>
 
 <script>
