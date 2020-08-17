@@ -202,7 +202,7 @@ export default {
       ['#E76F51', '#C65A44']]
       const temp = semColourArr.flat(2)
       if (!this.buttonPressed[i] && !this.viewSemColours) {
-        return 'grey lighten-3'
+        return 'grey lighten-2'
       } else {
         return temp[i]
       }
