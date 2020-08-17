@@ -256,7 +256,6 @@ export default {
       this.updateEdges()
     },
     checkHighlighted (modCode) {
-      console.log(this.highlightedSem)
       for (let i = 0; i < this.highlightedSem.length; i++) {
         if(this.highlightedSem[i] && this.modulePlan[~~(i/2)][i%2].includes(modCode)) {
           return true

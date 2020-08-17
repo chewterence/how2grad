@@ -24,11 +24,12 @@ export default {
   },
   methods: {
     checkHighlighted (modCode) {
-      if (this.highlightedSem[0] != -1 && this.highlightedSem[1] != -1) {
-        return this.modulePlan[this.highlightedSem[0]][this.highlightedSem[1]].includes(modCode)
-      } else {
-        return false
+      for (let i = 0; i < this.highlightedSem.length; i++) {
+        if(this.highlightedSem[i] && this.modulePlan[~~(i/2)][i%2].includes(modCode)) {
+          return true
+        }
       }
+      return false
     }
   },
   props: ['unlinkedMods', 'moduleData', 'modulePlan', 'warnMap', 'viewSemColours', 'highlightedSem']

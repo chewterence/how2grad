@@ -59,7 +59,8 @@
         :modulePlan="modulePlan"
         :warnMap='warnMap'
         :viewSemColours="viewSemColours"
-        :highlightedSem="highlightedSem"/>
+        :highlightedSem="highlightedSem"
+        :key="singleModsKey"/>
       </v-row>
     </v-container>
 </template>
@@ -92,7 +93,8 @@ export default {
       elevationArr: [[0, 0], [0, 0], [0, 0], [0, 0]],
       viewSemColours: false,
       highlightedSem: [false, false, false, false, false, false, false, false],
-      treeKey: 0
+      treeKey: 0,
+      singleModsKey: 0
     }
   },
   methods: {
@@ -236,6 +238,7 @@ export default {
       this.buttonPressed[i] = !this.buttonPressed[i] 
       this.buttonComponentKey++
       this.treeKey++
+      this.singleModsKey++
     },
   },
   props: ['requiredModules', 'modulePlan', 'modulePrereqData', 'modulePrereqDataNoModifiers', 'moduleData', 'warnMap'],
@@ -247,6 +250,7 @@ export default {
       }
       this.buttonComponentKey++
       this.treeKey++
+      this.singleModsKey++
     }
   },
   mounted () {

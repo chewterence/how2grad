@@ -143,8 +143,6 @@ export default {
         for(let i = 0; i < this.modulePlan.length; i++) {
           for(let j = 0; j < this.modulePlan[i].length; j++) {
             if(this.modulePlan[i][j].includes(this.moduleID)) {
-              // console.log(this.inHighlightedSem)
-              // console.log(this.moduleID)
               return semColourArr[i][j]
             }
           }
