@@ -42,8 +42,8 @@ export default {
   },
   mounted () {
     if (localStorage.getItem('plannedModules')) {
-      console.log('EXISTS')
-      console.log(localStorage.getItem('plannedModules'))
+      // console.log('EXISTS')
+      // console.log(localStorage.getItem('plannedModules'))
       try {
         this.plannedModules = JSON.parse(localStorage.getItem('plannedModules'))
         console.log(this.plannedModules)
@@ -58,32 +58,32 @@ export default {
       this.plannedModules = emitData
       this.saveModuleList ()
       this.componentKey++
-      console.log('loadplan placeholder')
+      // console.log('loadplan placeholder')
     },
 
     removeAll () {
       this.plannedModules = [[[],[]],[[],[]],[[],[]],[[],[]]]
       this.saveModuleList ()
       this.componentKey++
-      console.log('removeAll placeholder')
+      // console.log('removeAll placeholder')
     },
 
     changeModuleList (eventData) {
-      console.log('MODULELISTCHANGED')
+      // console.log('MODULELISTCHANGED')
       const yEdited = eventData[0][0] - 1
       const sEdited = eventData[0][1] - 1
       const newModuleCodesList = eventData[1]
-      console.log(newModuleCodesList)
+      // console.log(newModuleCodesList)
       this.plannedModules[yEdited][sEdited] = newModuleCodesList
       this.saveModuleList()
       this.UploadPlanKey++
     },
 
     saveModuleList () {
-      console.log('SAVED')
+      // console.log('SAVED')
       const parsed = JSON.stringify(this.plannedModules);
       localStorage.setItem('plannedModules', parsed);
-      console.log(localStorage.getItem('plannedModules'))
+      // console.log(localStorage.getItem('plannedModules'))
     }
   }
 }
